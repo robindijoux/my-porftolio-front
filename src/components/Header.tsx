@@ -11,7 +11,7 @@ const Header = () => {
         {/* Logo / Nom */}
         <Link 
           to="/" 
-          className="text-xl font-bold bg-hero-gradient bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+          className="text-xl font-playfair font-semibold text-foreground hover:text-primary transition-colors"
         >
           Alexandre Dubois
         </Link>

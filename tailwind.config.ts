@@ -56,6 +56,7 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				warm: 'hsl(var(--accent-warm))',
 			},
 			backgroundImage: {
 				'hero-gradient': 'var(--hero-gradient)',
@@ -66,6 +67,7 @@ export default {
 				'medium': 'var(--shadow-medium)',
 				'glow': 'var(--shadow-glow)',
 				'secondary-glow': 'var(--shadow-secondary-glow)',
+				'warm-glow': 'var(--shadow-warm-glow)',
 			},
 			transitionTimingFunction: {
 				'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',

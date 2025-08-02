@@ -8,48 +8,50 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Palette 60-30-10 */
+    /* Palette 60-30-10 avec meilleur contraste */
     --background: 349 33% 96%;          /* #f8edeb - 60% couleur dominante */
-    --foreground: 220 27% 25%;          /* Texte sombre pour contraste */
+    --foreground: 220 30% 15%;          /* Texte plus foncé pour meilleur contraste */
 
     --card: 164 24% 87%;                /* #c5e0dc - 30% couleur secondaire */
-    --card-foreground: 220 27% 25%;
+    --card-foreground: 220 30% 15%;     /* Texte foncé sur cartes */
 
     --popover: 349 33% 96%;
-    --popover-foreground: 220 27% 25%;
+    --popover-foreground: 220 30% 15%;
 
-    --primary: 351 37% 85%;             /* #f7cac9 - 10% couleur d'accent */
-    --primary-foreground: 220 27% 25%;
+    --primary: 351 37% 75%;             /* #f7cac9 plus foncé pour contraste */
+    --primary-foreground: 220 30% 15%;  /* Texte foncé sur primaire */
 
-    --secondary: 164 24% 87%;           /* #c5e0dc - 30% */
-    --secondary-foreground: 220 27% 25%;
+    --secondary: 164 24% 80%;           /* #c5e0dc légèrement plus foncé */
+    --secondary-foreground: 220 30% 15%;
 
-    --muted: 164 24% 90%;               /* Version plus claire du secondaire */
-    --muted-foreground: 220 15% 45%;
+    --muted: 164 24% 90%;               
+    --muted-foreground: 220 20% 35%;    /* Texte muted plus contrasté */
 
-    --accent: 351 37% 85%;              /* #f7cac9 - accent */
-    --accent-foreground: 220 27% 25%;
+    --accent: 42 78% 85%;               /* #ffe5b4 - couleur complémentaire */
+    --accent-foreground: 220 30% 15%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 349 33% 96%;
 
-    --border: 164 24% 82%;              /* Bordures avec le secondaire */
-    --input: 164 24% 85%;
-    --ring: 351 37% 75%;                /* Ring avec accent plus foncé */
+    --border: 164 24% 75%;              /* Bordures plus visibles */
+    --input: 164 24% 82%;
+    --ring: 351 37% 65%;                
 
     --radius: 0.75rem;
     
-    /* Portfolio specific tokens avec nouvelle palette */
-    --hero-gradient: linear-gradient(135deg, hsl(351 37% 85%), hsl(164 24% 87%));
+    /* Portfolio specific tokens avec contraste amélioré */
+    --hero-gradient: linear-gradient(135deg, hsl(351 37% 70%), hsl(164 24% 82%));
     --card-gradient: linear-gradient(145deg, hsl(164 24% 87%), hsl(164 24% 89%));
-    --accent-primary: 351 37% 85%;      /* #f7cac9 */
-    --accent-secondary: 164 24% 87%;    /* #c5e0dc */
+    --accent-primary: 351 37% 70%;      /* #f7cac9 plus contrasté */
+    --accent-secondary: 164 24% 80%;    /* #c5e0dc plus contrasté */
+    --accent-warm: 42 78% 80%;          /* #ffe5b4 plus contrasté */
     
-    /* Shadows & effects avec palette douce */
-    --shadow-soft: 0 4px 6px -1px hsl(220 27% 25% / 0.08);
-    --shadow-medium: 0 10px 25px -3px hsl(220 27% 25% / 0.12);
-    --shadow-glow: 0 0 30px hsl(var(--accent-primary) / 0.4);
-    --shadow-secondary-glow: 0 0 30px hsl(var(--accent-secondary) / 0.4);
+    /* Shadows & effects */
+    --shadow-soft: 0 4px 6px -1px hsl(220 30% 15% / 0.12);
+    --shadow-medium: 0 10px 25px -3px hsl(220 30% 15% / 0.15);
+    --shadow-glow: 0 0 25px hsl(var(--accent-primary) / 0.4);
+    --shadow-secondary-glow: 0 0 25px hsl(var(--accent-secondary) / 0.4);
+    --shadow-warm-glow: 0 0 25px hsl(var(--accent-warm) / 0.5);
     
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

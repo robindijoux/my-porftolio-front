@@ -44,11 +44,11 @@ const Home = () => {
             </Badge>
             
             <h1 className="text-4xl md:text-6xl font-playfair font-bold mb-6 leading-tight">
-              <span className="bg-hero-gradient bg-clip-text text-transparent">
+              <span className="text-foreground">
                 Créateur d'expériences
               </span>
               <br />
-              <span className="text-foreground">numériques raffinées</span>
+              <span className="bg-hero-gradient bg-clip-text text-transparent">numériques raffinées</span>
             </h1>
             
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed font-inter font-light">
@@ -59,28 +59,28 @@ const Home = () => {
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-2xl mx-auto">
-              <div className="text-center p-4 rounded-lg bg-card/50 border border-border/50">
-                <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg mx-auto mb-3">
-                  <Code className="h-6 w-6 text-primary" />
+              <div className="text-center p-6 rounded-xl bg-warm/30 border border-warm/40 shadow-warm-glow/20">
+                <div className="flex items-center justify-center w-14 h-14 bg-foreground/10 rounded-xl mx-auto mb-4">
+                  <Code className="h-7 w-7 text-foreground" />
                 </div>
-                <div className="text-2xl font-bold text-foreground">{projects.length}+</div>
-                <div className="text-sm text-muted-foreground">Projets réalisés</div>
+                <div className="text-3xl font-bold text-foreground font-playfair">{projects.length}+</div>
+                <div className="text-sm text-muted-foreground font-medium">Projets réalisés</div>
               </div>
               
-              <div className="text-center p-4 rounded-lg bg-card/50 border border-border/50">
-                <div className="flex items-center justify-center w-12 h-12 bg-secondary/10 rounded-lg mx-auto mb-3">
-                  <Palette className="h-6 w-6 text-secondary" />
+              <div className="text-center p-6 rounded-xl bg-primary/20 border border-primary/40 shadow-glow/20">
+                <div className="flex items-center justify-center w-14 h-14 bg-foreground/10 rounded-xl mx-auto mb-4">
+                  <Palette className="h-7 w-7 text-foreground" />
                 </div>
-                <div className="text-2xl font-bold text-foreground">3+</div>
-                <div className="text-sm text-muted-foreground">Années d'expérience</div>
+                <div className="text-3xl font-bold text-foreground font-playfair">3+</div>
+                <div className="text-sm text-muted-foreground font-medium">Années d'expérience</div>
               </div>
               
-              <div className="text-center p-4 rounded-lg bg-card/50 border border-border/50">
-                <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg mx-auto mb-3">
-                  <Zap className="h-6 w-6 text-accent" />
+              <div className="text-center p-6 rounded-xl bg-secondary/30 border border-secondary/50 shadow-secondary-glow/20">
+                <div className="flex items-center justify-center w-14 h-14 bg-foreground/10 rounded-xl mx-auto mb-4">
+                  <Zap className="h-7 w-7 text-foreground" />
                 </div>
-                <div className="text-2xl font-bold text-foreground">15+</div>
-                <div className="text-sm text-muted-foreground">Technologies maîtrisées</div>
+                <div className="text-3xl font-bold text-foreground font-playfair">15+</div>
+                <div className="text-sm text-muted-foreground font-medium">Technologies maîtrisées</div>
               </div>
             </div>
 
@@ -123,10 +123,8 @@ const Home = () => {
               {featuredProjects.length > 0 && (
                 <div className="mb-16">
                   <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-playfair font-semibold mb-4">
-                      <span className="bg-hero-gradient bg-clip-text text-transparent">
-                        Projets sélectionnés
-                      </span>
+                    <h2 className="text-3xl md:text-4xl font-playfair font-semibold mb-4 text-foreground">
+                      Projets sélectionnés
                     </h2>
                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-inter">
                       Découvrez mes réalisations les plus abouties et représentatives 
