@@ -33,7 +33,7 @@ const Home = () => {
   const otherProjects = projects.filter(p => !p.featured);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background font-inter">
       {/* Section Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-hero-gradient opacity-10" />
@@ -43,17 +43,18 @@ const Home = () => {
               💻 Développeur Full-Stack
             </Badge>
             
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <h1 className="text-4xl md:text-6xl font-playfair font-bold mb-6 leading-tight">
               <span className="bg-hero-gradient bg-clip-text text-transparent">
                 Créateur d'expériences
               </span>
               <br />
-              <span className="text-foreground">numériques innovantes</span>
+              <span className="text-foreground">numériques raffinées</span>
             </h1>
             
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-              Passionné par le développement web moderne, je transforme vos idées en 
-              applications performantes et élégantes avec les dernières technologies.
+            <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed font-inter font-light">
+              Passionné par le développement web moderne, je conçois des 
+              applications élégantes et performantes avec une attention particulière 
+              aux détails et à l'expérience utilisateur.
             </p>
 
             {/* Stats */}
@@ -122,13 +123,14 @@ const Home = () => {
               {featuredProjects.length > 0 && (
                 <div className="mb-16">
                   <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                    <h2 className="text-3xl md:text-4xl font-playfair font-semibold mb-4">
                       <span className="bg-hero-gradient bg-clip-text text-transparent">
-                        Projets en vedette
+                        Projets sélectionnés
                       </span>
                     </h2>
-                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                      Découvrez mes réalisations les plus importantes et innovantes
+                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-inter">
+                      Découvrez mes réalisations les plus abouties et représentatives 
+                      de mon expertise technique
                     </p>
                   </div>
                   
