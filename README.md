@@ -1,73 +1,192 @@
-# Welcome to your Lovable project
+# Portfolio Développeur - Site Web Modern
 
-## Project info
+Un portfolio moderne et responsive pour développeur, construit avec React, TypeScript et Tailwind CSS. Le site consomme une API RESTful pour afficher dynamiquement les projets et leurs détails.
 
-**URL**: https://lovable.dev/projects/e5ee47b7-fe06-482b-8cda-116dd547b8fe
+## 🚀 Fonctionnalités
 
-## How can I edit this code?
+### Pages principales
+- **Page d'accueil** : Affichage de tous les projets avec mise en avant des projets phares
+- **Page détail projet** : Informations complètes avec galerie de médias, stack technique et liens
+- **Navigation fluide** : Routing avec React Router et animations smooth
 
-There are several ways of editing your application.
+### Fonctionnalités techniques
+- **API RESTful** : Service dédié pour les appels API (`GET /projects`, `GET /projects/:id`)
+- **Gestion d'erreurs** : Messages d'erreur informatifs avec possibilité de retry
+- **États de chargement** : Spinners et feedbacks visuels
+- **Design responsive** : Interface adaptative mobile-first
+- **Animations légères** : Transitions et hover effects
+- **SEO-friendly** : Métadonnées appropriées et structure HTML sémantique
 
-**Use Lovable**
+### Stack technique
+- **Frontend** : React 18 + TypeScript
+- **Styling** : Tailwind CSS + Design System custom
+- **UI Components** : shadcn/ui
+- **Routing** : React Router v6
+- **State Management** : React hooks natifs
+- **Build Tool** : Vite
+- **API Calls** : Fetch API native
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e5ee47b7-fe06-482b-8cda-116dd547b8fe) and start prompting.
+## 🛠️ Installation et développement
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prérequis
+- Node.js 18+ 
+- npm ou yarn
 
-**Use your preferred IDE**
+### Installation
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+```bash
+# Cloner le repository
+git clone <url-du-repo>
+cd portfolio-dev
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+# Installer les dépendances
+npm install
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Lancer le serveur de développement
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Le site sera accessible sur `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Scripts disponibles
 
-**Use GitHub Codespaces**
+```bash
+# Développement
+npm run dev          # Serveur de développement avec hot reload
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Production
+npm run build        # Build de production
+npm run preview      # Preview du build de production
 
-## What technologies are used for this project?
+# Qualité de code
+npm run lint         # Linting avec ESLint
+```
 
-This project is built with:
+## 📁 Structure du projet
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+src/
+├── components/           # Composants réutilisables
+│   ├── ui/              # Composants UI (shadcn)
+│   ├── Header.tsx       # En-tête de navigation
+│   ├── ProjectCard.tsx  # Carte de projet
+│   ├── LoadingSpinner.tsx
+│   └── ErrorMessage.tsx
+├── pages/               # Pages principales
+│   ├── Home.tsx         # Page d'accueil
+│   ├── ProjectDetail.tsx # Page détail projet
+│   └── NotFound.tsx     # Page 404
+├── services/            # Services et API
+│   └── api.ts          # Service API REST
+├── lib/                # Utilitaires
+│   └── utils.ts        # Fonctions utilitaires
+└── styles/
+    └── index.css       # Styles globaux et design system
+```
 
-## How can I deploy this project?
+## 🎨 Design System
 
-Simply open [Lovable](https://lovable.dev/projects/e5ee47b7-fe06-482b-8cda-116dd547b8fe) and click on Share -> Publish.
+Le projet utilise un design system cohérent basé sur :
 
-## Can I connect a custom domain to my Lovable project?
+- **Palette de couleurs** : Thème sombre tech avec accents cyan/violet
+- **Typographie** : Hiérarchie claire avec polices système
+- **Composants** : Bibliothèque shadcn/ui customisée
+- **Animations** : Transitions fluides et micro-interactions
+- **Responsive** : Approche mobile-first
 
-Yes, you can!
+### Tokens de couleurs principales
+```css
+--primary: 199 89% 48%        /* Cyan */
+--secondary: 262 65% 45%      /* Violet */
+--background: 220 27% 8%      /* Bleu foncé */
+--card: 222 24% 11%          /* Cartes */
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🔌 API Integration
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Service API (`src/services/api.ts`)
+
+Le service API centralise tous les appels REST avec :
+
+- **Gestion d'erreurs** robuste
+- **Types TypeScript** pour la sécurité
+- **Simulation de données** pour le développement
+- **Interface cohérente** pour les futures extensions
+
+### Endpoints simulés
+
+```typescript
+GET /projects           // Liste tous les projets
+GET /projects/:id      // Détail d'un projet
+GET /projects/featured // Projets en vedette (bonus)
+```
+
+### Format des données
+
+```typescript
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  shortDescription: string;
+  stack: string[];
+  media: Array<{
+    type: 'image' | 'video';
+    url: string;
+    alt?: string;
+  }>;
+  liveUrl?: string;
+  githubUrl?: string;
+  createdAt: string;
+  featured: boolean;
+}
+```
+
+## 📱 Responsive Design
+
+- **Mobile First** : Conception adaptée aux écrans mobiles
+- **Breakpoints** : `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px)
+- **Grilles flexibles** : Adaptation automatique du layout
+- **Navigation optimisée** : Menu adaptatif selon la taille d'écran
+
+## 🚀 Déploiement
+
+### Build de production
+```bash
+npm run build
+```
+
+Le build génère un dossier `dist/` prêt pour le déploiement.
+
+### Déploiement rapide
+- **Vercel** : `vercel --prod`
+- **Netlify** : Drag & drop du dossier `dist/`
+- **Lovable** : Click sur "Share → Publish"
+
+## 🔮 Extensions futures
+
+### Interface d'administration (préparation)
+- Structure modulaire permettant l'ajout facile d'un admin
+- Service API extensible pour les opérations CRUD
+- Système d'authentification prêt à intégrer
+
+### Améliorations SEO
+- Métadonnées dynamiques par projet
+- Génération de sitemap
+- Optimisation des images
+- Schema.org pour les projets
+
+### Fonctionnalités avancées
+- **Filtres** : Par technologie, date, type
+- **Recherche** : Recherche full-text dans les projets
+- **Analytics** : Suivi des interactions utilisateurs
+- **PWA** : Mode offline et installation
+- **Internationalisation** : Support multi-langues
+
+## 📄 License
+
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+
+---
+
+**Développé avec ❤️ et les dernières technologies web modernes**
