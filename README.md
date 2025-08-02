@@ -1,127 +1,127 @@
-# Portfolio Développeur - Site Web Modern
+# Developer Portfolio - Modern Website
 
-Un portfolio moderne et responsive pour développeur, construit avec React, TypeScript et Tailwind CSS. Le site consomme une API RESTful pour afficher dynamiquement les projets et leurs détails.
+A modern, responsive portfolio for developers, built with React, TypeScript, and Tailwind CSS. The site consumes a RESTful API to dynamically display projects and their details.
 
-## 🚀 Fonctionnalités
+## 🚀 Features
 
-### Pages principales
-- **Page d'accueil** : Affichage de tous les projets avec mise en avant des projets phares
-- **Page détail projet** : Informations complètes avec galerie de médias, stack technique et liens
-- **Navigation fluide** : Routing avec React Router et animations smooth
+### Main Pages
+- **Home Page**: Displays all projects with featured highlights
+- **Project Detail Page**: Full information with media gallery, tech stack, and links
+- **Smooth Navigation**: Routing with React Router and smooth animations
 
-### Fonctionnalités techniques
-- **API RESTful** : Service dédié pour les appels API (`GET /projects`, `GET /projects/:id`)
-- **Gestion d'erreurs** : Messages d'erreur informatifs avec possibilité de retry
-- **États de chargement** : Spinners et feedbacks visuels
-- **Design responsive** : Interface adaptative mobile-first
-- **Animations légères** : Transitions et hover effects
-- **SEO-friendly** : Métadonnées appropriées et structure HTML sémantique
+### Technical Features
+- **RESTful API**: Dedicated service for API calls (`GET /projects`, `GET /projects/:id`)
+- **Error Handling**: Informative error messages with retry option
+- **Loading States**: Spinners and visual feedback
+- **Responsive Design**: Mobile-first adaptive interface
+- **Lightweight Animations**: Transitions and hover effects
+- **SEO-friendly**: Proper metadata and semantic HTML structure
 
-### Stack technique
-- **Frontend** : React 18 + TypeScript
-- **Styling** : Tailwind CSS + Design System custom
-- **UI Components** : shadcn/ui
-- **Routing** : React Router v6
-- **State Management** : React hooks natifs
-- **Build Tool** : Vite
-- **API Calls** : Fetch API native
+### Tech Stack
+- **Frontend**: React 18 + TypeScript
+- **Styling**: Tailwind CSS + Custom Design System
+- **UI Components**: shadcn/ui
+- **Routing**: React Router v6
+- **State Management**: Native React hooks
+- **Build Tool**: Vite
+- **API Calls**: Native Fetch API
 
-## 🛠️ Installation et développement
+## 🛠️ Installation & Development
 
-### Prérequis
-- Node.js 18+ 
-- npm ou yarn
+### Prerequisites
+- Node.js 18+
+- npm or yarn
 
 ### Installation
 
 ```bash
-# Cloner le repository
-git clone <url-du-repo>
+# Clone the repository
+git clone <repo-url>
 cd portfolio-dev
 
-# Installer les dépendances
+# Install dependencies
 npm install
 
-# Lancer le serveur de développement
+# Start the development server
 npm run dev
 ```
 
-Le site sera accessible sur `http://localhost:8080`
+The site will be available at `http://localhost:8080`
 
-### Scripts disponibles
+### Available Scripts
 
 ```bash
-# Développement
-npm run dev          # Serveur de développement avec hot reload
+# Development
+npm run dev          # Development server with hot reload
 
 # Production
-npm run build        # Build de production
-npm run preview      # Preview du build de production
+npm run build        # Production build
+npm run preview      # Preview production build
 
-# Qualité de code
-npm run lint         # Linting avec ESLint
+# Code Quality
+npm run lint         # Linting with ESLint
 ```
 
-## 📁 Structure du projet
+## 📁 Project Structure
 
 ```
 src/
-├── components/           # Composants réutilisables
-│   ├── ui/              # Composants UI (shadcn)
-│   ├── Header.tsx       # En-tête de navigation
-│   ├── ProjectCard.tsx  # Carte de projet
+├── components/           # Reusable components
+│   ├── ui/              # UI components (shadcn)
+│   ├── Header.tsx       # Navigation header
+│   ├── ProjectCard.tsx  # Project card
 │   ├── LoadingSpinner.tsx
 │   └── ErrorMessage.tsx
-├── pages/               # Pages principales
-│   ├── Home.tsx         # Page d'accueil
-│   ├── ProjectDetail.tsx # Page détail projet
-│   └── NotFound.tsx     # Page 404
-├── services/            # Services et API
-│   └── api.ts          # Service API REST
-├── lib/                # Utilitaires
-│   └── utils.ts        # Fonctions utilitaires
+├── pages/               # Main pages
+│   ├── Home.tsx         # Home page
+│   ├── ProjectDetail.tsx # Project detail page
+│   └── NotFound.tsx     # 404 page
+├── services/            # Services and API
+│   └── api.ts           # REST API service
+├── lib/                 # Utilities
+│   └── utils.ts         # Utility functions
 └── styles/
-    └── index.css       # Styles globaux et design system
+  └── index.css        # Global styles and design system
 ```
 
 ## 🎨 Design System
 
-Le projet utilise un design system cohérent basé sur :
+The project uses a consistent design system based on:
 
-- **Palette de couleurs** : Thème sombre tech avec accents cyan/violet
-- **Typographie** : Hiérarchie claire avec polices système
-- **Composants** : Bibliothèque shadcn/ui customisée
-- **Animations** : Transitions fluides et micro-interactions
-- **Responsive** : Approche mobile-first
+- **Color Palette**: Dark tech theme with cyan/violet accents
+- **Typography**: Clear hierarchy with system fonts
+- **Components**: Customized shadcn/ui library
+- **Animations**: Smooth transitions and micro-interactions
+- **Responsive**: Mobile-first approach
 
-### Tokens de couleurs principales
+### Main Color Tokens
 ```css
 --primary: 199 89% 48%        /* Cyan */
 --secondary: 262 65% 45%      /* Violet */
---background: 220 27% 8%      /* Bleu foncé */
---card: 222 24% 11%          /* Cartes */
+--background: 220 27% 8%      /* Dark blue */
+--card: 222 24% 11%           /* Cards */
 ```
 
 ## 🔌 API Integration
 
-### Service API (`src/services/api.ts`)
+### API Service (`src/services/api.ts`)
 
-Le service API centralise tous les appels REST avec :
+The API service centralizes all REST calls with:
 
-- **Gestion d'erreurs** robuste
-- **Types TypeScript** pour la sécurité
-- **Simulation de données** pour le développement
-- **Interface cohérente** pour les futures extensions
+- **Robust error handling**
+- **TypeScript types** for safety
+- **Mock data** for development
+- **Consistent interface** for future extensions
 
-### Endpoints simulés
+### Simulated Endpoints
 
 ```typescript
-GET /projects           // Liste tous les projets
-GET /projects/:id      // Détail d'un projet
-GET /projects/featured // Projets en vedette (bonus)
+GET /projects           // List all projects
+GET /projects/:id       // Project details
+GET /projects/featured  // Featured projects (bonus)
 ```
 
-### Format des données
+### Data Format
 
 ```typescript
 interface Project {
@@ -131,9 +131,9 @@ interface Project {
   shortDescription: string;
   stack: string[];
   media: Array<{
-    type: 'image' | 'video';
-    url: string;
-    alt?: string;
+  type: 'image' | 'video';
+  url: string;
+  alt?: string;
   }>;
   liveUrl?: string;
   githubUrl?: string;
@@ -144,49 +144,49 @@ interface Project {
 
 ## 📱 Responsive Design
 
-- **Mobile First** : Conception adaptée aux écrans mobiles
-- **Breakpoints** : `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px)
-- **Grilles flexibles** : Adaptation automatique du layout
-- **Navigation optimisée** : Menu adaptatif selon la taille d'écran
+- **Mobile First**: Designed for mobile screens
+- **Breakpoints**: `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px)
+- **Flexible Grids**: Automatic layout adaptation
+- **Optimized Navigation**: Adaptive menu based on screen size
 
-## 🚀 Déploiement
+## 🚀 Deployment
 
-### Build de production
+### Production Build
 ```bash
 npm run build
 ```
 
-Le build génère un dossier `dist/` prêt pour le déploiement.
+The build generates a `dist/` folder ready for deployment.
 
-### Déploiement rapide
-- **Vercel** : `vercel --prod`
-- **Netlify** : Drag & drop du dossier `dist/`
-- **Lovable** : Click sur "Share → Publish"
+### Quick Deployment
+- **Vercel**: `vercel --prod`
+- **Netlify**: Drag & drop the `dist/` folder
+- **Lovable**: Click "Share → Publish"
 
-## 🔮 Extensions futures
+## 🔮 Future Extensions
 
-### Interface d'administration (préparation)
-- Structure modulaire permettant l'ajout facile d'un admin
-- Service API extensible pour les opérations CRUD
-- Système d'authentification prêt à intégrer
+### Admin Interface (planned)
+- Modular structure for easy admin addition
+- Extensible API service for CRUD operations
+- Authentication system ready to integrate
 
-### Améliorations SEO
-- Métadonnées dynamiques par projet
-- Génération de sitemap
-- Optimisation des images
-- Schema.org pour les projets
+### SEO Improvements
+- Dynamic metadata per project
+- Sitemap generation
+- Image optimization
+- Schema.org for projects
 
-### Fonctionnalités avancées
-- **Filtres** : Par technologie, date, type
-- **Recherche** : Recherche full-text dans les projets
-- **Analytics** : Suivi des interactions utilisateurs
-- **PWA** : Mode offline et installation
-- **Internationalisation** : Support multi-langues
+### Advanced Features
+- **Filters**: By technology, date, type
+- **Search**: Full-text search in projects
+- **Analytics**: User interaction tracking
+- **PWA**: Offline mode and installation
+- **Internationalization**: Multi-language support
 
 ## 📄 License
 
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+This project is MIT licensed. See the `LICENSE` file for details.
 
 ---
 
-**Développé avec ❤️ et les dernières technologies web modernes**
+**Built with ❤️ and the latest modern web technologies**
