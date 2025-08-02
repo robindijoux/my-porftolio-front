@@ -13,7 +13,7 @@ const Header = () => {
           to="/" 
           className="text-xl font-playfair font-semibold text-foreground hover:text-primary transition-colors"
         >
-          Alexandre Dubois
+          Robin DIJOUX
         </Link>
 
         {/* Navigation */}
