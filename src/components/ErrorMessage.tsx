@@ -1,6 +1,7 @@
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useTranslation } from 'react-i18next';
 
 interface ErrorMessageProps {
   title?: string;
@@ -10,16 +11,18 @@ interface ErrorMessageProps {
 }
 
 const ErrorMessage = ({ 
-  title = 'Erreur de chargement', 
+  title, 
   message, 
   onRetry, 
   className 
 }: ErrorMessageProps) => {
+  const { t } = useTranslation();
+  const displayTitle = title || t('project.loadingError');
   return (
     <div className={`flex items-center justify-center p-8 ${className}`}>
       <Alert className="max-w-md border-destructive/20 bg-destructive/5">
         <AlertCircle className="h-4 w-4 text-destructive" />
-        <AlertTitle className="text-destructive">{title}</AlertTitle>
+        <AlertTitle className="text-destructive">{displayTitle}</AlertTitle>
         <AlertDescription className="mt-2 text-sm text-muted-foreground">
           {message}
         </AlertDescription>
@@ -32,7 +35,7 @@ const ErrorMessage = ({
               className="border-destructive/20 text-destructive hover:bg-destructive hover:text-destructive-foreground"
             >
               <RefreshCw className="h-4 w-4 mr-2" />
-              Réessayer
+              {t('project.retry')}
             </Button>
           </div>
         )}

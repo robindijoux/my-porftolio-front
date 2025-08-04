@@ -4,14 +4,17 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, Github, Calendar } from 'lucide-react';
 import { Project } from '@/services/api';
+import { useTranslation } from 'react-i18next';
 
 interface ProjectCardProps {
   project: Project;
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
+  const { t, i18n } = useTranslation();
+  
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('fr-FR', {
+    return new Date(dateString).toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'fr-FR', {
       year: 'numeric',
       month: 'long'
     });
@@ -88,7 +91,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
               size="sm"
               className="hover:bg-primary hover:text-primary-foreground transition-colors"
             >
-              Voir détails
+              {t('home.viewDetails')}
             </Button>
           </Link>
 

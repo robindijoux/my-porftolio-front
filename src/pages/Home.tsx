@@ -6,8 +6,10 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import { Project, apiService } from '@/services/api';
 import { ArrowDown, Code, Palette, Zap } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
+  const { t } = useTranslation();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -44,17 +46,13 @@ const Home = () => {
             </Badge>
             
             <h1 className="text-4xl md:text-6xl font-playfair font-bold mb-6 leading-tight">
-              <span className="text-foreground">
-                Créateur d'expériences
+              <span className="bg-hero-gradient bg-clip-text text-transparent">
+                {t('home.title')}
               </span>
-              <br />
-              <span className="bg-hero-gradient bg-clip-text text-transparent">numériques raffinées</span>
             </h1>
             
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed font-inter font-light">
-              Passionné par le développement web moderne, je conçois des 
-              applications élégantes et performantes avec une attention particulière 
-              aux détails et à l'expérience utilisateur.
+              {t('home.subtitle')}
             </p>
 
             {/* Stats */}
@@ -64,7 +62,7 @@ const Home = () => {
                   <Code className="h-7 w-7 text-foreground" />
                 </div>
                 <div className="text-3xl font-bold text-foreground font-playfair">{projects.length}+</div>
-                <div className="text-sm text-muted-foreground font-medium">Projets réalisés</div>
+                <div className="text-sm text-muted-foreground font-medium">{t('home.statsProjects')}</div>
               </div>
               
               <div className="text-center p-6 rounded-xl bg-primary/20 border border-primary/40 shadow-glow/20">
@@ -72,7 +70,7 @@ const Home = () => {
                   <Palette className="h-7 w-7 text-foreground" />
                 </div>
                 <div className="text-3xl font-bold text-foreground font-playfair">3+</div>
-                <div className="text-sm text-muted-foreground font-medium">Années d'expérience</div>
+                <div className="text-sm text-muted-foreground font-medium">{t('home.statsExperience')}</div>
               </div>
               
               <div className="text-center p-6 rounded-xl bg-secondary/30 border border-secondary/50 shadow-secondary-glow/20">
@@ -80,7 +78,7 @@ const Home = () => {
                   <Zap className="h-7 w-7 text-foreground" />
                 </div>
                 <div className="text-3xl font-bold text-foreground font-playfair">15+</div>
-                <div className="text-sm text-muted-foreground font-medium">Technologies maîtrisées</div>
+                <div className="text-sm text-muted-foreground font-medium">{t('home.statsTechnologies')}</div>
               </div>
             </div>
 
@@ -90,7 +88,7 @@ const Home = () => {
                 className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow"
                 onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                Voir mes projets
+                {t('home.portfolioTitle')}
                 <ArrowDown className="ml-2 h-4 w-4" />
               </Button>
               <Button 
@@ -98,7 +96,7 @@ const Home = () => {
                 size="lg"
                 asChild
               >
-                <a href="#contact">Me contacter</a>
+                <a href="#contact">{t('header.contact')}</a>
               </Button>
             </div>
           </div>

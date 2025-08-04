@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import { Project, apiService } from '@/services/api';
+import { useTranslation } from 'react-i18next';
 import { 
   ArrowLeft, 
   ExternalLink, 
@@ -17,6 +18,7 @@ import {
 } from 'lucide-react';
 
 const ProjectDetail = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
@@ -84,7 +86,7 @@ const ProjectDetail = () => {
             className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors group"
           >
             <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-            Retour aux projets
+            {t('project.backToPortfolio')}
           </Link>
         </div>
 
@@ -110,7 +112,7 @@ const ProjectDetail = () => {
 
               <div className="flex items-center text-sm text-muted-foreground">
                 <Calendar className="h-4 w-4 mr-2" />
-                Créé le {formatDate(project.createdAt)}
+                {t('project.createdOn')} {formatDate(project.createdAt)}
               </div>
             </div>
 
@@ -124,7 +126,7 @@ const ProjectDetail = () => {
                     rel="noopener noreferrer"
                   >
                     <ExternalLink className="h-4 w-4 mr-2" />
-                    Voir en live
+                    {t('project.visitSite')}
                   </a>
                 </Button>
               )}
@@ -136,7 +138,7 @@ const ProjectDetail = () => {
                     rel="noopener noreferrer"
                   >
                     <Github className="h-4 w-4 mr-2" />
-                    Code source
+                    {t('project.sourceCode')}
                   </a>
                 </Button>
               )}
@@ -146,7 +148,7 @@ const ProjectDetail = () => {
           {/* Stack technologique */}
           <div>
             <h3 className="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wide">
-              Technologies utilisées
+              {t('project.technologies')}
             </h3>
             <div className="flex flex-wrap gap-2">
               {project.stack.map((tech) => (
