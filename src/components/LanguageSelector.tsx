@@ -9,31 +9,37 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 const LanguageSelector = () => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
-  const changeLanguage = (language: string) => {
-    i18n.changeLanguage(language);
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem('language', lng);
   };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="Changer de langue">
+        <Button 
+          variant="ghost" 
+          size="sm"
+          className="h-9 w-9 p-0 hover:bg-primary/10"
+          aria-label={t('language.select')}
+        >
           <Globe className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className="min-w-[120px]">
         <DropdownMenuItem 
           onClick={() => changeLanguage('fr')}
-          className={i18n.language === 'fr' ? 'bg-accent' : ''}
+          className={i18n.language === 'fr' ? 'bg-primary/10 font-medium' : ''}
         >
-          Français
+          🇫🇷 {t('language.french')}
         </DropdownMenuItem>
         <DropdownMenuItem 
           onClick={() => changeLanguage('en')}
-          className={i18n.language === 'en' ? 'bg-accent' : ''}
+          className={i18n.language === 'en' ? 'bg-primary/10 font-medium' : ''}
         >
-          English
+          🇬🇧 {t('language.english')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

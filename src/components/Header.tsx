@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Github, Linkedin, Mail } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import LanguageSelector from './LanguageSelector';
 
 const Header = () => {
@@ -16,7 +16,7 @@ const Header = () => {
           to="/" 
           className="text-xl font-playfair font-semibold text-foreground hover:text-primary transition-colors"
         >
-          Robin DIJOUX
+          {t('home.title')}
         </Link>
 
         {/* Navigation */}
@@ -43,7 +43,7 @@ const Header = () => {
           </a>
         </nav>
 
-        {/* Liens sociaux */}
+        {/* Liens sociaux et langue */}
         <div className="flex items-center space-x-2">
           <LanguageSelector />
           <Button variant="ghost" size="icon" asChild>

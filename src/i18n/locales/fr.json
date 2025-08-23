@@ -1,0 +1,51 @@
+{
+  "nav": {
+    "projects": "Projets",
+    "about": "À propos",
+    "contact": "Contact"
+  },
+  "home": {
+    "title": "Robin DIJOUX",
+    "subtitle": "Développeur Full-Stack & Designer UI/UX",
+    "description": "Passionné par la création d'expériences digitales innovantes et performantes. Je combine expertise technique et sens esthétique pour donner vie à vos projets.",
+    "stats": {
+      "projects": "Projets",
+      "experience": "Années d'expérience",
+      "technologies": "Technologies"
+    },
+    "cta": {
+      "viewProjects": "Voir mes projets",
+      "contact": "Me contacter"
+    },
+    "sections": {
+      "featuredProjects": "Projets Phares",
+      "otherProjects": "Autres Projets",
+      "contact": "Travaillons Ensemble",
+      "contactDescription": "Vous avez un projet en tête ? Discutons de la façon dont nous pouvons créer quelque chose d'extraordinaire ensemble.",
+      "collaborate": "Collaborons"
+    },
+    "noProjects": "Aucun projet trouvé."
+  },
+  "project": {
+    "featured": "Phare",
+    "createdOn": "Créé le",
+    "viewLive": "Voir en ligne",
+    "viewCode": "Voir le code",
+    "technologies": "Technologies utilisées",
+    "details": "Détails du projet",
+    "mediaGallery": "Galerie média",
+    "backToProjects": "Retour aux projets",
+    "notFound": "Projet non trouvé"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur de chargement",
+    "retry": "Réessayer",
+    "close": "Fermer"
+  },
+  "language": {
+    "select": "Choisir la langue",
+    "french": "Français",
+    "english": "English"
+  }
+}
