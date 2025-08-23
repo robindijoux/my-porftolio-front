@@ -1,0 +1,51 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "home": {
+    "title": "Robin DIJOUX",
+    "subtitle": "Full-Stack Developer & UI/UX Designer",
+    "description": "Passionate about creating innovative and high-performance digital experiences. I combine technical expertise and aesthetic sense to bring your projects to life.",
+    "stats": {
+      "projects": "Projects",
+      "experience": "Years of experience",
+      "technologies": "Technologies"
+    },
+    "cta": {
+      "viewProjects": "View my projects",
+      "contact": "Contact me"
+    },
+    "sections": {
+      "featuredProjects": "Featured Projects",
+      "otherProjects": "Other Projects",
+      "contact": "Let's Work Together",
+      "contactDescription": "Have a project in mind? Let's discuss how we can create something extraordinary together.",
+      "collaborate": "Let's collaborate"
+    },
+    "noProjects": "No projects found."
+  },
+  "project": {
+    "featured": "Featured",
+    "createdOn": "Created on",
+    "viewLive": "View live",
+    "viewCode": "View code",
+    "technologies": "Technologies used",
+    "details": "Project details",
+    "mediaGallery": "Media gallery",
+    "backToProjects": "Back to projects",
+    "notFound": "Project not found"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Loading error",
+    "retry": "Retry",
+    "close": "Close"
+  },
+  "language": {
+    "select": "Select language",
+    "french": "Français",
+    "english": "English"
+  }
+}

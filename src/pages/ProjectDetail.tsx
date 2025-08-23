@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import { Project, apiService } from '@/services/api';
+import { formatDate } from '@/utils/date';
 import { 
   ArrowLeft, 
   ExternalLink, 
@@ -18,6 +20,7 @@ import {
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const { t, i18n } = useTranslation();
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -25,7 +28,7 @@ const ProjectDetail = () => {
 
   const loadProject = async () => {
     if (!id) {
-      setError('ID du projet manquant');
+      setError(t('project.notFound'));
       setLoading(false);
       return;
     }
@@ -36,7 +39,7 @@ const ProjectDetail = () => {
       const data = await apiService.getProjectById(id);
       setProject(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Une erreur est survenue');
+      setError(err instanceof Error ? err.message : t('common.error'));
     } finally {
       setLoading(false);
     }
@@ -46,31 +49,25 @@ const ProjectDetail = () => {
     loadProject();
   }, [id]);
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('fr-FR', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    });
-  };
-
   if (loading) {
     return <LoadingSpinner size="lg" />;
   }
 
   if (error) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <ErrorMessage message={error} onRetry={loadProject} />
-      </div>
+      <ErrorMessage 
+        message={error} 
+        onRetry={loadProject}
+      />
     );
   }
 
   if (!project) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <ErrorMessage message="Projet non trouvé" />
-      </div>
+      <ErrorMessage 
+        message={t('project.notFound')} 
+        onRetry={loadProject}
+      />
     );
   }
 
@@ -84,7 +81,7 @@ const ProjectDetail = () => {
             className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors group"
           >
             <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-            Retour aux projets
+            {t('project.backToProjects')}
           </Link>
         </div>
 
@@ -99,7 +96,7 @@ const ProjectDetail = () => {
                 {project.featured && (
                   <Badge className="bg-secondary text-secondary-foreground shadow-secondary-glow">
                     <Star className="h-3 w-3 mr-1" />
-                    En vedette
+                    {t('project.featured')}
                   </Badge>
                 )}
               </div>
@@ -110,7 +107,7 @@ const ProjectDetail = () => {
 
               <div className="flex items-center text-sm text-muted-foreground">
                 <Calendar className="h-4 w-4 mr-2" />
-                Créé le {formatDate(project.createdAt)}
+                {t('project.createdOn')} {formatDate(project.createdAt, i18n.language)}
               </div>
             </div>
 
@@ -124,7 +121,7 @@ const ProjectDetail = () => {
                     rel="noopener noreferrer"
                   >
                     <ExternalLink className="h-4 w-4 mr-2" />
-                    Voir en live
+                    {t('project.viewLive')}
                   </a>
                 </Button>
               )}
@@ -136,7 +133,7 @@ const ProjectDetail = () => {
                     rel="noopener noreferrer"
                   >
                     <Github className="h-4 w-4 mr-2" />
-                    Code source
+                    {t('project.viewCode')}
                   </a>
                 </Button>
               )}
@@ -146,7 +143,7 @@ const ProjectDetail = () => {
           {/* Stack technologique */}
           <div>
             <h3 className="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wide">
-              Technologies utilisées
+              {t('project.technologies')}
             </h3>
             <div className="flex flex-wrap gap-2">
               {project.stack.map((tech) => (
@@ -167,7 +164,7 @@ const ProjectDetail = () => {
           {project.media.length > 0 && (
             <div className="lg:col-span-2">
               <h2 className="text-xl font-semibold mb-6 text-foreground">
-                Aperçu du projet
+                {t('project.mediaGallery')}
               </h2>
               
               {/* Média principal */}
@@ -226,7 +223,7 @@ const ProjectDetail = () => {
           {/* Description détaillée */}
           <div className={project.media.length > 0 ? 'lg:col-span-1' : 'lg:col-span-3'}>
             <h2 className="text-xl font-semibold mb-6 text-foreground">
-              Description détaillée
+              {t('project.details')}
             </h2>
             
             <Card className="border-border/50 bg-card-gradient">
@@ -285,7 +282,7 @@ const ProjectDetail = () => {
             </h3>
             <Link to="/">
               <Button variant="outline">
-                Voir tous les projets
+                {t('project.backToProjects')}
               </Button>
             </Link>
           </div>

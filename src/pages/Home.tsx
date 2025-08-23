@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import ProjectCard from '@/components/ProjectCard';
@@ -11,6 +12,7 @@ const Home = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   const loadProjects = async () => {
     try {
@@ -19,7 +21,7 @@ const Home = () => {
       const data = await apiService.getProjects();
       setProjects(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Une erreur est survenue');
+      setError(err instanceof Error ? err.message : t('common.error'));
     } finally {
       setLoading(false);
     }
@@ -40,7 +42,7 @@ const Home = () => {
         <div className="relative container mx-auto px-4 py-20 text-center">
           <div className="max-w-4xl mx-auto">
             <Badge className="mb-6 bg-primary/10 text-primary border-primary/20">
-              💻 Développeur Full-Stack
+              💻 {t('home.subtitle')}
             </Badge>
             
             <h1 className="text-4xl md:text-6xl font-playfair font-bold mb-6 leading-tight">
@@ -52,9 +54,7 @@ const Home = () => {
             </h1>
             
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed font-inter font-light">
-              Passionné par le développement web moderne, je conçois des 
-              applications élégantes et performantes avec une attention particulière 
-              aux détails et à l'expérience utilisateur.
+              {t('home.description')}
             </p>
 
             {/* Stats */}
@@ -64,7 +64,7 @@ const Home = () => {
                   <Code className="h-7 w-7 text-foreground" />
                 </div>
                 <div className="text-3xl font-bold text-foreground font-playfair">{projects.length}+</div>
-                <div className="text-sm text-muted-foreground font-medium">Projets réalisés</div>
+                <div className="text-sm text-muted-foreground font-medium">{t('home.stats.projects')}</div>
               </div>
               
               <div className="text-center p-6 rounded-xl bg-primary/20 border border-primary/40 shadow-glow/20">
@@ -72,7 +72,7 @@ const Home = () => {
                   <Palette className="h-7 w-7 text-foreground" />
                 </div>
                 <div className="text-3xl font-bold text-foreground font-playfair">3+</div>
-                <div className="text-sm text-muted-foreground font-medium">Années d'expérience</div>
+                <div className="text-sm text-muted-foreground font-medium">{t('home.stats.experience')}</div>
               </div>
               
               <div className="text-center p-6 rounded-xl bg-secondary/30 border border-secondary/50 shadow-secondary-glow/20">
@@ -80,7 +80,7 @@ const Home = () => {
                   <Zap className="h-7 w-7 text-foreground" />
                 </div>
                 <div className="text-3xl font-bold text-foreground font-playfair">15+</div>
-                <div className="text-sm text-muted-foreground font-medium">Technologies maîtrisées</div>
+                <div className="text-sm text-muted-foreground font-medium">{t('home.stats.technologies')}</div>
               </div>
             </div>
 
@@ -90,7 +90,7 @@ const Home = () => {
                 className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow"
                 onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                Voir mes projets
+                {t('home.cta.viewProjects')}
                 <ArrowDown className="ml-2 h-4 w-4" />
               </Button>
               <Button 
@@ -98,7 +98,7 @@ const Home = () => {
                 size="lg"
                 asChild
               >
-                <a href="#contact">Me contacter</a>
+                <a href="#contact">{t('home.cta.contact')}</a>
               </Button>
             </div>
           </div>
@@ -124,7 +124,7 @@ const Home = () => {
                 <div className="mb-16">
                   <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-playfair font-semibold mb-4 text-foreground">
-                      Projets sélectionnés
+                      {t('home.sections.featuredProjects')}
                     </h2>
                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-inter">
                       Découvrez mes réalisations les plus abouties et représentatives 
@@ -145,7 +145,7 @@ const Home = () => {
                 <div>
                   <div className="text-center mb-12">
                     <h2 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">
-                      Autres réalisations
+                      {t('home.sections.otherProjects')}
                     </h2>
                     <p className="text-muted-foreground max-w-2xl mx-auto">
                       Explorez l'ensemble de mes projets et expérimentations
@@ -162,7 +162,7 @@ const Home = () => {
 
               {projects.length === 0 && (
                 <div className="text-center py-12">
-                  <p className="text-muted-foreground">Aucun projet trouvé.</p>
+                  <p className="text-muted-foreground">{t('home.noProjects')}</p>
                 </div>
               )}
             </>
@@ -175,10 +175,10 @@ const Home = () => {
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-2xl mx-auto">
             <h2 className="text-3xl font-bold mb-6 text-foreground">
-              Prêt à démarrer votre projet ?
+              {t('home.sections.contact')}
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Discutons de vos idées et voyons comment je peux vous aider à les concrétiser
+              {t('home.sections.contactDescription')}
             </p>
             <Button 
               size="lg" 
@@ -186,7 +186,7 @@ const Home = () => {
               asChild
             >
               <a href="mailto:contact@exemple.com">
-                Commençons à collaborer
+                {t('home.sections.collaborate')}
               </a>
             </Button>
           </div>

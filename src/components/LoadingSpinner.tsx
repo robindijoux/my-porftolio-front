@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
 interface LoadingSpinnerProps {
@@ -6,6 +7,7 @@ interface LoadingSpinnerProps {
 }
 
 const LoadingSpinner = ({ size = 'md', className }: LoadingSpinnerProps) => {
+  const { t } = useTranslation();
   const sizeClasses = {
     sm: 'w-4 h-4',
     md: 'w-8 h-8',
@@ -21,9 +23,9 @@ const LoadingSpinner = ({ size = 'md', className }: LoadingSpinnerProps) => {
           className
         )}
         role="status"
-        aria-label="Chargement en cours"
+        aria-label={t('common.loading')}
       >
-        <span className="sr-only">Chargement...</span>
+        <span className="sr-only">{t('common.loading')}</span>
       </div>
     </div>
   );

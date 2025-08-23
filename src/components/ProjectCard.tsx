@@ -1,21 +1,18 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, Github, Calendar } from 'lucide-react';
 import { Project } from '@/services/api';
+import { formatShortDate } from '@/utils/date';
 
 interface ProjectCardProps {
   project: Project;
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('fr-FR', {
-      year: 'numeric',
-      month: 'long'
-    });
-  };
+  const { t, i18n } = useTranslation();
 
   return (
     <Card className="group overflow-hidden border-border/50 bg-card-gradient hover:shadow-glow transition-all duration-300 hover:-translate-y-1">
@@ -36,7 +33,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         {project.featured && (
           <div className="absolute top-4 left-4">
             <Badge className="bg-secondary text-secondary-foreground shadow-secondary-glow">
-              ⭐ En vedette
+              ⭐ {t('project.featured')}
             </Badge>
           </div>
         )}
@@ -57,7 +54,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         {/* Date de création */}
         <div className="flex items-center text-xs text-muted-foreground mt-2">
           <Calendar className="h-3 w-3 mr-1" />
-          {formatDate(project.createdAt)}
+          {formatShortDate(project.createdAt, i18n.language)}
         </div>
       </CardHeader>
 
@@ -88,7 +85,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
               size="sm"
               className="hover:bg-primary hover:text-primary-foreground transition-colors"
             >
-              Voir détails
+              {t('project.details')}
             </Button>
           </Link>
 
@@ -99,7 +96,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
                   href={project.liveUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  aria-label="Voir le site live"
+                  aria-label={t('project.viewLive')}
                 >
                   <ExternalLink className="h-4 w-4" />
                 </a>
@@ -111,7 +108,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
                   href={project.githubUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  aria-label="Voir sur GitHub"
+                  aria-label={t('project.viewCode')}
                 >
                   <Github className="h-4 w-4" />
                 </a>
