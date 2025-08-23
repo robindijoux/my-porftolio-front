@@ -27,19 +27,19 @@ const Header = () => {
               location.pathname === '/' ? 'text-primary' : 'text-muted-foreground'
             }`}
           >
-            {t('header.projects')}
+            {t('nav.projects')}
           </Link>
           <a 
             href="#about" 
             className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
           >
-            {t('header.about')}
+            {t('nav.about')}
           </a>
           <a 
             href="#contact" 
             className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
           >
-            {t('header.contact')}
+            {t('nav.contact')}
           </a>
         </nav>
 
