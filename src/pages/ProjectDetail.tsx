@@ -19,7 +19,6 @@ import {
 } from 'lucide-react';
 
 const ProjectDetail = () => {
-  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const { t, i18n } = useTranslation();
   const [project, setProject] = useState<Project | null>(null);
