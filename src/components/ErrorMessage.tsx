@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { useTranslation } from 'react-i18next';
 
 interface ErrorMessageProps {
   title?: string;
@@ -17,7 +16,6 @@ const ErrorMessage = ({
   onRetry, 
   className 
 }: ErrorMessageProps) => {
-  const { t } = useTranslation();
   
   const { t } = useTranslation();
   const displayTitle = title || t('project.loadingError');
