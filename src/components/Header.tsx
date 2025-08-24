@@ -48,7 +48,7 @@ const Header = () => {
           <LanguageSelector />
           <Button variant="ghost" size="icon" asChild>
             <a 
-              href="https://github.com" 
+              href="https://github.com/robindijoux" 
               target="_blank" 
               rel="noopener noreferrer"
               aria-label="GitHub"
@@ -58,7 +58,7 @@ const Header = () => {
           </Button>
           <Button variant="ghost" size="icon" asChild>
             <a 
-              href="https://linkedin.com" 
+              href="https://www.linkedin.com/in/robindijoux" 
               target="_blank" 
               rel="noopener noreferrer"
               aria-label="LinkedIn"
@@ -68,7 +68,7 @@ const Header = () => {
           </Button>
           <Button variant="ghost" size="icon" asChild>
             <a 
-              href="mailto:contact@exemple.com"
+              href="mailto:dr@ecomail.fr"
               aria-label="Email"
             >
               <Mail className="h-4 w-4" />
