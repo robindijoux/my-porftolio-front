@@ -152,6 +152,7 @@ const ProjectDetail = () => {
                   variant="outline"
                   className="border-border/60 hover:border-primary/50 transition-colors"
                 >
+                  <img src={tech.iconUrl} alt={tech.technology} className="h-4 w-4 mr-2" />
                   {tech.technology}
                 </Badge>
               ))}
