@@ -183,7 +183,7 @@ const Home = () => {
               className="bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-secondary-glow"
               asChild
             >
-              <a href="mailto:contact@exemple.com">
+              <a href="mailto:dr@ecomail.com">
                 {t('home.sections.collaborate')}
               </a>
             </Button>

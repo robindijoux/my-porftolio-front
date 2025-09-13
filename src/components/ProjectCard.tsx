@@ -22,7 +22,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           <div className="aspect-video w-full overflow-hidden">
             <img
               src={project.media[0].url}
-              alt={project.media[0].alt || project.title}
+              alt={project.media[0].alt || project.name}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               loading="lazy"
             />
@@ -43,7 +43,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1">
             <CardTitle className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
-              {project.title}
+              {project.name}
             </CardTitle>
             <CardDescription className="text-muted-foreground line-clamp-2 mt-1">
               {project.shortDescription}
@@ -61,18 +61,17 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
       <CardContent className="pt-0">
         {/* Stack technologique */}
         <div className="flex flex-wrap gap-1 mb-4">
-          {project.stack.slice(0, 4).map((tech) => (
-            <Badge 
-              key={tech} 
-              variant="outline" 
-              className="text-xs border-border/60 hover:border-primary/50 transition-colors"
+          {project.techStack.slice(0, 4).map((tech) => (
+            <Badge
+              key={tech.technology}
             >
-              {tech}
+              <img src={tech.iconUrl} alt={tech.technology} className="h-4 w-4 mr-1" />
+              {tech.technology}
             </Badge>
           ))}
-          {project.stack.length > 4 && (
+          {project.techStack.length > 4 && (
             <Badge variant="outline" className="text-xs border-border/60">
-              +{project.stack.length - 4}
+              +{project.techStack.length - 4}
             </Badge>
           )}
         </div>
@@ -90,11 +89,11 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           </Link>
 
           <div className="flex items-center space-x-2">
-            {project.liveUrl && (
+            {project.projectLink && (
               <Button variant="ghost" size="icon" asChild>
-                <a 
-                  href={project.liveUrl} 
-                  target="_blank" 
+                <a
+                  href={project.projectLink}
+                  target="_blank"
                   rel="noopener noreferrer"
                   aria-label={t('project.viewLive')}
                 >
@@ -102,11 +101,11 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
                 </a>
               </Button>
             )}
-            {project.githubUrl && (
+            {project.repositoryLink && (
               <Button variant="ghost" size="icon" asChild>
-                <a 
-                  href={project.githubUrl} 
-                  target="_blank" 
+                <a
+                  href={project.repositoryLink}
+                  target="_blank"
                   rel="noopener noreferrer"
                   aria-label={t('project.viewCode')}
                 >

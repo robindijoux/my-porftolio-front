@@ -91,7 +91,7 @@ const ProjectDetail = () => {
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-4">
                 <h1 className="text-3xl md:text-4xl font-bold text-foreground">
-                  {project.title}
+                  {project.name}
                 </h1>
                 {project.featured && (
                   <Badge className="bg-secondary text-secondary-foreground shadow-secondary-glow">
@@ -113,11 +113,11 @@ const ProjectDetail = () => {
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-3 lg:flex-col">
-              {project.liveUrl && (
+              {project.projectLink && (
                 <Button asChild className="bg-primary hover:bg-primary/90 shadow-glow">
-                  <a 
-                    href={project.liveUrl} 
-                    target="_blank" 
+                  <a
+                    href={project.projectLink}
+                    target="_blank"
                     rel="noopener noreferrer"
                   >
                     <ExternalLink className="h-4 w-4 mr-2" />
@@ -125,10 +125,10 @@ const ProjectDetail = () => {
                   </a>
                 </Button>
               )}
-              {project.githubUrl && (
+              {project.repositoryLink && (
                 <Button variant="outline" asChild>
                   <a 
-                    href={project.githubUrl} 
+                    href={project.repositoryLink} 
                     target="_blank" 
                     rel="noopener noreferrer"
                   >
@@ -146,13 +146,13 @@ const ProjectDetail = () => {
               {t('project.technologies')}
             </h3>
             <div className="flex flex-wrap gap-2">
-              {project.stack.map((tech) => (
-                <Badge 
-                  key={tech} 
-                  variant="outline" 
+              {project.techStack.map((tech) => (
+                <Badge
+                  key={tech.technology}
+                  variant="outline"
                   className="border-border/60 hover:border-primary/50 transition-colors"
                 >
-                  {tech}
+                  {tech.technology}
                 </Badge>
               ))}
             </div>
@@ -174,7 +174,7 @@ const ProjectDetail = () => {
                     {project.media[selectedMediaIndex].type === 'image' ? (
                       <img
                         src={project.media[selectedMediaIndex].url}
-                        alt={project.media[selectedMediaIndex].alt || project.title}
+                        alt={project.media[selectedMediaIndex].alt || project.name}
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -205,7 +205,7 @@ const ProjectDetail = () => {
                       {media.type === 'image' ? (
                         <img
                           src={media.url}
-                          alt={media.alt || `${project.title} - Image ${index + 1}`}
+                          alt={media.alt || `${project.name} - Image ${index + 1}`}
                           className="w-full h-full object-cover"
                         />
                       ) : (
@@ -243,8 +243,8 @@ const ProjectDetail = () => {
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Type de projet</span>
                     <Badge variant="secondary">
-                      {project.stack.includes('React Native') ? 'Mobile' : 
-                       project.stack.includes('Spring Boot') ? 'Backend' : 'Web'}
+                      {project.techStack.map((tech) => tech.technology).includes('React Native') ? 'Mobile' : 
+                       project.techStack.map((tech) => tech.technology).includes('Spring Boot') ? 'Backend' : 'Web'}
                     </Badge>
                   </div>
                 </CardContent>
@@ -254,7 +254,7 @@ const ProjectDetail = () => {
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Nombre de technologies</span>
-                    <span className="font-medium text-foreground">{project.stack.length}</span>
+                    <span className="font-medium text-foreground">{project.techStack.length}</span>
                   </div>
                 </CardContent>
               </Card>
