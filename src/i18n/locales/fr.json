@@ -8,7 +8,7 @@
   "home": {
     "title": "Robin DIJOUX",
     "subtitle": "Développeur Full-Stack & Designer UI/UX",
-    "description": "Passionné par la création d'expériences digitales innovantes et performantes. Je combine expertise technique et sens esthétique pour donner vie à vos projets.",
+    "description": "Passionné par l'approche centrée sur le produit et l'expérience utilisateur, je crée des applications web robustes et fonctionnelles qui répondent à vos besoins.",
     "stats": {
       "projects": "Projets",
       "experience": "Années d'expérience",
@@ -20,7 +20,9 @@
     },
     "sections": {
       "featuredProjects": "Projets Phares",
+      "featuredProjectsDescription": "Découvrez mes réalisations les plus abouties et représentatives de mon expertise technique.",
       "otherProjects": "Autres Projets",
+      "otherProjectsDescription": "Explorez l'ensemble de mes projets et expérimentations",
       "contact": "Travaillons Ensemble",
       "contactDescription": "Vous avez un projet en tête ? Discutons de la façon dont nous pouvons créer quelque chose d'extraordinaire ensemble.",
       "collaborate": "Collaborons"
@@ -58,7 +60,15 @@
     "maxFiles": "Maximum {{max}} fichiers",
     "selectFiles": "Sélectionner des fichiers",
     "uploadedFiles": "Fichiers uploadés",
-    "altText": "Texte alternatif"
+    "altText": "Texte alternatif",
+    "projectType": "Type de projet",
+    "mobile": "Mobile",
+    "backend": "Backend",
+    "web": "Web",
+    "techCount": "Nombre de technologies",
+    "mediaCount": "Médias disponibles",
+    "discoverOtherProjects": "Découvrez d'autres projets",
+    "mediaLabel": "Média"
   },
   "common": {
     "loading": "Chargement...",
@@ -76,6 +86,21 @@
     "french": "Français",
     "english": "English"
   },
+  "validation": {
+    "nameRequired": "Le nom du projet est requis",
+    "descriptionMinLength": "La description doit contenir au moins 10 caractères",
+    "shortDescriptionMinLength": "La description courte doit contenir au moins 5 caractères",
+    "invalidUrl": "Veuillez entrer une URL valide"
+  },
+  "placeholders": {
+    "githubUrl": "https://github.com/...",
+    "projectUrl": "https://..."
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Oups ! Page non trouvée",
+    "returnHome": "Retour à l'accueil"
+  },
   "errors": {
     "tooManyFiles": "Trop de fichiers",
     "maxFilesLimit": "Vous ne pouvez pas uploader plus de {{max}} fichiers",
@@ -86,7 +111,13 @@
     "noMedia": "Aucun média",
     "noMediaDesc": "Veuillez uploader au moins un fichier média",
     "projectCreationFailed": "Échec de la création du projet",
-    "genericError": "Une erreur est survenue"
+    "genericError": "Une erreur est survenue",
+    "mediaUploadError": "Impossible d'uploader le fichier. Veuillez réessayer.",
+    "projectCreateError": "Impossible de créer le projet. Veuillez réessayer.",
+    "projectsLoadError": "Impossible de charger les projets. Veuillez réessayer.",
+    "projectDetailError": "Impossible de charger les détails du projet. Veuillez réessayer.",
+    "featuredProjectsError": "Impossible de charger les projets mis en avant.",
+    "httpError": "Erreur HTTP: {{status}} - {{statusText}}"
   },
   "success": {
     "fileUploaded": "Fichier uploadé",

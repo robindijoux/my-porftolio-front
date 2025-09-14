@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -17,16 +17,14 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { X } from 'lucide-react';
 
-const createProjectSchema = z.object({
-  name: z.string().min(1, 'Le nom du projet est requis'),
-  description: z.string().min(10, 'La description doit contenir au moins 10 caractères'),
-  shortDescription: z.string().min(5, 'La description courte doit contenir au moins 5 caractères'),
-  repositoryLink: z.string().url('Veuillez entrer une URL valide').optional().or(z.literal('')),
-  projectLink: z.string().url('Veuillez entrer une URL valide').optional().or(z.literal('')),
-  techStack: z.string().optional(),
-});
-
-type CreateProjectFormData = z.infer<typeof createProjectSchema>;
+type CreateProjectFormData = {
+  name: string;
+  description: string;
+  shortDescription: string;
+  repositoryLink?: string;
+  projectLink?: string;
+  techStack?: string;
+};
 
 interface CreateProjectFormProps {
   onSuccess?: () => void;
@@ -44,6 +42,15 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
   const [uploadedMedia, setUploadedMedia] = useState<MediaUploadResponse[]>([]);
   const [technologies, setTechnologies] = useState<string[]>([]);
   const [currentTech, setCurrentTech] = useState('');
+
+  const createProjectSchema = useMemo(() => z.object({
+    name: z.string().min(1, t('validation.nameRequired')),
+    description: z.string().min(10, t('validation.descriptionMinLength')),
+    shortDescription: z.string().min(5, t('validation.shortDescriptionMinLength')),
+    repositoryLink: z.string().url(t('validation.invalidUrl')).optional().or(z.literal('')),
+    projectLink: z.string().url(t('validation.invalidUrl')).optional().or(z.literal('')),
+    techStack: z.string().optional(),
+  }), [t]);
 
   const form = useForm<CreateProjectFormData>({
     resolver: zodResolver(createProjectSchema),
@@ -199,7 +206,7 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
                   <FormItem>
                     <FormLabel>{t('project.repositoryLink')}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="https://github.com/..." />
+                      <Input {...field} placeholder={t('placeholders.githubUrl')} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -213,7 +220,7 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
                   <FormItem>
                     <FormLabel>{t('project.projectLink')}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="https://..." />
+                      <Input {...field} placeholder={t('placeholders.projectUrl')} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -1,192 +1,240 @@
-# Developer Portfolio - Modern Website
+# Portfolio Robin DIJOUX 🚀
 
-A modern, responsive portfolio for developers, built with React, TypeScript, and Tailwind CSS. The site consumes a RESTful API to dynamically display projects and their details.
+> Portfolio moderne et interactif de développeur Full-Stack avec interface d'administration intégrée
 
-## 🚀 Features
+Un site web moderne et responsive construit avec React, TypeScript et Tailwind CSS, consommant une API RESTful pour afficher dynamiquement les projets et leurs détails.
 
-### Main Pages
-- **Home Page**: Displays all projects with featured highlights
-- **Project Detail Page**: Full information with media gallery, tech stack, and links
-- **Smooth Navigation**: Routing with React Router and smooth animations
+## ✨ Fonctionnalités Principales
 
-### Technical Features
-- **RESTful API**: Dedicated service for API calls (`GET /projects`, `GET /projects/:id`)
-- **Error Handling**: Informative error messages with retry option
-- **Loading States**: Spinners and visual feedback
-- **Responsive Design**: Mobile-first adaptive interface
-- **Lightweight Animations**: Transitions and hover effects
-- **SEO-friendly**: Proper metadata and semantic HTML structure
+### 🏠 Pages Utilisateur
+- **Page d'accueil** : Présentation avec projets phares et statistiques
+- **Détail de projet** : Galerie média, stack technique, liens GitHub/Live
+- **Interface multilingue** : Support français/anglais avec i18next
+- **Navigation fluide** : Routing avec React Router et animations
 
-### Tech Stack
-- **Frontend**: React 18 + TypeScript
-- **Styling**: Tailwind CSS + Custom Design System
-- **UI Components**: shadcn/ui
-- **Routing**: React Router v6
-- **State Management**: Native React hooks
-- **Build Tool**: Vite
-- **API Calls**: Native Fetch API
+### ⚙️ Interface d'Administration
+- **Création de projets** : Formulaire complet avec validation
+- **Upload de médias** : Glisser-déposer avec prévisualisation
+- **Gestion des technologies** : Sélection dynamique du stack technique
+- **Validation avancée** : Formulaires avec React Hook Form + Zod
 
-## 🛠️ Installation & Development
+### 🔧 Fonctionnalités Techniques
+- **API RESTful** : Service centralisé pour tous les appels
+- **Gestion d'erreurs** : Messages informatifs avec option de retry
+- **États de chargement** : Spinners et feedback visuel
+- **Design responsive** : Approche mobile-first
+- **Animations légères** : Transitions et micro-interactions
+- **SEO optimisé** : Métadonnées et structure HTML sémantique
 
-### Prerequisites
+## 🛠️ Stack Technique
+
+```
+Frontend          Backend API
+├── React 18      ├── API REST
+├── TypeScript    ├── Upload médias
+├── Tailwind CSS  ├── Gestion projets
+├── shadcn/ui     └── Technologie stack
+├── React Router
+├── React Hook Form
+├── i18next
+├── Vite
+└── Lucide Icons
+```
+
+## � Installation & Développement
+
+### Prérequis
 - Node.js 18+
-- npm or yarn
+- npm ou yarn
 
 ### Installation
 
 ```bash
-# Clone the repository
-git clone <repo-url>
-cd portfolio-dev
+# Cloner le repository
+git clone https://github.com/robindijoux/my-portfolio-front.git
+cd my-portfolio-front
 
-# Install dependencies
+# Installer les dépendances
 npm install
 
-# Start the development server
+# Configurer les variables d'environnement
+echo "VITE_API_URL=https://my-portfolio-back-1.onrender.com/api" > .env
+
+# Démarrer le serveur de développement
 npm run dev
 ```
 
-The site will be available at `http://localhost:8080`
+Le site sera disponible sur `http://localhost:8080`
 
-### Available Scripts
+### Scripts Disponibles
 
 ```bash
-# Development
-npm run dev          # Development server with hot reload
+# Développement
+npm run dev          # Serveur de développement avec hot reload
 
 # Production
-npm run build        # Production build
-npm run preview      # Preview production build
+npm run build        # Build de production
+npm run build:dev    # Build de développement
+npm run preview      # Prévisualisation du build
 
-# Code Quality
-npm run lint         # Linting with ESLint
+# Qualité de code
+npm run lint         # Linting avec ESLint
 ```
 
-## 📁 Project Structure
+## 📁 Structure du Projet
 
 ```
 src/
-├── components/           # Reusable components
-│   ├── ui/              # UI components (shadcn)
-│   ├── Header.tsx       # Navigation header
-│   ├── ProjectCard.tsx  # Project card
-│   ├── LoadingSpinner.tsx
-│   └── ErrorMessage.tsx
-├── pages/               # Main pages
-│   ├── Home.tsx         # Home page
-│   ├── ProjectDetail.tsx # Project detail page
-│   └── NotFound.tsx     # 404 page
-├── services/            # Services and API
-│   └── api.ts           # REST API service
-├── lib/                 # Utilities
-│   └── utils.ts         # Utility functions
-└── styles/
-  └── index.css        # Global styles and design system
+├── components/              # Composants réutilisables
+│   ├── ui/                 # Composants UI (shadcn/ui)
+│   ├── Header.tsx          # Navigation principale
+│   ├── ProjectCard.tsx     # Carte de projet
+│   ├── CreateProjectForm.tsx # Formulaire création
+│   ├── MediaUpload.tsx     # Upload de médias
+│   └── LoadingSpinner.tsx  # Composants utilitaires
+├── pages/                  # Pages principales
+│   ├── Home.tsx           # Page d'accueil
+│   ├── ProjectDetail.tsx  # Détail de projet
+│   ├── CreateProject.tsx  # Page création
+│   └── NotFound.tsx       # Page 404
+├── services/              # Services et API
+│   └── api.ts            # Service REST centralisé
+├── i18n/                 # Internationalisation
+│   ├── config.ts         # Configuration i18next
+│   └── locales/          # Fichiers de traduction
+├── hooks/                # Hooks personnalisés
+├── lib/                  # Utilitaires
+└── utils/               # Fonctions helper
 ```
 
 ## 🎨 Design System
 
-The project uses a consistent design system based on:
+Le projet utilise un système de design cohérent basé sur :
 
-- **Color Palette**: Dark tech theme with cyan/violet accents
-- **Typography**: Clear hierarchy with system fonts
-- **Components**: Customized shadcn/ui library
-- **Animations**: Smooth transitions and micro-interactions
-- **Responsive**: Mobile-first approach
+- **Palette de couleurs** : Thème sombre tech avec accents cyan/violet
+- **Typographie** : Hiérarchie claire avec Playfair Display et Inter
+- **Composants** : Bibliothèque shadcn/ui personnalisée
+- **Animations** : Transitions fluides et micro-interactions
+- **Responsive** : Approche mobile-first
 
-### Main Color Tokens
+### Tokens de Couleur Principaux
 ```css
 --primary: 199 89% 48%        /* Cyan */
 --secondary: 262 65% 45%      /* Violet */
---background: 220 27% 8%      /* Dark blue */
---card: 222 24% 11%           /* Cards */
+--background: 220 27% 8%      /* Bleu foncé */
+--card: 222 24% 11%           /* Cartes */
+--warm: 25 95% 53%            /* Orange chaleureux */
 ```
 
-## 🔌 API Integration
+## 🔌 Intégration API
 
-### API Service (`src/services/api.ts`)
+### Service API (`src/services/api.ts`)
 
-The API service centralizes all REST calls with:
+Le service API centralise tous les appels REST avec :
 
-- **Robust error handling**
-- **TypeScript types** for safety
-- **Mock data** for development
-- **Consistent interface** for future extensions
+- **Gestion d'erreurs robuste** avec messages i18n
+- **Types TypeScript** pour la sécurité
+- **Interface cohérente** pour les extensions futures
+- **Upload de médias** avec FormData
 
-### Simulated Endpoints
+### Endpoints Disponibles
 
 ```typescript
-GET /projects           // List all projects
-GET /projects/:id       // Project details
-GET /projects/featured  // Featured projects (bonus)
+GET    /projects           // Liste des projets
+GET    /projects/:id       // Détails d'un projet
+POST   /projects           // Création de projet
+POST   /media/upload       // Upload de média
 ```
 
-### Data Format
+### Format des Données
 
 ```typescript
 interface Project {
   id: string;
-  title: string;
+  name: string;
   description: string;
   shortDescription: string;
-  stack: string[];
-  media: Array<{
-  type: 'image' | 'video';
-  url: string;
-  alt?: string;
-  }>;
-  liveUrl?: string;
-  githubUrl?: string;
+  repositoryLink: string;
+  projectLink: string;
+  media: Media[];
+  techStack: Technology[];
   createdAt: string;
   featured: boolean;
+  views: number;
+  isPublished: boolean;
 }
 ```
 
-## 📱 Responsive Design
+## 🌍 Internationalisation
 
-- **Mobile First**: Designed for mobile screens
-- **Breakpoints**: `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px)
-- **Flexible Grids**: Automatic layout adaptation
-- **Optimized Navigation**: Adaptive menu based on screen size
+- **Langues supportées** : Français (défaut), Anglais
+- **Bibliothèque** : react-i18next
+- **Traductions** : Fichiers JSON séparés par langue
+- **Sélecteur** : Composant de changement de langue
 
-## 🚀 Deployment
+## 📱 Design Responsive
 
-### Production Build
+- **Mobile First** : Conçu pour les écrans mobiles
+- **Breakpoints** : `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px)
+- **Grilles flexibles** : Adaptation automatique de la mise en page
+- **Navigation optimisée** : Menu adaptatif selon la taille d'écran
+
+## 🚀 Déploiement
+
+### Build de Production
 ```bash
 npm run build
 ```
 
-The build generates a `dist/` folder ready for deployment.
+Le build génère un dossier `dist/` prêt pour le déploiement.
 
-### Quick Deployment
-- **Vercel**: `vercel --prod`
-- **Netlify**: Drag & drop the `dist/` folder
-- **Lovable**: Click "Share → Publish"
+### Déploiement Rapide
+- **Vercel** : Déploiement automatique via Git
+- **Netlify** : Glisser-déposer le dossier `dist/`
+- **Render** : Configuration via `render.yaml`
 
-## 🔮 Future Extensions
+### Variables d'Environnement
+```env
+VITE_API_URL=https://your-api-url.com/api
+```
 
-### Admin Interface (planned)
-- Modular structure for easy admin addition
-- Extensible API service for CRUD operations
-- Authentication system ready to integrate
+## 🔮 Fonctionnalités Avancées
 
-### SEO Improvements
-- Dynamic metadata per project
-- Sitemap generation
-- Image optimization
-- Schema.org for projects
+### ✅ Déjà Implémentées
+- Interface d'administration complète
+- Upload de médias avec prévisualisation
+- Validation de formulaires avancée
+- Internationalisation complète
+- Design system cohérent
+- Gestion d'erreurs robuste
 
-### Advanced Features
-- **Filters**: By technology, date, type
-- **Search**: Full-text search in projects
-- **Analytics**: User interaction tracking
-- **PWA**: Offline mode and installation
-- **Internationalization**: Multi-language support
+### 🎯 Améliorations Prévues
+- **Authentification** : Système de login pour l'admin
+- **Éditeur WYSIWYG** : Éditeur de contenu riche
+- **Analytics** : Suivi des vues et interactions
+- **PWA** : Mode hors ligne et installation
+- **SEO avancé** : Métadonnées dynamiques par projet
 
-## 📄 License
+## 📊 Statistiques du Projet
 
-This project is MIT licensed. See the `LICENSE` file for details.
+- **Components** : 20+ composants réutilisables
+- **Pages** : 5 pages principales + 404
+- **Langues** : 2 langues supportées
+- **API Endpoints** : 4 endpoints principaux
+- **UI Library** : 40+ composants shadcn/ui
+
+## 🤝 Contribution
+
+1. Fork le projet
+2. Créer une branche feature (`git checkout -b feature/amazing-feature`)
+3. Commit les changements (`git commit -m 'Add amazing feature'`)
+4. Push vers la branche (`git push origin feature/amazing-feature`)
+5. Ouvrir une Pull Request
+
+## 📄 Licence
+
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
 ---
 
-**Built with ❤️ and the latest modern web technologies**
+**Développé avec ❤️ par Robin DIJOUX | Construit avec les dernières technologies web modernes**

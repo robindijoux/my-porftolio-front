@@ -1,4 +1,5 @@
 // Service API pour la gestion des appels REST
+import i18n from '@/i18n/config';
 
 export interface Project {
   id: string;
@@ -65,7 +66,7 @@ class ApiService {
       return this.handleResponse<MediaUploadResponse>(response);
     } catch (error) {
       console.error('Erreur lors de l\'upload du média:', error);
-      throw new Error('Impossible d\'uploader le fichier. Veuillez réessayer.');
+      throw new Error(i18n.t('errors.mediaUploadError'));
     }
   }
 
@@ -90,14 +91,17 @@ class ApiService {
       return this.handleResponse<Project>(response);
     } catch (error) {
       console.error('Erreur lors de la création du projet:', error);
-      throw new Error('Impossible de créer le projet. Veuillez réessayer.');
+      throw new Error(i18n.t('errors.projectCreateError'));
     }
   }
 
   // Gestion des erreurs HTTP
   private async handleResponse<T>(response: Response): Promise<T> {
     if (!response.ok) {
-      const errorMessage = `Erreur HTTP: ${response.status} - ${response.statusText}`;
+      const errorMessage = i18n.t('errors.httpError', { 
+        status: response.status, 
+        statusText: response.statusText 
+      });
       throw new Error(errorMessage);
     }
     return response.json();
@@ -110,7 +114,7 @@ class ApiService {
       return this.handleResponse<Project[]>(response);
     } catch (error) {
       console.error('Erreur lors de la récupération des projets:', error);
-      throw new Error('Impossible de charger les projets. Veuillez réessayer.');
+      throw new Error(i18n.t('errors.projectsLoadError'));
     }
   }
 
@@ -121,7 +125,7 @@ class ApiService {
       return this.handleResponse<Project>(response);
     } catch (error) {
       console.error(`Erreur lors de la récupération du projet ${id}:`, error);
-      throw new Error('Impossible de charger les détails du projet. Veuillez réessayer.');
+      throw new Error(i18n.t('errors.projectDetailError'));
     }
   }
 
@@ -135,7 +139,7 @@ class ApiService {
       return shuffled.slice(0, 3);
     } catch (error) {
       console.error('Erreur lors de la récupération des projets mis en avant:', error);
-      throw new Error('Impossible de charger les projets mis en avant.');
+      throw new Error(i18n.t('errors.featuredProjectsError'));
     }
   }
 }

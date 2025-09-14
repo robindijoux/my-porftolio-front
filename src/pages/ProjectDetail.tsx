@@ -186,7 +186,7 @@ const ProjectDetail = () => {
                       <div className="w-full h-full bg-muted/20 flex items-center justify-center">
                         <div className="text-center">
                           <Play className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
-                          <p className="text-muted-foreground">Média : {project.media[selectedMediaIndex].type}</p>
+                          <p className="text-muted-foreground">{t('project.mediaLabel')} : {project.media[selectedMediaIndex].type}</p>
                         </div>
                       </div>
                     )}
@@ -250,10 +250,10 @@ const ProjectDetail = () => {
               <Card className="border-border/50 bg-card/50">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Type de projet</span>
+                    <span className="text-sm text-muted-foreground">{t('project.projectType')}</span>
                     <Badge variant="secondary">
-                      {project.techStack.map((tech) => tech.technology).includes('React Native') ? 'Mobile' : 
-                       project.techStack.map((tech) => tech.technology).includes('Spring Boot') ? 'Backend' : 'Web'}
+                      {project.techStack.map((tech) => tech.technology).includes('React Native') ? t('project.mobile') : 
+                       project.techStack.map((tech) => tech.technology).includes('Spring Boot') ? t('project.backend') : t('project.web')}
                     </Badge>
                   </div>
                 </CardContent>
@@ -262,7 +262,7 @@ const ProjectDetail = () => {
               <Card className="border-border/50 bg-card/50">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Nombre de technologies</span>
+                    <span className="text-sm text-muted-foreground">{t('project.techCount')}</span>
                     <span className="font-medium text-foreground">{project.techStack.length}</span>
                   </div>
                 </CardContent>
@@ -271,7 +271,7 @@ const ProjectDetail = () => {
               <Card className="border-border/50 bg-card/50">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Médias disponibles</span>
+                    <span className="text-sm text-muted-foreground">{t('project.mediaCount')}</span>
                     <div className="flex items-center gap-1">
                       <ImageIcon className="h-4 w-4 text-muted-foreground" />
                       <span className="font-medium text-foreground">{project.media.length}</span>
@@ -287,7 +287,7 @@ const ProjectDetail = () => {
         <div className="mt-16 pt-8 border-t border-border/50">
           <div className="text-center">
             <h3 className="text-lg font-medium mb-4 text-foreground">
-              Découvrez d'autres projets
+              {t('project.discoverOtherProjects')}
             </h3>
             <Link to="/">
               <Button variant="outline">

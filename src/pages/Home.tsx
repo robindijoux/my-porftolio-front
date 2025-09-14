@@ -125,8 +125,7 @@ const Home = () => {
                       {t('home.sections.featuredProjects')}
                     </h2>
                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-inter">
-                      Découvrez mes réalisations les plus abouties et représentatives 
-                      de mon expertise technique
+                      {t('home.sections.featuredProjectsDescription')}
                     </p>
                   </div>
                   
@@ -146,7 +145,7 @@ const Home = () => {
                       {t('home.sections.otherProjects')}
                     </h2>
                     <p className="text-muted-foreground max-w-2xl mx-auto">
-                      Explorez l'ensemble de mes projets et expérimentations
+                      {t('home.sections.otherProjectsDescription')}
                     </p>
                   </div>
                   

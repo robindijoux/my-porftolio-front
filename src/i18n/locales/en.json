@@ -20,7 +20,9 @@
     },
     "sections": {
       "featuredProjects": "Featured Projects",
+      "featuredProjectsDescription": "Discover my most accomplished and representative achievements of my technical expertise.",
       "otherProjects": "Other Projects",
+      "otherProjectsDescription": "Explore all my projects and experiments",
       "contact": "Let's Work Together",
       "contactDescription": "Have a project in mind? Let's discuss how we can create something extraordinary together.",
       "collaborate": "Let's collaborate"
@@ -58,7 +60,15 @@
     "maxFiles": "Maximum {{max}} files",
     "selectFiles": "Select Files",
     "uploadedFiles": "Uploaded Files",
-    "altText": "Alt Text"
+    "altText": "Alt Text",
+    "projectType": "Project type",
+    "mobile": "Mobile",
+    "backend": "Backend",
+    "web": "Web",
+    "techCount": "Number of technologies",
+    "mediaCount": "Available media",
+    "discoverOtherProjects": "Discover other projects",
+    "mediaLabel": "Media"
   },
   "common": {
     "loading": "Loading...",
@@ -76,6 +86,21 @@
     "french": "Français",
     "english": "English"
   },
+  "validation": {
+    "nameRequired": "Project name is required",
+    "descriptionMinLength": "Description must contain at least 10 characters",
+    "shortDescriptionMinLength": "Short description must contain at least 5 characters",
+    "invalidUrl": "Please enter a valid URL"
+  },
+  "placeholders": {
+    "githubUrl": "https://github.com/...",
+    "projectUrl": "https://..."
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Oops! Page not found",
+    "returnHome": "Return to Home"
+  },
   "errors": {
     "tooManyFiles": "Too many files",
     "maxFilesLimit": "You cannot upload more than {{max}} files",
@@ -86,7 +111,13 @@
     "noMedia": "No media",
     "noMediaDesc": "Please upload at least one media file",
     "projectCreationFailed": "Project creation failed",
-    "genericError": "An error occurred"
+    "genericError": "An error occurred",
+    "mediaUploadError": "Unable to upload file. Please try again.",
+    "projectCreateError": "Unable to create project. Please try again.",
+    "projectsLoadError": "Unable to load projects. Please try again.",
+    "projectDetailError": "Unable to load project details. Please try again.",
+    "featuredProjectsError": "Unable to load featured projects.",
+    "httpError": "HTTP Error: {{status}} - {{statusText}}"
   },
   "success": {
     "fileUploaded": "File uploaded",
