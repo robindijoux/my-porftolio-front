@@ -25,6 +25,9 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
               alt={project.media[0].alt || project.name}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               loading="lazy"
+              onError={(e) => {
+                e.currentTarget.src = '/placeholder.svg';
+              }}
             />
           </div>
         )}
@@ -64,8 +67,10 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           {project.techStack.slice(0, 4).map((tech) => (
             <Badge
               key={tech.technology}
+              variant="outline"
+              className="text-xs border-border/60"
             >
-              <img src={tech.iconUrl} alt={tech.technology} className="h-4 w-4 mr-1" />
+              <img src={tech.iconUrl} alt={tech.technology} className="h-3 w-3 mr-1" />
               {tech.technology}
             </Badge>
           ))}

@@ -172,17 +172,21 @@ const ProjectDetail = () => {
               <Card className="mb-6 overflow-hidden border-border/50 bg-card-gradient">
                 <CardContent className="p-0">
                   <div className="aspect-video w-full overflow-hidden">
-                    {project.media[selectedMediaIndex].type === 'image' ? (
+                    {project.media[selectedMediaIndex].type.toLowerCase().includes('image') || 
+                     project.media[selectedMediaIndex].type === 'PHOTO' ? (
                       <img
                         src={project.media[selectedMediaIndex].url}
                         alt={project.media[selectedMediaIndex].alt || project.name}
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src = '/placeholder.svg';
+                        }}
                       />
                     ) : (
                       <div className="w-full h-full bg-muted/20 flex items-center justify-center">
                         <div className="text-center">
                           <Play className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
-                          <p className="text-muted-foreground">Vidéo non disponible en mode développement</p>
+                          <p className="text-muted-foreground">Média : {project.media[selectedMediaIndex].type}</p>
                         </div>
                       </div>
                     )}
@@ -203,11 +207,15 @@ const ProjectDetail = () => {
                           : 'border-border/30 hover:border-border/60'
                       }`}
                     >
-                      {media.type === 'image' ? (
+                      {media.type.toLowerCase().includes('image') || 
+                       media.type === 'PHOTO' ? (
                         <img
                           src={media.url}
                           alt={media.alt || `${project.name} - Image ${index + 1}`}
                           className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = '/placeholder.svg';
+                          }}
                         />
                       ) : (
                         <div className="w-full h-full bg-muted/20 flex items-center justify-center">

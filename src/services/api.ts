@@ -47,7 +47,7 @@ export interface MediaUploadResponse {
 }
 
 class ApiService {
-  private baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3002/api'
+  private baseUrl = import.meta.env.VITE_API_URL || 'https://my-portfolio-back-1.onrender.com/api'
 
   // Upload de média
   async uploadMedia(file: File, alt?: string): Promise<MediaUploadResponse> {
