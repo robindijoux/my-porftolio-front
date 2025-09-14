@@ -10,8 +10,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
-import { apiService, CreateProjectData, MediaUploadResponse } from '@/services/api';
+import { apiService, CreateProjectData, MediaUploadResponse, Technology } from '@/services/api';
 import MediaUpload from './MediaUpload';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
@@ -23,6 +24,8 @@ type CreateProjectFormData = {
   shortDescription: string;
   repositoryLink?: string;
   projectLink?: string;
+  isPublished: boolean;
+  featured: boolean;
   techStack?: string;
 };
 
@@ -40,8 +43,9 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadedMedia, setUploadedMedia] = useState<MediaUploadResponse[]>([]);
-  const [technologies, setTechnologies] = useState<string[]>([]);
+  const [technologies, setTechnologies] = useState<Technology[]>([]);
   const [currentTech, setCurrentTech] = useState('');
+  const [currentTechIcon, setCurrentTechIcon] = useState('');
 
   const createProjectSchema = useMemo(() => z.object({
     name: z.string().min(1, t('validation.nameRequired')),
@@ -49,6 +53,8 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
     shortDescription: z.string().min(5, t('validation.shortDescriptionMinLength')),
     repositoryLink: z.string().url(t('validation.invalidUrl')).optional().or(z.literal('')),
     projectLink: z.string().url(t('validation.invalidUrl')).optional().or(z.literal('')),
+    isPublished: z.boolean(),
+    featured: z.boolean(),
     techStack: z.string().optional(),
   }), [t]);
 
@@ -60,6 +66,8 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
       shortDescription: '',
       repositoryLink: '',
       projectLink: '',
+      isPublished: true,
+      featured: false,
       techStack: '',
     },
   });
@@ -73,14 +81,19 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
   };
 
   const handleAddTechnology = () => {
-    if (currentTech.trim() && !technologies.includes(currentTech.trim())) {
-      setTechnologies(prev => [...prev, currentTech.trim()]);
+    if (currentTech.trim() && currentTechIcon.trim() && 
+        !technologies.some(tech => tech.technology === currentTech.trim())) {
+      setTechnologies(prev => [...prev, {
+        technology: currentTech.trim(),
+        iconUrl: currentTechIcon.trim()
+      }]);
       setCurrentTech('');
+      setCurrentTechIcon('');
     }
   };
 
-  const handleRemoveTechnology = (tech: string) => {
-    setTechnologies(prev => prev.filter(t => t !== tech));
+  const handleRemoveTechnology = (techToRemove: Technology) => {
+    setTechnologies(prev => prev.filter(tech => tech.technology !== techToRemove.technology));
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -109,7 +122,9 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
         shortDescription: data.shortDescription,
         repositoryLink: data.repositoryLink || '',
         projectLink: data.projectLink || '',
-        mediaIds: uploadedMedia.map(media => media.id),
+        isPublished: data.isPublished,
+        featured: data.featured,
+        media: uploadedMedia.map(media => media.id),
         techStack: technologies,
       };
 
@@ -234,27 +249,33 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">{t('project.technologies')}</h3>
               
-              <div className="flex space-x-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <Input
                   value={currentTech}
                   onChange={(e) => setCurrentTech(e.target.value)}
                   placeholder={t('project.technologyPlaceholder')}
                   onKeyPress={handleKeyPress}
                 />
-                <Button 
-                  type="button" 
-                  onClick={handleAddTechnology}
-                  variant="outline"
-                >
-                  {t('common.add')}
-                </Button>
+                <Input
+                  value={currentTechIcon}
+                  onChange={(e) => setCurrentTechIcon(e.target.value)}
+                  placeholder="URL de l'icône (ex: https://cdn.jsdelivr.net/...)"
+                />
               </div>
+              <Button 
+                type="button" 
+                onClick={handleAddTechnology}
+                variant="outline"
+                className="w-full"
+              >
+                {t('common.add')}
+              </Button>
               
               {technologies.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {technologies.map((tech, index) => (
                     <Badge key={index} variant="secondary" className="flex items-center gap-1">
-                      {tech}
+                      {tech.technology}
                       <X 
                         className="h-3 w-3 cursor-pointer hover:text-destructive" 
                         onClick={() => handleRemoveTechnology(tech)}
@@ -263,6 +284,55 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
                   ))}
                 </div>
               )}
+            </div>
+
+            <Separator />
+
+            {/* Options de publication */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Options de publication</h3>
+              
+              <FormField
+                control={form.control}
+                name="isPublished"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                      <FormLabel className="text-base">Publier le projet</FormLabel>
+                      <FormDescription>
+                        Le projet sera visible publiquement sur votre portfolio
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="featured"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                      <FormLabel className="text-base">Projet mis en avant</FormLabel>
+                      <FormDescription>
+                        Ce projet apparaîtra dans la section des projets phares
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
             </div>
 
             <Separator />

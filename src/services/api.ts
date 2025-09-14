@@ -35,8 +35,10 @@ export interface CreateProjectData {
   shortDescription: string;
   repositoryLink: string;
   projectLink: string;
-  mediaIds: string[];
-  techStack: string[];
+  isPublished: boolean;
+  featured: boolean;
+  media: string[];
+  techStack: Technology[];
 }
 
 export interface MediaUploadResponse {
@@ -84,8 +86,10 @@ class ApiService {
           shortDescription: projectData.shortDescription,
           repositoryLink: projectData.repositoryLink,
           projectLink: projectData.projectLink,
-          mediaIds: projectData.mediaIds,
-          techStackNames: projectData.techStack,
+          isPublished: projectData.isPublished,
+          featured: projectData.featured,
+          media: projectData.media,
+          techStack: projectData.techStack,
         }),
       });
       return this.handleResponse<Project>(response);
