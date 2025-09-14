@@ -2,7 +2,8 @@
   "nav": {
     "projects": "Projets",
     "about": "À propos",
-    "contact": "Contact"
+    "contact": "Contact",
+    "newProject": "Nouveau projet"
   },
   "home": {
     "title": "Robin DIJOUX",
@@ -35,17 +36,62 @@
     "details": "Détails du projet",
     "mediaGallery": "Galerie média",
     "backToProjects": "Retour aux projets",
-    "notFound": "Projet non trouvé"
+    "notFound": "Projet non trouvé",
+    "media": "Médias",
+    "createNew": "Créer un nouveau projet",
+    "generalInfo": "Informations générales",
+    "name": "Nom du projet",
+    "namePlaceholder": "Mon super projet",
+    "shortDescription": "Description courte",
+    "shortDescPlaceholder": "Une courte description du projet",
+    "shortDescHelper": "Description affichée dans la liste des projets",
+    "description": "Description",
+    "descPlaceholder": "Description détaillée du projet...",
+    "links": "Liens",
+    "repositoryLink": "Lien vers le dépôt",
+    "projectLink": "Lien vers le projet",
+    "technologyPlaceholder": "React",
+    "dropFilesHere": "Déposez vos fichiers ici...",
+    "dragDropFiles": "Glissez-déposez vos fichiers ou cliquez pour sélectionner",
+    "supportedFormats": "Formats supportés: Images, Vidéos, PDF, Documents",
+    "maxFileSize": "Taille max: 50MB",
+    "maxFiles": "Maximum {{max}} fichiers",
+    "selectFiles": "Sélectionner des fichiers",
+    "uploadedFiles": "Fichiers uploadés",
+    "altText": "Texte alternatif"
   },
   "common": {
     "loading": "Chargement...",
     "error": "Erreur de chargement",
     "retry": "Réessayer",
-    "close": "Fermer"
+    "close": "Fermer",
+    "uploading": "Upload en cours...",
+    "add": "Ajouter",
+    "cancel": "Annuler",
+    "create": "Créer",
+    "creating": "Création..."
   },
   "language": {
     "select": "Choisir la langue",
     "french": "Français",
     "english": "English"
+  },
+  "errors": {
+    "tooManyFiles": "Trop de fichiers",
+    "maxFilesLimit": "Vous ne pouvez pas uploader plus de {{max}} fichiers",
+    "fileTooLarge": "Fichier trop volumineux",
+    "maxFileSize": "Le fichier {{filename}} dépasse la taille limite de 50MB",
+    "uploadFailed": "Échec de l'upload",
+    "uploadFailedDesc": "Impossible d'uploader le fichier {{filename}}",
+    "noMedia": "Aucun média",
+    "noMediaDesc": "Veuillez uploader au moins un fichier média",
+    "projectCreationFailed": "Échec de la création du projet",
+    "genericError": "Une erreur est survenue"
+  },
+  "success": {
+    "fileUploaded": "Fichier uploadé",
+    "fileUploadedDesc": "Le fichier {{filename}} a été uploadé avec succès",
+    "projectCreated": "Projet créé",
+    "projectCreatedDesc": "Le projet {{name}} a été créé avec succès"
   }
 }

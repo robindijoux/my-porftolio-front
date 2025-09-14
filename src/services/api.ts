@@ -28,9 +28,71 @@ export interface Media {
 }
 
 
+export interface CreateProjectData {
+  name: string;
+  description: string;
+  shortDescription: string;
+  repositoryLink: string;
+  projectLink: string;
+  mediaIds: string[];
+  techStack: string[];
+}
+
+export interface MediaUploadResponse {
+  id: string;
+  type: string;
+  url: string;
+  alt?: string;
+  filename: string;
+}
+
 class ApiService {
   private baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3002/api'
 
+  // Upload de média
+  async uploadMedia(file: File, alt?: string): Promise<MediaUploadResponse> {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      if (alt) {
+        formData.append('alt', alt);
+      }
+
+      const response = await fetch(`${this.baseUrl}/media/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+      return this.handleResponse<MediaUploadResponse>(response);
+    } catch (error) {
+      console.error('Erreur lors de l\'upload du média:', error);
+      throw new Error('Impossible d\'uploader le fichier. Veuillez réessayer.');
+    }
+  }
+
+  // Création d'un nouveau projet
+  async createProject(projectData: CreateProjectData): Promise<Project> {
+    try {
+      const response = await fetch(`${this.baseUrl}/projects`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: projectData.name,
+          description: projectData.description,
+          shortDescription: projectData.shortDescription,
+          repositoryLink: projectData.repositoryLink,
+          projectLink: projectData.projectLink,
+          mediaIds: projectData.mediaIds,
+          techStackNames: projectData.techStack,
+        }),
+      });
+      return this.handleResponse<Project>(response);
+    } catch (error) {
+      console.error('Erreur lors de la création du projet:', error);
+      throw new Error('Impossible de créer le projet. Veuillez réessayer.');
+    }
+  }
 
   // Gestion des erreurs HTTP
   private async handleResponse<T>(response: Response): Promise<T> {

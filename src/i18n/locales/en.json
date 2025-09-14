@@ -2,7 +2,8 @@
   "nav": {
     "projects": "Projects",
     "about": "About",
-    "contact": "Contact"
+    "contact": "Contact",
+    "newProject": "New Project"
   },
   "home": {
     "title": "Robin DIJOUX",
@@ -35,17 +36,62 @@
     "details": "Project details",
     "mediaGallery": "Media gallery",
     "backToProjects": "Back to projects",
-    "notFound": "Project not found"
+    "notFound": "Project not found",
+    "media": "Media",
+    "createNew": "Create New Project",
+    "generalInfo": "General Information",
+    "name": "Project Name",
+    "namePlaceholder": "My awesome project",
+    "shortDescription": "Short Description",
+    "shortDescPlaceholder": "A brief description of the project",
+    "shortDescHelper": "Description displayed in the project list",
+    "description": "Description",
+    "descPlaceholder": "Detailed project description...",
+    "links": "Links",
+    "repositoryLink": "Repository Link",
+    "projectLink": "Project Link",
+    "technologyPlaceholder": "React",
+    "dropFilesHere": "Drop your files here...",
+    "dragDropFiles": "Drag & drop files or click to select",
+    "supportedFormats": "Supported formats: Images, Videos, PDF, Documents",
+    "maxFileSize": "Max size: 50MB",
+    "maxFiles": "Maximum {{max}} files",
+    "selectFiles": "Select Files",
+    "uploadedFiles": "Uploaded Files",
+    "altText": "Alt Text"
   },
   "common": {
     "loading": "Loading...",
     "error": "Loading error",
     "retry": "Retry",
-    "close": "Close"
+    "close": "Close",
+    "uploading": "Uploading...",
+    "add": "Add",
+    "cancel": "Cancel",
+    "create": "Create",
+    "creating": "Creating..."
   },
   "language": {
     "select": "Select language",
     "french": "Français",
     "english": "English"
+  },
+  "errors": {
+    "tooManyFiles": "Too many files",
+    "maxFilesLimit": "You cannot upload more than {{max}} files",
+    "fileTooLarge": "File too large",
+    "maxFileSize": "The file {{filename}} exceeds the 50MB size limit",
+    "uploadFailed": "Upload failed",
+    "uploadFailedDesc": "Failed to upload file {{filename}}",
+    "noMedia": "No media",
+    "noMediaDesc": "Please upload at least one media file",
+    "projectCreationFailed": "Project creation failed",
+    "genericError": "An error occurred"
+  },
+  "success": {
+    "fileUploaded": "File uploaded",
+    "fileUploadedDesc": "File {{filename}} uploaded successfully",
+    "projectCreated": "Project created",
+    "projectCreatedDesc": "Project {{name}} created successfully"
   }
 }
