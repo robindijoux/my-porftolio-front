@@ -53,7 +53,7 @@ class ApiService {
   private baseUrl = import.meta.env.VITE_API_URL || 'https://my-portfolio-back-1.onrender.com/api'
 
   // Upload de média
-  async uploadMedia(file: File, alt?: string): Promise<MediaUploadResponse> {
+  async uploadMedia(file: File, alt?: string, accessToken?: string): Promise<MediaUploadResponse> {
     try {
       const formData = new FormData();
       formData.append('file', file);
@@ -61,8 +61,14 @@ class ApiService {
         formData.append('alt', alt);
       }
 
+      const headers: HeadersInit = {};
+      if (accessToken) {
+        headers['Authorization'] = `Bearer ${accessToken}`;
+      }
+
       const response = await fetch(`${this.baseUrl}/media/upload`, {
         method: 'POST',
+        headers,
         body: formData,
       });
       return this.handleResponse<MediaUploadResponse>(response);
@@ -73,13 +79,19 @@ class ApiService {
   }
 
   // Création d'un nouveau projet
-  async createProject(projectData: CreateProjectData): Promise<Project> {
+  async createProject(projectData: CreateProjectData, accessToken?: string): Promise<Project> {
     try {
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      
+      if (accessToken) {
+        headers['Authorization'] = `Bearer ${accessToken}`;
+      }
+
       const response = await fetch(`${this.baseUrl}/projects`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify({
           name: projectData.name,
           description: projectData.description,

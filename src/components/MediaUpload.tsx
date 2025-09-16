@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import { useAuthentication } from '@/hooks/useAuthentication';
 import { apiService, MediaUploadResponse } from '@/services/api';
 
 interface MediaUploadProps {
@@ -25,6 +26,7 @@ const MediaUpload: React.FC<MediaUploadProps> = ({
 }) => {
   const { t } = useTranslation();
   const { toast } = useToast();
+  const { accessToken, isAuthenticated } = useAuthentication();
   const [uploading, setUploading] = useState(false);
   const [altTexts, setAltTexts] = useState<Record<string, string>>({});
 
@@ -41,6 +43,15 @@ const MediaUpload: React.FC<MediaUploadProps> = ({
   };
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    if (!isAuthenticated || !accessToken) {
+      toast({
+        variant: "destructive",
+        title: t('errors.authRequired'),
+        description: t('errors.authRequiredDesc'),
+      });
+      return;
+    }
+
     if (uploadedMedia.length + acceptedFiles.length > maxFiles) {
       toast({
         variant: "destructive",
@@ -64,7 +75,7 @@ const MediaUpload: React.FC<MediaUploadProps> = ({
           continue;
         }
 
-        const uploadedMedia = await apiService.uploadMedia(file, altTexts[file.name]);
+        const uploadedMedia = await apiService.uploadMedia(file, altTexts[file.name], accessToken);
         onMediaUploaded(uploadedMedia);
         
         toast({
@@ -82,7 +93,7 @@ const MediaUpload: React.FC<MediaUploadProps> = ({
     }
     
     setUploading(false);
-  }, [uploadedMedia.length, maxFiles, altTexts, onMediaUploaded, toast, t]);
+  }, [uploadedMedia.length, maxFiles, altTexts, onMediaUploaded, toast, t, isAuthenticated, accessToken]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,

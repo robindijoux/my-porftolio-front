@@ -1,8 +1,8 @@
 # Portfolio Robin DIJOUX 🚀
 
-> Portfolio moderne et interactif de développeur Full-Stack avec interface d'administration intégrée
+> Portfolio moderne et interactif de développeur Full-Stack avec interface d'administration intégrée et authentification AWS Cognito
 
-Un site web moderne et responsive construit avec React, TypeScript et Tailwind CSS, consommant une API RESTful pour afficher dynamiquement les projets et leurs détails.
+Un site web moderne et responsive construit avec React, TypeScript et Tailwind CSS, consommant une API RESTful pour afficher dynamiquement les projets et leurs détails. L'application intègre une authentification optionnelle via AWS Cognito pour sécuriser la création de projets.
 
 ## ✨ Fonctionnalités Principales
 
@@ -12,30 +12,66 @@ Un site web moderne et responsive construit avec React, TypeScript et Tailwind C
 - **Interface multilingue** : Support français/anglais avec i18next
 - **Navigation fluide** : Routing avec React Router et animations
 
-### ⚙️ Interface d'Administration
-- **Création de projets** : Formulaire complet avec validation
-- **Upload de médias** : Glisser-déposer avec prévisualisation
+### 🔐 Interface d'Administration & Authentification
+- **Authentification AWS Cognito** : Connexion sécurisée optionnelle
+- **Création de projets** : Formulaire complet avec validation (protégé)
+- **Upload de médias** : Glisser-déposer avec prévisualisation 
 - **Gestion des technologies** : Sélection dynamique du stack technique
 - **Validation avancée** : Formulaires avec React Hook Form + Zod
+- **Accès public** : Navigation libre sans authentification requise
 
 ### 🔧 Fonctionnalités Techniques
-- **API RESTful** : Service centralisé pour tous les appels
+- **API RESTful** : Service centralisé avec TanStack Query
 - **Gestion d'erreurs** : Messages informatifs avec option de retry
 - **États de chargement** : Spinners et feedback visuel
-- **Design responsive** : Approche mobile-first
+- **Design responsive** : Approche mobile-first avec Tailwind CSS
 - **Animations légères** : Transitions et micro-interactions
 - **SEO optimisé** : Métadonnées et structure HTML sémantique
+- **Upload avancé** : React Dropzone avec gestion multi-formats
 
-## 🛠️ Stack Technique
+## � Authentification AWS Cognito
+
+### Fonctionnement
+L'application utilise une **authentification optionnelle** via AWS Cognito. Les visiteurs peuvent explorer librement le portfolio, mais la création de projets nécessite une connexion.
+
+### 🌐 **Accès Public (sans connexion)**
+- ✅ Page d'accueil et navigation
+- ✅ Visualisation de tous les projets
+- ✅ Détails complets des projets
+- ✅ Galeries médias et informations techniques
+
+### 🔒 **Accès Protégé (connexion requise)**
+- 🔐 Création de nouveaux projets
+- 🔐 Upload de médias
+- 🔐 Gestion du contenu (futures fonctionnalités)
+
+### Configuration (optionnelle)
+Pour activer l'authentification, configurez ces variables d'environnement :
+
+```env
+# Configuration AWS Cognito (optionnel)
+VITE_AWS_COGNITO_REGION=eu-west-3
+VITE_AWS_COGNITO_USER_POOL_ID=your-user-pool-id  
+VITE_AWS_COGNITO_CLIENT_ID=your-client-id
+VITE_AWS_COGNITO_DOMAIN=https://cognito-idp.region.amazonaws.com/...
+VITE_REDIRECT_URI=http://localhost:5173
+VITE_AUTH_SCOPE=phone openid email
+```
+
+> **Documentation complète** : Consultez `AUTHENTICATION.md` pour la configuration détaillée
+
+## �🛠️ Stack Technique
 
 ```
-Frontend          Backend API
-├── React 18      ├── API REST
-├── TypeScript    ├── Upload médias
-├── Tailwind CSS  ├── Gestion projets
-├── shadcn/ui     └── Technologie stack
+Frontend             Backend API           Authentification
+├── React 18         ├── API REST          ├── AWS Cognito
+├── TypeScript       ├── Upload médias     ├── OIDC Client
+├── Tailwind CSS     ├── Gestion projets   └── Tokens JWT
+├── shadcn/ui        └── Technologie stack
+├── TanStack Query
 ├── React Router
-├── React Hook Form
+├── React Hook Form  
+├── React Dropzone
 ├── i18next
 ├── Vite
 └── Lucide Icons
@@ -51,8 +87,8 @@ Frontend          Backend API
 
 ```bash
 # Cloner le repository
-git clone https://github.com/robindijoux/my-portfolio-front.git
-cd my-portfolio-front
+git clone https://github.com/robindijoux/my-porftolio-front.git
+cd my-porftolio-front
 
 # Installer les dépendances
 npm install
@@ -64,18 +100,20 @@ echo "VITE_API_URL=https://my-portfolio-back-1.onrender.com/api" > .env
 npm run dev
 ```
 
-Le site sera disponible sur `http://localhost:8080`
+Le site sera disponible sur `http://localhost:5173`
+
+> **Note sur le port** : Vite utilise par défaut le port 5173. Le port 8080 est configuré pour la production via `vite.config.ts`.
 
 ### Scripts Disponibles
 
 ```bash
 # Développement
-npm run dev          # Serveur de développement avec hot reload
+npm run dev          # Serveur de développement avec hot reload (port 5173)
 
 # Production
-npm run build        # Build de production
-npm run build:dev    # Build de développement
-npm run preview      # Prévisualisation du build
+npm run build        # Build de production optimisé
+npm run build:dev    # Build de développement avec sources maps
+npm run preview      # Prévisualisation du build (port 4173)
 
 # Qualité de code
 npm run lint         # Linting avec ESLint
@@ -86,23 +124,29 @@ npm run lint         # Linting avec ESLint
 ```
 src/
 ├── components/              # Composants réutilisables
-│   ├── ui/                 # Composants UI (shadcn/ui)
-│   ├── Header.tsx          # Navigation principale
+│   ├── ui/                 # Composants UI (shadcn/ui - 40+ composants)
+│   ├── Header.tsx          # Navigation avec authentification
 │   ├── ProjectCard.tsx     # Carte de projet
-│   ├── CreateProjectForm.tsx # Formulaire création
-│   ├── MediaUpload.tsx     # Upload de médias
+│   ├── CreateProjectForm.tsx # Formulaire création (protégé)
+│   ├── MediaUpload.tsx     # Upload avec React Dropzone
+│   ├── AuthComponent.tsx   # Gestion authentification Cognito
+│   ├── ProtectedRoute.tsx  # Protection de routes
 │   └── LoadingSpinner.tsx  # Composants utilitaires
 ├── pages/                  # Pages principales
 │   ├── Home.tsx           # Page d'accueil
 │   ├── ProjectDetail.tsx  # Détail de projet
-│   ├── CreateProject.tsx  # Page création
+│   ├── CreateProject.tsx  # Page création (protégée)
 │   └── NotFound.tsx       # Page 404
 ├── services/              # Services et API
-│   └── api.ts            # Service REST centralisé
+│   └── api.ts            # Service REST avec TanStack Query
+├── config/               # Configuration
+│   └── auth.ts          # Configuration AWS Cognito
 ├── i18n/                 # Internationalisation
 │   ├── config.ts         # Configuration i18next
-│   └── locales/          # Fichiers de traduction
-├── hooks/                # Hooks personnalisés
+│   └── locales/          # Fichiers de traduction (fr/en)
+├── hooks/                # Hooks personnalisés  
+│   ├── useAuthentication.ts # Hook auth Cognito
+│   └── use-toast.ts        # Notifications
 ├── lib/                  # Utilitaires
 └── utils/               # Fonctions helper
 ```
@@ -132,18 +176,19 @@ Le projet utilise un système de design cohérent basé sur :
 
 Le service API centralise tous les appels REST avec :
 
+- **TanStack Query** pour la gestion du cache et des états
 - **Gestion d'erreurs robuste** avec messages i18n
-- **Types TypeScript** pour la sécurité
-- **Interface cohérente** pour les extensions futures
-- **Upload de médias** avec FormData
+- **Types TypeScript** pour la sécurité type-safe
+- **Authentification** intégrée avec tokens Cognito
+- **Upload de médias** avec FormData et React Dropzone
 
 ### Endpoints Disponibles
 
 ```typescript
-GET    /projects           // Liste des projets
-GET    /projects/:id       // Détails d'un projet
-POST   /projects           // Création de projet
-POST   /media/upload       // Upload de média
+GET    /projects           // Liste des projets (public)
+GET    /projects/:id       // Détails d'un projet (public)
+POST   /projects           // Création de projet (protégé)
+POST   /media/upload       // Upload de média (protégé)
 ```
 
 ### Format des Données
@@ -195,7 +240,16 @@ Le build génère un dossier `dist/` prêt pour le déploiement.
 
 ### Variables d'Environnement
 ```env
+# API Backend (requis)
 VITE_API_URL=https://your-api-url.com/api
+
+# Authentification AWS Cognito (optionnel)
+VITE_AWS_COGNITO_REGION=eu-west-3
+VITE_AWS_COGNITO_USER_POOL_ID=your-user-pool-id
+VITE_AWS_COGNITO_CLIENT_ID=your-client-id
+VITE_AWS_COGNITO_DOMAIN=https://cognito-idp.region.amazonaws.com/...
+VITE_REDIRECT_URI=https://your-domain.com
+VITE_AUTH_SCOPE=phone openid email
 ```
 
 ## 🔮 Fonctionnalités Avancées
@@ -217,11 +271,14 @@ VITE_API_URL=https://your-api-url.com/api
 
 ## 📊 Statistiques du Projet
 
-- **Components** : 20+ composants réutilisables
+- **Components** : 25+ composants réutilisables
 - **Pages** : 5 pages principales + 404
-- **Langues** : 2 langues supportées
-- **API Endpoints** : 4 endpoints principaux
+- **Langues** : 2 langues supportées (FR/EN)
+- **API Endpoints** : 4 endpoints principaux 
 - **UI Library** : 40+ composants shadcn/ui
+- **Authentification** : AWS Cognito avec OIDC
+- **Upload** : Support multi-formats (images, vidéos, documents)
+- **Cache** : TanStack Query pour optimisation performances
 
 ## 🤝 Contribution
 

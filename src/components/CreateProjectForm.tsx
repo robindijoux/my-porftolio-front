@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
+import { useAuthentication } from '@/hooks/useAuthentication';
 import { apiService, CreateProjectData, MediaUploadResponse, Technology } from '@/services/api';
 import MediaUpload from './MediaUpload';
 import { Separator } from '@/components/ui/separator';
@@ -41,6 +42,7 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
   const { t } = useTranslation();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { accessToken, isAuthenticated } = useAuthentication();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadedMedia, setUploadedMedia] = useState<MediaUploadResponse[]>([]);
   const [technologies, setTechnologies] = useState<Technology[]>([]);
@@ -104,6 +106,15 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
   };
 
   const onSubmit = async (data: CreateProjectFormData) => {
+    if (!isAuthenticated || !accessToken) {
+      toast({
+        variant: "destructive",
+        title: t('errors.authRequired'),
+        description: t('errors.authRequiredDesc'),
+      });
+      return;
+    }
+
     if (uploadedMedia.length === 0) {
       toast({
         variant: "destructive",
@@ -128,7 +139,7 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
         techStack: technologies,
       };
 
-      const newProject = await apiService.createProject(projectData);
+      const newProject = await apiService.createProject(projectData, accessToken);
       
       toast({
         title: t('success.projectCreated'),

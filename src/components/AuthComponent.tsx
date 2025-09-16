@@ -1,6 +1,8 @@
 import { useAuth } from "react-oidc-context";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { signOutRedirect } from "@/config/auth";
@@ -35,6 +37,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ children }) => {
 // Composant pour afficher les informations utilisateur ou bouton de connexion
 export const UserInfo: React.FC = () => {
   const auth = useAuth();
+  const { t } = useTranslation();
 
   // Fonction de déconnexion
   const handleLogout = () => {
@@ -51,7 +54,7 @@ export const UserInfo: React.FC = () => {
   if (auth.isLoading) {
     return (
       <div className="flex items-center gap-2">
-        <span className="text-sm text-muted-foreground">Chargement...</span>
+        <span className="text-sm text-muted-foreground">{t('auth.loading')}</span>
       </div>
     );
   }
@@ -65,7 +68,7 @@ export const UserInfo: React.FC = () => {
         size="sm"
       >
         <LogIn className="mr-2 h-4 w-4" />
-        Se connecter
+        {t('auth.signIn')}
       </Button>
     );
   }
@@ -73,16 +76,23 @@ export const UserInfo: React.FC = () => {
   // Si l'utilisateur est authentifié, afficher ses informations
   return (
     <div className="flex items-center gap-2">
-      <span className="text-sm text-muted-foreground hidden sm:inline">
-        Connecté en tant que {auth.user?.profile?.email || 'Utilisateur'}
-      </span>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 cursor-default">
+            <User className="h-4 w-4 text-primary" />
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{t('auth.loggedInAs', { email: auth.user?.profile?.email || 'Utilisateur' })}</p>
+        </TooltipContent>
+      </Tooltip>
       <Button
         onClick={handleLogout}
         variant="outline"
         size="sm"
       >
         <LogOut className="mr-2 h-4 w-4" />
-        <span className="hidden sm:inline">Déconnexion</span>
+        <span className="hidden sm:inline">{t('auth.signOut')}</span>
         <span className="sm:hidden">Logout</span>
       </Button>
     </div>

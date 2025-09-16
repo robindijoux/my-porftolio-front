@@ -112,6 +112,8 @@
     "noMediaDesc": "Please upload at least one media file",
     "projectCreationFailed": "Project creation failed",
     "genericError": "An error occurred",
+    "authRequired": "Authentication required",
+    "authRequiredDesc": "You must be logged in to perform this action",
     "mediaUploadError": "Unable to upload file. Please try again.",
     "projectCreateError": "Unable to create project. Please try again.",
     "projectsLoadError": "Unable to load projects. Please try again.",
@@ -124,5 +126,11 @@
     "fileUploadedDesc": "File {{filename}} uploaded successfully",
     "projectCreated": "Project created",
     "projectCreatedDesc": "Project {{name}} created successfully"
+  },
+  "auth": {
+    "loggedInAs": "Logged in as {{email}}",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "loading": "Loading..."
   }
 }

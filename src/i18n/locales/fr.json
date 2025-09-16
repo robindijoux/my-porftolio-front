@@ -112,6 +112,8 @@
     "noMediaDesc": "Veuillez uploader au moins un fichier média",
     "projectCreationFailed": "Échec de la création du projet",
     "genericError": "Une erreur est survenue",
+    "authRequired": "Authentification requise",
+    "authRequiredDesc": "Vous devez être connecté pour effectuer cette action",
     "mediaUploadError": "Impossible d'uploader le fichier. Veuillez réessayer.",
     "projectCreateError": "Impossible de créer le projet. Veuillez réessayer.",
     "projectsLoadError": "Impossible de charger les projets. Veuillez réessayer.",
@@ -124,5 +126,11 @@
     "fileUploadedDesc": "Le fichier {{filename}} a été uploadé avec succès",
     "projectCreated": "Projet créé",
     "projectCreatedDesc": "Le projet {{name}} a été créé avec succès"
+  },
+  "auth": {
+    "loggedInAs": "Connecté en tant que {{email}}",
+    "signIn": "Se connecter",
+    "signOut": "Déconnexion",
+    "loading": "Chargement..."
   }
 }
