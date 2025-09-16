@@ -68,7 +68,11 @@
     "techCount": "Nombre de technologies",
     "mediaCount": "Médias disponibles",
     "discoverOtherProjects": "Découvrez d'autres projets",
-    "mediaLabel": "Média"
+    "mediaLabel": "Média",
+    "confirmDelete": "Confirmer la suppression",
+    "confirmDeleteDescription": "Êtes-vous sûr de vouloir supprimer le projet \"{{name}}\" ? Cette action est irréversible.",
+    "deleteSuccess": "Projet supprimé",
+    "deleteSuccessDescription": "Le projet a été supprimé avec succès."
   },
   "common": {
     "loading": "Chargement...",
@@ -79,7 +83,8 @@
     "add": "Ajouter",
     "cancel": "Annuler",
     "create": "Créer",
-    "creating": "Création..."
+    "creating": "Création...",
+    "delete": "Supprimer"
   },
   "language": {
     "select": "Choisir la langue",
@@ -119,6 +124,9 @@
     "projectsLoadError": "Impossible de charger les projets. Veuillez réessayer.",
     "projectDetailError": "Impossible de charger les détails du projet. Veuillez réessayer.",
     "featuredProjectsError": "Impossible de charger les projets mis en avant.",
+    "projectDeleteError": "Erreur lors de la suppression du projet",
+    "authRequiredDescription": "Vous devez être connecté pour effectuer cette action.",
+    "unknown": "Erreur inconnue",
     "httpError": "Erreur HTTP: {{status}} - {{statusText}}"
   },
   "success": {

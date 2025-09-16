@@ -131,7 +131,7 @@ const Home = () => {
                   
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
                     {featuredProjects.map((project) => (
-                      <ProjectCard key={project.id} project={project} />
+                      <ProjectCard key={project.id} project={project} onDelete={loadProjects} />
                     ))}
                   </div>
                 </div>
@@ -151,7 +151,7 @@ const Home = () => {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-w-6xl mx-auto">
                     {otherProjects.map((project) => (
-                      <ProjectCard key={project.id} project={project} />
+                      <ProjectCard key={project.id} project={project} onDelete={loadProjects} />
                     ))}
                   </div>
                 </div>

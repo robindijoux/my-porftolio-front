@@ -158,6 +158,25 @@ class ApiService {
       throw new Error(i18n.t('errors.featuredProjectsError'));
     }
   }
+
+  // Suppression d'un projet
+  async deleteProject(id: string, accessToken: string): Promise<void> {
+    try {
+      const response = await fetch(`${this.baseUrl}/projects/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error(`Erreur lors de la suppression du projet ${id}:`, error);
+      throw new Error(i18n.t('errors.projectDeleteError'));
+    }
+  }
 }
 
 // Instance unique du service API

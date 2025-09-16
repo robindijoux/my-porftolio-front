@@ -68,7 +68,11 @@
     "techCount": "Number of technologies",
     "mediaCount": "Available media",
     "discoverOtherProjects": "Discover other projects",
-    "mediaLabel": "Media"
+    "mediaLabel": "Media",
+    "confirmDelete": "Confirm deletion",
+    "confirmDeleteDescription": "Are you sure you want to delete the project \"{{name}}\"? This action cannot be undone.",
+    "deleteSuccess": "Project deleted",
+    "deleteSuccessDescription": "The project has been successfully deleted."
   },
   "common": {
     "loading": "Loading...",
@@ -79,7 +83,8 @@
     "add": "Add",
     "cancel": "Cancel",
     "create": "Create",
-    "creating": "Creating..."
+    "creating": "Creating...",
+    "delete": "Delete"
   },
   "language": {
     "select": "Select language",
@@ -119,6 +124,9 @@
     "projectsLoadError": "Unable to load projects. Please try again.",
     "projectDetailError": "Unable to load project details. Please try again.",
     "featuredProjectsError": "Unable to load featured projects.",
+    "projectDeleteError": "Error deleting project",
+    "authRequiredDescription": "You must be logged in to perform this action.",
+    "unknown": "Unknown error",
     "httpError": "HTTP Error: {{status}} - {{statusText}}"
   },
   "success": {

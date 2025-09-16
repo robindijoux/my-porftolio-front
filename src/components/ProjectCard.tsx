@@ -3,16 +3,52 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, Github, Calendar } from 'lucide-react';
-import { Project } from '@/services/api';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { ExternalLink, Github, Calendar, Trash2 } from 'lucide-react';
+import { Project, apiService } from '@/services/api';
 import { formatShortDate } from '@/utils/date';
+import { useAuthentication } from '@/hooks/useAuthentication';
+import { useToast } from '@/hooks/use-toast';
 
 interface ProjectCardProps {
   project: Project;
+  onDelete?: () => void;
 }
 
-const ProjectCard = ({ project }: ProjectCardProps) => {
+const ProjectCard = ({ project, onDelete }: ProjectCardProps) => {
   const { t, i18n } = useTranslation();
+  const { isAuthenticated, getAuthHeader } = useAuthentication();
+  const { toast } = useToast();
+
+  const handleDelete = async () => {
+    try {
+      const authHeaders = getAuthHeader();
+      if (!authHeaders.Authorization) {
+        toast({
+          title: t('errors.authRequired'),
+          description: t('errors.authRequiredDescription'),
+          variant: "destructive",
+        });
+        return;
+      }
+
+      await apiService.deleteProject(project.id, authHeaders.Authorization.replace('Bearer ', ''));
+      
+      toast({
+        title: t('project.deleteSuccess'),
+        description: t('project.deleteSuccessDescription'),
+      });
+      
+      // Appeler la callback si fournie pour rafraîchir la liste
+      onDelete?.();
+    } catch (error) {
+      toast({
+        title: t('errors.projectDeleteError'),
+        description: error instanceof Error ? error.message : t('errors.unknown'),
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <Card className="group overflow-hidden border-border/50 bg-card-gradient hover:shadow-glow transition-all duration-300 hover:-translate-y-1">
@@ -38,6 +74,40 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             <Badge className="bg-secondary text-secondary-foreground shadow-secondary-glow">
               ⭐ {t('project.featured')}
             </Badge>
+          </div>
+        )}
+
+        {/* Bouton de suppression pour les utilisateurs connectés */}
+        {isAuthenticated && (
+          <div className="absolute top-4 right-4">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="bg-background/80 hover:bg-destructive hover:text-destructive-foreground backdrop-blur-sm"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>{t('project.confirmDelete')}</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {t('project.confirmDeleteDescription', { name: project.name })}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={handleDelete}
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  >
+                    {t('common.delete')}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         )}
       </div>
