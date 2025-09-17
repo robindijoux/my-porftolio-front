@@ -140,6 +140,11 @@
     "signIn": "Se connecter",
     "signOut": "Déconnexion",
     "loading": "Chargement...",
-    "loginRequired": "Connexion requise pour créer un projet"
+    "loginRequired": "Connexion requise pour créer un projet",
+    "signingIn": "Connexion en cours...",
+    "authError": "Une erreur s'est produite lors de l'authentification :",
+    "returnHome": "Retour à l'accueil",
+    "connectionRequired": "Connexion requise",
+    "connectionRequiredDesc": "Vous devez être connecté pour accéder à cette fonctionnalité."
   }
 }

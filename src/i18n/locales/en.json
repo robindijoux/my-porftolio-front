@@ -140,6 +140,11 @@
     "signIn": "Sign In",
     "signOut": "Sign Out",
     "loading": "Loading...",
-    "loginRequired": "Login required to create a project"
+    "loginRequired": "Login required to create a project",
+    "signingIn": "Signing in...",
+    "authError": "An error occurred during authentication:",
+    "returnHome": "Return to Home",
+    "connectionRequired": "Connection required",
+    "connectionRequiredDesc": "You must be logged in to access this functionality."
   }
 }

@@ -1,4 +1,5 @@
 import { useAuth } from "react-oidc-context";
+import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -15,10 +16,11 @@ interface ProtectedRouteProps {
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
   children, 
   fallbackPath = "/",
-  title = "Connexion requise",
-  description = "Vous devez être connecté pour accéder à cette fonctionnalité."
+  title,
+  description
 }) => {
   const auth = useAuth();
+  const { t } = useTranslation();
 
   // Si l'utilisateur n'est pas authentifié, afficher l'écran de connexion
   if (!auth.isAuthenticated) {
@@ -29,14 +31,14 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             <div className="flex items-center justify-center gap-2 mb-2">
               <Lock className="h-8 w-8 text-primary" />
             </div>
-            <CardTitle className="text-2xl">{title}</CardTitle>
-            <CardDescription className="text-base">{description}</CardDescription>
+            <CardTitle className="text-2xl">{title || t('auth.connectionRequired')}</CardTitle>
+            <CardDescription className="text-base">{description || t('auth.connectionRequiredDesc')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {auth.error && (
               <Alert variant="destructive">
                 <AlertDescription>
-                  Une erreur s'est produite lors de l'authentification : {auth.error.message}
+                  {t('auth.authError')} {auth.error.message}
                 </AlertDescription>
               </Alert>
             )}
@@ -49,7 +51,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                 disabled={auth.isLoading}
               >
                 <LogIn className="mr-2 h-4 w-4" />
-                {auth.isLoading ? "Connexion en cours..." : "Se connecter"}
+                {auth.isLoading ? t('auth.signingIn') : t('auth.signIn')}
               </Button>
               
               <Button 
@@ -60,7 +62,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               >
                 <Link to={fallbackPath}>
                   <ArrowLeft className="mr-2 h-4 w-4" />
-                  Retour à l'accueil
+                  {t('auth.returnHome')}
                 </Link>
               </Button>
             </div>
