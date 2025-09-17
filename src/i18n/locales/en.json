@@ -139,6 +139,7 @@
     "loggedInAs": "Logged in as {{email}}",
     "signIn": "Sign In",
     "signOut": "Sign Out",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "loginRequired": "Login required to create a project"
   }
 }

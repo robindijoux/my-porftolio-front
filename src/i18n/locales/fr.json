@@ -139,6 +139,7 @@
     "loggedInAs": "Connecté en tant que {{email}}",
     "signIn": "Se connecter",
     "signOut": "Déconnexion",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "loginRequired": "Connexion requise pour créer un projet"
   }
 }

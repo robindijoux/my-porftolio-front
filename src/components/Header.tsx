@@ -53,14 +53,26 @@ const Header = () => {
           >
             {t('nav.projects')}
           </Link>
+          <a 
+            href="#about" 
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+          >
+            {t('nav.about')}
+          </a>
+          <a 
+            href="#contact" 
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+          >
+            {t('nav.contact')}
+          </a>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="text-sm font-medium transition-colors hover:text-primary flex items-center gap-1"
+                size="icon"
+                className="transition-colors hover:text-primary"
               >
                 <Settings className="h-4 w-4" />
-                Administration
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
@@ -68,7 +80,7 @@ const Header = () => {
                 <Link 
                   to="/create-project" 
                   className="flex items-center gap-2 cursor-pointer"
-                  title={!isAuthenticated ? "Connexion requise pour créer un projet" : ""}
+                  title={!isAuthenticated ? t('auth.loginRequired') : ""}
                 >
                   <Plus className="h-4 w-4" />
                   {t('nav.newProject')}
@@ -90,7 +102,7 @@ const Header = () => {
                 <>
                   <DropdownMenuItem className="cursor-default">
                     <User className="mr-2 h-4 w-4" />
-                    <span className="truncate">
+                    <span className="truncate text-muted-foreground">
                       {auth.user?.profile?.email || 'Utilisateur'}
                     </span>
                   </DropdownMenuItem>
@@ -105,18 +117,6 @@ const Header = () => {
               )}
             </DropdownMenuContent>
           </DropdownMenu>
-          <a 
-            href="#about" 
-            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-          >
-            {t('nav.about')}
-          </a>
-          <a 
-            href="#contact" 
-            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-          >
-            {t('nav.contact')}
-          </a>
         </nav>
 
         {/* Liens sociaux */}
