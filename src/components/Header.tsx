@@ -1,15 +1,36 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { Github, Linkedin, Mail, Lock } from 'lucide-react';
+import { Github, Linkedin, Mail, Lock, LogIn, LogOut, User, Plus, Settings } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import LanguageSelector from './LanguageSelector';
-import { UserInfo } from './AuthComponent';
 import { useAuthentication } from '@/hooks/useAuthentication';
+import { signOutRedirect } from '@/config/auth';
+import { useAuth } from "react-oidc-context";
 
 const Header = () => {
   const location = useLocation();
   const { t } = useTranslation();
   const { isAuthenticated } = useAuthentication();
+  const auth = useAuth();
+
+  // Fonction de déconnexion
+  const handleLogout = () => {
+    const logoutResult = signOutRedirect();
+    
+    // Si pas de domaine personnalisé configuré, utiliser la déconnexion locale
+    if (logoutResult === 'LOCAL_LOGOUT') {
+      auth.removeUser();
+    }
+    // Sinon, signOutRedirect() a déjà géré la redirection
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -32,16 +53,58 @@ const Header = () => {
           >
             {t('nav.projects')}
           </Link>
-          <Link 
-            to="/create-project" 
-            className={`text-sm font-medium transition-colors hover:text-primary flex items-center gap-1 ${
-              location.pathname === '/create-project' ? 'text-primary' : 'text-muted-foreground'
-            }`}
-            title={!isAuthenticated ? "Connexion requise pour créer un projet" : ""}
-          >
-            {t('nav.newProject')}
-            {!isAuthenticated && <Lock className="h-3 w-3 opacity-70" />}
-          </Link>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="text-sm font-medium transition-colors hover:text-primary flex items-center gap-1"
+              >
+                <Settings className="h-4 w-4" />
+                Administration
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/create-project" 
+                  className="flex items-center gap-2 cursor-pointer"
+                  title={!isAuthenticated ? "Connexion requise pour créer un projet" : ""}
+                >
+                  <Plus className="h-4 w-4" />
+                  {t('nav.newProject')}
+                  {!isAuthenticated && <Lock className="h-3 w-3 ml-auto opacity-70" />}
+                </Link>
+              </DropdownMenuItem>
+              
+              <DropdownMenuSeparator />
+              
+              {!isAuthenticated ? (
+                <DropdownMenuItem 
+                  onClick={() => auth.signinRedirect()}
+                  className="cursor-pointer"
+                >
+                  <LogIn className="mr-2 h-4 w-4" />
+                  {t('auth.signIn')}
+                </DropdownMenuItem>
+              ) : (
+                <>
+                  <DropdownMenuItem className="cursor-default">
+                    <User className="mr-2 h-4 w-4" />
+                    <span className="truncate">
+                      {auth.user?.profile?.email || 'Utilisateur'}
+                    </span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={handleLogout}
+                    className="cursor-pointer"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    {t('auth.signOut')}
+                  </DropdownMenuItem>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
           <a 
             href="#about" 
             className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
@@ -56,10 +119,8 @@ const Header = () => {
           </a>
         </nav>
 
-        {/* Informations utilisateur et liens sociaux */}
-        <div className="flex items-center space-x-4">
-          <UserInfo />
-          <div className="flex items-center space-x-2">
+        {/* Liens sociaux */}
+        <div className="flex items-center space-x-2">
             <LanguageSelector />
             <Button variant="ghost" size="icon" asChild>
               <a 
@@ -89,7 +150,6 @@ const Header = () => {
                 <Mail className="h-4 w-4" />
               </a>
             </Button>
-          </div>
         </div>
       </div>
     </header>
