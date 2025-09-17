@@ -100,7 +100,7 @@ const Header = () => {
                 </DropdownMenuItem>
               ) : (
                 <>
-                  <DropdownMenuItem className="cursor-default">
+                  <DropdownMenuItem className="cursor-default hover:bg-transparent focus:bg-transparent">
                     <User className="mr-2 h-4 w-4" />
                     <span className="truncate text-muted-foreground">
                       {auth.user?.profile?.email || 'Utilisateur'}
