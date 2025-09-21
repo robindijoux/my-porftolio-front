@@ -1,20 +1,10 @@
-import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { MapPin } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import { TimelineEvent as TimelineEventType } from '@/services/timelineService';
 
-interface TimelineEventProps {
-  event: TimelineEventType;
-  index: number;
-  getIconForType: (type: string) => React.ReactNode;
-  getTypeColor: (type: string) => string;
-  getTypeLabel: (type: string) => string;
-  getEventYear: (timestamp: number) => string;
-}
 
-const TimelineEvent: React.FC<TimelineEventProps> = ({
+const TimelineEvent = ({
   event,
   index,
   getIconForType,

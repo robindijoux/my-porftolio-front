@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { X, Upload, FileImage, FileVideo, FileText } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

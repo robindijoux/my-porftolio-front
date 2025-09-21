@@ -2,17 +2,20 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Calendar, MapPin, Trash2, Plus, ArrowLeft, Image, Download, Upload, RotateCcw } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTimelineEvents } from '@/hooks/useTimelineEvents';
 import { timelineService } from '@/services/timelineService';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 const AdminEvents = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { events, deleteEvent, exportEvents, importEvents, loadAllEvents } = useTimelineEvents();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
 
   // Trier les événements par date (plus récent en premier)
   const sortedEvents = [...events].sort((a, b) => b.timestamp - a.timestamp);
@@ -43,24 +46,38 @@ const AdminEvents = () => {
     }
   };
 
-  const handleDeleteEvent = async (id: string, title: string) => {
-    if (window.confirm(t('timeline.deleteConfirm', { title }))) {
-      try {
-        await deleteEvent(id);
-        // Recharger tous les événements
-        loadAllEvents();
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : t('errors.eventDeleteError');
-        alert(errorMessage);
-      }
+  const handleDeleteEvent = async (id: string) => {
+    try {
+      await deleteEvent(id);
+      // Recharger tous les événements
+      loadAllEvents();
+      toast({
+        title: t('timeline.deleteSuccess'),
+        description: t('timeline.deleteSuccessDescription'),
+      });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : t('errors.eventDeleteError');
+      toast({
+        title: t('errors.eventDeleteError'),
+        description: errorMessage,
+        variant: "destructive",
+      });
     }
   };
 
   const handleExport = () => {
     try {
       exportEvents();
+      toast({
+        title: t('timeline.exportSuccess'),
+        description: t('timeline.exportSuccessDescription'),
+      });
     } catch (error) {
-      alert(t('errors.exportError'));
+      toast({
+        title: t('errors.exportError'),
+        description: error instanceof Error ? error.message : t('errors.unknown'),
+        variant: "destructive",
+      });
     }
   };
 
@@ -73,9 +90,16 @@ const AdminEvents = () => {
     if (file) {
       try {
         await importEvents(file);
-        alert(t('success.eventsImported'));
+        toast({
+          title: t('timeline.importSuccess'),
+          description: t('timeline.importSuccessDescription'),
+        });
       } catch (error) {
-        alert(t('errors.eventImportError', { error }));
+        toast({
+          title: t('errors.eventImportError'),
+          description: error instanceof Error ? error.message : t('errors.unknown'),
+          variant: "destructive",
+        });
       }
     }
     // Réinitialiser le input
@@ -85,23 +109,29 @@ const AdminEvents = () => {
   };
 
   const handleClearAll = async () => {
-    if (window.confirm(t('timeline.deleteConfirm', { title: 'tous les événements' }))) {
-      try {
-        // Supprimer tous les événements un par un
-        const deletePromises = events.map(async (event) => {
-          try {
-            await deleteEvent(event.id);
-          } catch (error) {
-            console.warn(`Impossible de supprimer l'événement ${event.id}:`, error);
-          }
-        });
-        
-        await Promise.allSettled(deletePromises);
-        // Recharger tous les événements
-        loadAllEvents();
-      } catch (error) {
-        alert(t('errors.clearEventsError'));
-      }
+    try {
+      // Supprimer tous les événements un par un
+      const deletePromises = events.map(async (event) => {
+        try {
+          await deleteEvent(event.id);
+        } catch (error) {
+          console.warn(`Impossible de supprimer l'événement ${event.id}:`, error);
+        }
+      });
+      
+      await Promise.allSettled(deletePromises);
+      // Recharger tous les événements
+      loadAllEvents();
+      toast({
+        title: t('timeline.clearAllSuccess'),
+        description: t('timeline.clearAllSuccessDescription'),
+      });
+    } catch (error) {
+      toast({
+        title: t('errors.clearEventsError'),
+        description: error instanceof Error ? error.message : t('errors.unknown'),
+        variant: "destructive",
+      });
     }
   };
 
@@ -137,10 +167,31 @@ const AdminEvents = () => {
               {t('timeline.importButton')}
             </Button>
             {events.length > 0 && (
-              <Button variant="outline" onClick={handleClearAll} size="sm" className="text-destructive">
-                <RotateCcw className="h-4 w-4 mr-2" />
-                {t('timeline.clearAllButton')}
-              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="outline" size="sm" className="text-destructive">
+                    <RotateCcw className="h-4 w-4 mr-2" />
+                    {t('timeline.clearAllButton')}
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>{t('timeline.clearAllConfirm')}</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      {t('timeline.clearAllConfirmDescription')}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleClearAll}
+                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    >
+                      {t('timeline.clearAllButton')}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             )}
             <Button asChild>
               <Link to="/create-event">
@@ -250,14 +301,34 @@ const AdminEvents = () => {
                           </span>
                         </div>
                         
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleDeleteEvent(event.id, event.title)}
-                          className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>{t('timeline.deleteConfirm')}</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                {t('timeline.deleteConfirmDescription', { title: event.title })}
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() => handleDeleteEvent(event.id)}
+                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                              >
+                                {t('common.delete')}
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </div>
 
                       <h3 className="text-lg font-semibold mb-2 text-foreground truncate">

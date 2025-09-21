@@ -6,15 +6,18 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Calendar, MapPin, Image, Save, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTimelineEvents } from '@/hooks/useTimelineEvents';
 import { CreateTimelineEventData } from '@/services/timelineService';
+import { useToast } from '@/hooks/use-toast';
 
 const CreateEvent = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { createEvent } = useTimelineEvents();
+  const { toast } = useToast();
 
   const [formData, setFormData] = useState<CreateTimelineEventData>({
     timestamp: 0,
@@ -31,6 +34,8 @@ const CreateEvent = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -40,29 +45,40 @@ const CreateEvent = () => {
       const newEvent = await createEvent(formData);
       console.log('Nouvel événement créé:', newEvent);
       
-      alert(t('success.eventCreated'));
-      
-      // Proposer d'aller vers la page d'administration
-      if (window.confirm(t('success.eventCreatedConfirm'))) {
-        navigate('/admin/events');
-        return;
-      }
-      
-      // Réinitialiser le formulaire
-      setFormData({
-        timestamp: 0,
-        title: '',
-        description: '',
-        type: 'work',
-        location: '',
-        image: ''
+      toast({
+        title: t('timeline.eventCreatedSuccess'),
+        description: t('timeline.eventCreatedSuccessDescription'),
       });
+      
+      // Afficher le dialogue de confirmation pour redirection
+      setShowSuccessDialog(true);
     } catch (error) {
       console.error('Erreur lors de la création de l\'événement:', error);
-      alert(t('errors.eventCreateError'));
+      toast({
+        title: t('errors.eventCreateError'),
+        description: error instanceof Error ? error.message : t('errors.unknown'),
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleGoToAdmin = () => {
+    navigate('/admin/events');
+  };
+
+  const handleContinueHere = () => {
+    setShowSuccessDialog(false);
+    // Réinitialiser le formulaire
+    setFormData({
+      timestamp: 0,
+      title: '',
+      description: '',
+      type: 'work',
+      location: '',
+      image: ''
+    });
   };
 
   return (
@@ -253,6 +269,26 @@ const CreateEvent = () => {
             </CardContent>
           </Card>
         )}
+
+        {/* Dialog de succès */}
+        <AlertDialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>{t('timeline.eventCreatedSuccess')}</AlertDialogTitle>
+              <AlertDialogDescription>
+                {t('timeline.eventCreatedSuccessRedirectQuestion')}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={handleContinueHere}>
+                {t('timeline.stayHere')}
+              </AlertDialogCancel>
+              <AlertDialogAction onClick={handleGoToAdmin}>
+                {t('timeline.goToAdmin')}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );

@@ -173,44 +173,6 @@
   "about": {
     "title": "Mon Parcours",
     "description": "Découvrez mon parcours académique et professionnel, depuis mes études d'ingénieur jusqu'à mon expertise actuelle en développement logiciel et architecture.",
-    "timeline": {
-      "prepIntegree": {
-        "title": "École Préparatoire Intégrée",
-        "description": "Début de mes études d'ingénieur à Polytech Nice avec une formation solide en mathématiques, physique et informatique."
-      },
-      "cycleIngenieur": {
-        "title": "Cycle Ingénieur Informatique",
-        "description": "Spécialisation en informatique avec apprentissage des langages de programmation, algorithmes et architecture logicielle."
-      },
-      "challengeJeunePousse": {
-        "title": "Victoire Challenge Jeunes Pousses",
-        "description": "Reconnaissance de l'innovation et de l'entrepreneuriat avec une victoire au Challenge Jeunes Pousses. Projet à vocation écologique, pour la mise en oeuvre grande échelle du ticket de caisse digital."
-      },
-      "stageAccenture": {
-        "title": "Stage Ingénieur Logiciel - Accenture",
-        "description": "Première expérience professionnelle en tant qu'ingénieur logiciel. Développement d'une plateforme de réservation pour les compagnies aériennes."
-      },
-      "stageOrange": {
-        "title": "Stage Ingénieur Logiciel - Orange Business",
-        "description": "Approfondissement des compétences techniques. Activités de développement et de conception sur une plateforme d'analyse éco-conception de sites web. Migration vers le cloud AWS."
-      },
-      "diplome": {
-        "title": "Diplôme Ingénieur - Spécialisation Architecture Logicielle",
-        "description": "Obtention du diplôme d'ingénieur avec une spécialisation en architecture logicielle."
-      },
-      "ingenieurOrange": {
-        "title": "Ingénieur Logiciel - Orange Business",
-        "description": "Poste d'ingénieur logiciel pour une plateforme de cloud orientée réseau. Activités de développement, intégration/déploiement continue et conception d'architecture."
-      },
-      "certificationAWS": {
-        "title": "Certification AWS Cloud Practitioner",
-        "description": "Certification AWS démontrant une compréhension fondamentale des services cloud et des bonnes pratiques."
-      },
-      "certificationDevOps": {
-        "title": "Certification DevOps Foundation",
-        "description": "Certification en DevOps couvrant les principes, pratiques et outils de développement et d'opérations."
-      }
-    },
     "types": {
       "education": "Formation",
       "achievement": "Récompense",
@@ -266,7 +228,23 @@
     "cancel": "Annuler",
     "createButton": "Créer l'événement",
     "creating": "Création...",
-    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer l'événement \"{{title}}\" ?",
+    "deleteConfirm": "Confirmer la suppression",
+    "deleteConfirmDescription": "Êtes-vous sûr de vouloir supprimer l'événement \"{{title}}\" ? Cette action est irréversible.",
+    "deleteSuccess": "Événement supprimé",
+    "deleteSuccessDescription": "L'événement a été supprimé avec succès.",
+    "clearAllConfirm": "Supprimer tous les événements",
+    "clearAllConfirmDescription": "Êtes-vous sûr de vouloir supprimer TOUS les événements ? Cette action est irréversible.",
+    "clearAllSuccess": "Tous les événements supprimés",
+    "clearAllSuccessDescription": "Tous les événements ont été supprimés avec succès.",
+    "exportSuccess": "Export réussi",
+    "exportSuccessDescription": "Les événements ont été exportés avec succès.",
+    "importSuccess": "Import réussi",
+    "importSuccessDescription": "Les événements ont été importés avec succès.",
+    "eventCreatedSuccess": "Événement créé",
+    "eventCreatedSuccessDescription": "L'événement a été créé avec succès.",
+    "eventCreatedSuccessRedirectQuestion": "Souhaitez-vous aller à la page d'administration des événements ou rester ici pour créer un autre événement ?",
+    "stayHere": "Rester ici",
+    "goToAdmin": "Aller à l'administration",
     "dataPreview": "Aperçu des données (Dev Mode)",
     "image": "Image",
     "typeLabels": {
