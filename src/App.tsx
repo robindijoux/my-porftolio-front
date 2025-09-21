@@ -12,6 +12,9 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import ProjectDetail from "./pages/ProjectDetail";
 import CreateProject from "./pages/CreateProject";
+import CreateEvent from "./pages/CreateEvent";
+import AdminEvents from "./pages/AdminEvents";
+import AdminProjects from "./pages/AdminProjects";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +43,39 @@ const App = () => {
                         description={t('errors.authRequiredDescription')}
                       >
                         <CreateProject />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route 
+                    path="/create-event" 
+                    element={
+                      <ProtectedRoute 
+                        title={t('errors.authRequired')}
+                        description={t('errors.authRequiredDescription')}
+                      >
+                        <CreateEvent />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route 
+                    path="/admin/events" 
+                    element={
+                      <ProtectedRoute 
+                        title={t('errors.authRequired')}
+                        description={t('errors.authRequiredDescription')}
+                      >
+                        <AdminEvents />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route 
+                    path="/admin/projects" 
+                    element={
+                      <ProtectedRoute 
+                        title={t('errors.authRequired')}
+                        description={t('errors.authRequiredDescription')}
+                      >
+                        <AdminProjects />
                       </ProtectedRoute>
                     } 
                   />

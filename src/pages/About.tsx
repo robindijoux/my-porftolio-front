@@ -1,84 +1,31 @@
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { GraduationCap, Award, Briefcase, MapPin, Calendar } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { timelineService, TimelineEvent } from '@/services/timelineService';
 
-interface TimelineEvent {
-  year: string;
-  title: string;
-  description: string;
-  type: 'education' | 'achievement' | 'work';
-  location?: string;
-}
-
-const About = () => {
+const About: React.FC = () => {
   const { t } = useTranslation();
+  const [events, setEvents] = useState<TimelineEvent[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const timelineEvents: TimelineEvent[] = [
-    {
-      year: '2024',
-      title: t('about.timeline.certificationDevOps.title'),
-      description: t('about.timeline.certificationDevOps.description'),
-      type: 'achievement',
-      location: 'Online'
-    },
-    {
-      year: '2023',
-      title: t('about.timeline.ingenieurOrange.title'),
-      description: t('about.timeline.ingenieurOrange.description'),
-      type: 'work',
-      location: 'Sophia Antipolis, France'
-    },
-    {
-      year: '2023',
-      title: t('about.timeline.certificationAWS.title'),
-      description: t('about.timeline.certificationAWS.description'),
-      type: 'achievement',
-      location: 'Online'
-    },
-    {
-      year: '2023',
-      title: t('about.timeline.diplome.title'),
-      description: t('about.timeline.diplome.description'),
-      type: 'education',
-      location: 'Sophia Antipolis, France'
-    },
-    {
-      year: '2023',
-      title: t('about.timeline.stageOrange.title'),
-      description: t('about.timeline.stageOrange.description'),
-      type: 'work',
-      location: 'Sophia Antipolis, France'
-    },
-    {
-      year: '2022',
-      title: t('about.timeline.stageAccenture.title'),
-      description: t('about.timeline.stageAccenture.description'),
-      type: 'work',
-      location: 'Sophia Antipolis, France'
-    },
-    {
-      year: '2021',
-      title: t('about.timeline.challengeJeunePousse.title'),
-      description: t('about.timeline.challengeJeunePousse.description'),
-      type: 'achievement',
-      location: 'Sophia Antipolis, France'
-    },
-    {
-      year: '2020',
-      title: t('about.timeline.cycleIngenieur.title'),
-      description: t('about.timeline.cycleIngenieur.description'),
-      type: 'education',
-      location: 'Sophia Antipolis, France'
-    },
-    {
-      year: '2018',
-      title: t('about.timeline.prepIntegree.title'),
-      description: t('about.timeline.prepIntegree.description'),
-      type: 'education',
-      location: 'Sophia Antipolis, France'
-    }
-  ];
+  useEffect(() => {
+    const loadTimelineEvents = async () => {
+      try {
+        const allEvents = await timelineService.getAllEvents();
+        setEvents(allEvents);
+      } catch (error) {
+        console.error('Erreur lors du chargement des événements de timeline:', error);
+        setEvents([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTimelineEvents();
+  }, []);
 
   const getIconForType = (type: string) => {
     switch (type) {
@@ -96,28 +43,34 @@ const About = () => {
   const getTypeColor = (type: string) => {
     switch (type) {
       case 'education':
-        return 'bg-blue-500/10 text-blue-600 border-blue-500/20 dark:text-blue-400';
+        return 'bg-blue-50 text-blue-600 border-blue-500 dark:bg-blue-950 dark:text-blue-400';
       case 'achievement':
-        return 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20 dark:text-yellow-400';
+        return 'bg-yellow-50 text-yellow-600 border-yellow-500 dark:bg-yellow-950 dark:text-yellow-400';
       case 'work':
-        return 'bg-green-500/10 text-green-600 border-green-500/20 dark:text-green-400';
+        return 'bg-green-50 text-green-600 border-green-500 dark:bg-green-950 dark:text-green-400';
       default:
-        return 'bg-gray-500/10 text-gray-600 border-gray-500/20 dark:text-gray-400';
+        return 'bg-gray-50 text-gray-600 border-gray-500 dark:bg-gray-950 dark:text-gray-400';
     }
   };
 
   const getTypeLabel = (type: string) => {
-    switch (type) {
-      case 'education':
-        return t('about.types.education');
-      case 'achievement':
-        return t('about.types.achievement');
-      case 'work':
-        return t('about.types.work');
-      default:
-        return type;
-    }
+    return t(`about.types.${type}`);
   };
+
+  const getEventYear = (dateString: string): string => {
+    return timelineService.getYearFromDate(dateString);
+  };
+
+  if (loading) {
+    return (
+      <div className="bg-background py-8 md:py-12 flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Chargement...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-background py-8 md:py-12">
@@ -144,61 +97,159 @@ const About = () => {
           
           {/* Événements */}
           <div className="space-y-8 md:space-y-12">
-            {timelineEvents.map((event, index) => (
+            {events.map((event, index) => (
               <div
-                key={index}
-                className={`relative flex items-center ${
-                  // Sur desktop: alternance gauche/droite, sur mobile: toujours à gauche
-                  'md:' + (index % 2 === 0 ? 'justify-start' : 'justify-end')
-                } justify-start`}
+                key={event.id}
+                className="relative"
               >
                 {/* Point sur la timeline */}
-                <div className={`absolute z-10 ${
+                <div className={`absolute z-10 top-1/2 transform -translate-y-1/2 ${
                   // Position différente selon la taille d'écran
-                  'left-6 md:left-1/2 md:transform md:-translate-x-1/2'
+                  'left-6 md:left-1/2 md:-translate-x-1/2'
                 }`}>
-                  <div className={`w-8 h-8 md:w-12 md:h-12 rounded-full border-2 md:border-4 border-background ${getTypeColor(event.type)} flex items-center justify-center shadow-lg`}>
-                    <span className="text-xs md:text-base">
+                  <div className={`flex flex-col items-center justify-center px-2 py-1 md:px-3 md:py-2 rounded-full border-2 border-background ${getTypeColor(event.type)} shadow-lg`}>
+                    <span className="text-xs md:text-base mb-0.5">
                       {getIconForType(event.type)}
+                    </span>
+                    <span className="text-xs md:text-sm font-bold leading-none">
+                      {getEventYear(event.year)}
                     </span>
                   </div>
                 </div>
 
-                {/* Carte de l'événement */}
-                <Card className={`w-full transition-all duration-300 hover:scale-105 hover:shadow-lg ${
-                  // Sur mobile: marge à gauche pour éviter l'icône
-                  'ml-16 md:ml-0 ' +
-                  // Sur desktop: alternance avec padding
-                  'md:max-w-md ' +
-                  (index % 2 === 0 ? 'md:mr-auto md:pr-8' : 'md:ml-auto md:pl-8')
-                }`}>
-                  <CardContent className="p-4 md:p-6">
-                    <div className="flex items-center justify-between mb-3">
-                      <Badge 
-                        variant="outline" 
-                        className={`${getTypeColor(event.type)} font-medium text-xs md:text-sm`}
-                      >
-                        {getTypeLabel(event.type)}
-                      </Badge>
-                      <span className="text-xl md:text-2xl font-bold text-primary">{event.year}</span>
-                    </div>
-                    
-                    <h3 className="text-base md:text-lg font-semibold mb-2 text-foreground">
-                      {event.title}
-                    </h3>
-                    
-                    <p className="text-sm md:text-base text-muted-foreground mb-3 leading-relaxed">
-                      {event.description}
-                    </p>
-                    
-                    {event.location && (
-                      <div className="flex items-center text-xs md:text-sm text-muted-foreground">
-                        <MapPin className="h-3 w-3 md:h-4 md:w-4 mr-1" />
-                        {event.location}
+                {/* Layout desktop avec flexbox pour alignement vertical */}
+                <div className="hidden md:flex md:items-center md:min-h-[120px]">
+                  {index % 2 === 0 ? (
+                    // Image à gauche, carte à droite
+                    <>
+                      <div className="flex-1 flex justify-end pr-8">
+                        <img
+                          src={event.image}
+                          alt={event.title}
+                          className="w-48 h-32 object-contain rounded-lg"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop&crop=center';
+                          }}
+                        />
                       </div>
-                    )}
-                  </CardContent>
-                </Card>
+                      
+                      <div className="w-16 flex justify-center">
+                        {/* Espace pour l'icône centrale */}
+                      </div>
+                      
+                      <div className="flex-1 pl-8">
+                        <Card>
+                          <CardContent className="p-4 md:p-6">
+                            <div className="flex items-center justify-start mb-3">
+                              <Badge 
+                                variant="outline" 
+                                className={`${getTypeColor(event.type)} font-medium text-xs md:text-sm`}
+                              >
+                                {getTypeLabel(event.type)}
+                              </Badge>
+                            </div>
+                            
+                            <h3 className="text-base md:text-lg font-semibold mb-2 text-foreground">
+                              {event.title}
+                            </h3>
+                            
+                            <p className="text-sm md:text-base text-muted-foreground mb-3 leading-relaxed">
+                              {event.description}
+                            </p>
+                            
+                            {event.location && (
+                              <div className="flex items-center text-xs md:text-sm text-muted-foreground">
+                                <MapPin className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+                                {event.location}
+                              </div>
+                            )}
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </>
+                  ) : (
+                    // Carte à gauche, image à droite
+                    <>
+                      <div className="flex-1 pr-8">
+                        <Card>
+                          <CardContent className="p-4 md:p-6">
+                            <div className="flex items-center justify-start mb-3">
+                              <Badge 
+                                variant="outline" 
+                                className={`${getTypeColor(event.type)} font-medium text-xs md:text-sm`}
+                              >
+                                {getTypeLabel(event.type)}
+                              </Badge>
+                            </div>
+                            
+                            <h3 className="text-base md:text-lg font-semibold mb-2 text-foreground">
+                              {event.title}
+                            </h3>
+                            
+                            <p className="text-sm md:text-base text-muted-foreground mb-3 leading-relaxed">
+                              {event.description}
+                            </p>
+                            
+                            {event.location && (
+                              <div className="flex items-center text-xs md:text-sm text-muted-foreground">
+                                <MapPin className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+                                {event.location}
+                              </div>
+                            )}
+                          </CardContent>
+                        </Card>
+                      </div>
+                      
+                      <div className="w-16 flex justify-center">
+                        {/* Espace pour l'icône centrale */}
+                      </div>
+                      
+                      <div className="flex-1 flex justify-start pl-8">
+                        <img
+                          src={event.image}
+                          alt={event.title}
+                          className="w-48 h-32 object-contain rounded-lg"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop&crop=center';
+                          }}
+                        />
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Layout mobile */}
+                <div className="md:hidden ml-16">
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-start mb-3">
+                        <Badge 
+                          variant="outline" 
+                          className={`${getTypeColor(event.type)} font-medium text-xs`}
+                        >
+                          {getTypeLabel(event.type)}
+                        </Badge>
+                      </div>
+                      
+                      <h3 className="text-base font-semibold mb-2 text-foreground">
+                        {event.title}
+                      </h3>
+                      
+                      <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
+                        {event.description}
+                      </p>
+                      
+                      {event.location && (
+                        <div className="flex items-center text-xs text-muted-foreground">
+                          <MapPin className="h-3 w-3 mr-1" />
+                          {event.location}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
               </div>
             ))}
           </div>
@@ -208,7 +259,7 @@ const About = () => {
         <div className="mt-16 md:mt-20 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">{t('about.skills.title')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            <Card className="p-4 md:p-6 hover:shadow-lg transition-shadow">
+            <Card className="p-4 md:p-6">
               <GraduationCap className="h-10 w-10 md:h-12 md:w-12 text-blue-500 mx-auto mb-3 md:mb-4" />
               <h3 className="text-base md:text-lg font-semibold mb-2">{t('about.skills.education')}</h3>
               <p className="text-muted-foreground text-xs md:text-sm leading-relaxed">
@@ -216,7 +267,7 @@ const About = () => {
               </p>
             </Card>
             
-            <Card className="p-4 md:p-6 hover:shadow-lg transition-shadow">
+            <Card className="p-4 md:p-6">
               <Briefcase className="h-10 w-10 md:h-12 md:w-12 text-green-500 mx-auto mb-3 md:mb-4" />
               <h3 className="text-base md:text-lg font-semibold mb-2">{t('about.skills.experience')}</h3>
               <p className="text-muted-foreground text-xs md:text-sm leading-relaxed">
@@ -224,7 +275,7 @@ const About = () => {
               </p>
             </Card>
             
-            <Card className="p-4 md:p-6 hover:shadow-lg transition-shadow">
+            <Card className="p-4 md:p-6">
               <Award className="h-10 w-10 md:h-12 md:w-12 text-yellow-500 mx-auto mb-3 md:mb-4" />
               <h3 className="text-base md:text-lg font-semibold mb-2">{t('about.skills.innovation')}</h3>
               <p className="text-muted-foreground text-xs md:text-sm leading-relaxed">

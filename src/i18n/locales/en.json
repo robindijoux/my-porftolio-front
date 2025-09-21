@@ -3,7 +3,10 @@
     "projects": "Projects",
     "about": "About",
     "contact": "Contact",
-    "newProject": "New Project"
+    "newProject": "New project",
+    "newEvent": "New event",
+    "manageEvents": "Manage events",
+    "manageProjects": "Manage projects"
   },
   "home": {
     "title": "Robin DIJOUX",
@@ -156,7 +159,15 @@
     "projectDeleteError": "Error deleting project",
     "authRequiredDescription": "You must be logged in to perform this action.",
     "unknown": "Unknown error",
-    "httpError": "HTTP Error: {{status}} - {{statusText}}"
+    "httpError": "HTTP Error: {{status}} - {{statusText}}",
+    "eventCreateError": "Error creating event",
+    "eventImportError": "Import error: {{error}}",
+    "eventSaveError": "Save error",
+    "eventDeleteError": "Error deleting event",
+    "eventsLoadError": "Error loading events",
+    "eventDetailError": "Error retrieving event",
+    "exportError": "Export error",
+    "clearEventsError": "Error deleting events"
   },
   "about": {
     "title": "My Journey",
@@ -218,6 +229,49 @@
     "fileUploaded": "File uploaded",
     "fileUploadedDesc": "File {{filename}} uploaded successfully",
     "projectCreated": "Project created",
-    "projectCreatedDesc": "Project {{name}} created successfully"
+    "projectCreatedDesc": "Project {{name}} created successfully",
+    "eventCreated": "Event created successfully!",
+    "eventCreatedConfirm": "Event created! Would you like to see all your events?",
+    "eventsImported": "Events imported successfully!"
+  },
+  "timeline": {
+    "adminTitle": "Events Administration",
+    "createEvent": "Create an event",
+    "newEvent": "New event",
+    "newEventTimeline": "New timeline event",
+    "backButton": "Back",
+    "exportButton": "Export",
+    "importButton": "Import",
+    "clearAllButton": "Clear all",
+    "createFirstEvent": "Create first event",
+    "noEvents": "No events",
+    "noEventsDesc": "You haven't created any events for your timeline yet.",
+    "totalEvents": "Total events",
+    "education": "Education",
+    "work": "Work",
+    "achievement": "Achievement",
+    "eventDate": "Event date",
+    "eventTitle": "Event title",
+    "eventTitlePlaceholder": "E.g: Engineering degree...",
+    "eventType": "Event type",
+    "selectType": "Select a type",
+    "eventDescription": "Description",
+    "eventDescriptionPlaceholder": "Describe the event in detail...",
+    "eventLocation": "Location (optional)",
+    "eventLocationPlaceholder": "E.g: Sophia Antipolis, France",
+    "eventImage": "Image URL",
+    "eventImagePlaceholder": "https://example.com/image.jpg",
+    "imagePreview": "Preview",
+    "cancel": "Cancel",
+    "createButton": "Create event",
+    "creating": "Creating...",
+    "deleteConfirm": "Are you sure you want to delete the event \"{{title}}\"?",
+    "dataPreview": "Data preview (Dev Mode)",
+    "image": "Image",
+    "typeLabels": {
+      "education": "🎓 Education",
+      "work": "💼 Work",
+      "achievement": "🏆 Achievement"
+    }
   }
 }

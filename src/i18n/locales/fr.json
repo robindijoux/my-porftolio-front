@@ -3,7 +3,10 @@
     "projects": "Projets",
     "about": "À propos",
     "contact": "Contact",
-    "newProject": "Nouveau projet"
+    "newProject": "Nouveau projet",
+    "newEvent": "Nouvel événement",
+    "manageEvents": "Gérer les événements",
+    "manageProjects": "Gérer les projets"
   },
   "home": {
     "title": "Robin DIJOUX",
@@ -156,7 +159,15 @@
     "projectDeleteError": "Erreur lors de la suppression du projet",
     "authRequiredDescription": "Vous devez être connecté pour effectuer cette action.",
     "unknown": "Erreur inconnue",
-    "httpError": "Erreur HTTP: {{status}} - {{statusText}}"
+    "httpError": "Erreur HTTP: {{status}} - {{statusText}}",
+    "eventCreateError": "Erreur lors de la création de l'événement",
+    "eventImportError": "Erreur lors de l'import : {{error}}",
+    "eventSaveError": "Erreur lors de la sauvegarde",
+    "eventDeleteError": "Erreur lors de la suppression de l'événement",
+    "eventsLoadError": "Erreur lors du chargement des événements",
+    "eventDetailError": "Erreur lors de la récupération de l'événement",
+    "exportError": "Erreur lors de l'export",
+    "clearEventsError": "Erreur lors de la suppression des événements"
   },
   "about": {
     "title": "Mon Parcours",
@@ -218,6 +229,49 @@
     "fileUploaded": "Fichier uploadé",
     "fileUploadedDesc": "Le fichier {{filename}} a été uploadé avec succès",
     "projectCreated": "Projet créé",
-    "projectCreatedDesc": "Le projet {{name}} a été créé avec succès"
+    "projectCreatedDesc": "Le projet {{name}} a été créé avec succès",
+    "eventCreated": "Événement créé avec succès !",
+    "eventCreatedConfirm": "Événement créé ! Voulez-vous voir tous vos événements ?",
+    "eventsImported": "Événements importés avec succès !"
+  },
+  "timeline": {
+    "adminTitle": "Administration des événements",
+    "createEvent": "Créer un événement",
+    "newEvent": "Nouvel événement",
+    "newEventTimeline": "Nouvel événement timeline",
+    "backButton": "Retour",
+    "exportButton": "Exporter",
+    "importButton": "Importer",
+    "clearAllButton": "Tout effacer",
+    "createFirstEvent": "Créer le premier événement",
+    "noEvents": "Aucun événement",
+    "noEventsDesc": "Vous n'avez pas encore créé d'événements pour votre timeline.",
+    "totalEvents": "Total événements",
+    "education": "Éducation",
+    "work": "Travail",
+    "achievement": "Réalisation",
+    "eventDate": "Date de l'événement",
+    "eventTitle": "Titre de l'événement",
+    "eventTitlePlaceholder": "Ex: Diplôme d'ingénieur...",
+    "eventType": "Type d'événement",
+    "selectType": "Sélectionnez un type",
+    "eventDescription": "Description",
+    "eventDescriptionPlaceholder": "Décrivez l'événement en détail...",
+    "eventLocation": "Localisation (optionnel)",
+    "eventLocationPlaceholder": "Ex: Sophia Antipolis, France",
+    "eventImage": "URL de l'image",
+    "eventImagePlaceholder": "https://example.com/image.jpg",
+    "imagePreview": "Aperçu",
+    "cancel": "Annuler",
+    "createButton": "Créer l'événement",
+    "creating": "Création...",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer l'événement \"{{title}}\" ?",
+    "dataPreview": "Aperçu des données (Dev Mode)",
+    "image": "Image",
+    "typeLabels": {
+      "education": "🎓 Éducation",
+      "work": "💼 Travail",
+      "achievement": "🏆 Réalisation"
+    }
   }
 }
