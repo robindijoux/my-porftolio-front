@@ -23,6 +23,11 @@ const Header = () => {
   const auth = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Fonction pour remonter en haut de la page
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // Fonction de déconnexion
   const handleLogout = () => {
     const logoutResult = signOutRedirect();
@@ -52,6 +57,7 @@ const Header = () => {
             className={`text-sm font-medium transition-colors hover:text-primary ${
               location.pathname === '/' ? 'text-primary' : 'text-muted-foreground'
             }`}
+            onClick={scrollToTop}
           >
             {t('nav.projects')}
           </Link>
@@ -60,6 +66,7 @@ const Header = () => {
             className={`text-sm font-medium transition-colors hover:text-primary ${
               location.pathname === '/about' ? 'text-primary' : 'text-muted-foreground'
             }`}
+            onClick={scrollToTop}
           >
             {t('nav.about')}
           </Link>
@@ -187,7 +194,10 @@ const Header = () => {
                 className={`block text-base font-medium transition-colors hover:text-primary ${
                   location.pathname === '/' ? 'text-primary' : 'text-muted-foreground'
                 }`}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  scrollToTop();
+                }}
               >
                 {t('nav.projects')}
               </Link>
@@ -196,7 +206,10 @@ const Header = () => {
                 className={`block text-base font-medium transition-colors hover:text-primary ${
                   location.pathname === '/about' ? 'text-primary' : 'text-muted-foreground'
                 }`}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  scrollToTop();
+                }}
               >
                 {t('nav.about')}
               </Link>
