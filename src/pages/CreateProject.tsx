@@ -1,8 +1,7 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import CreateProjectForm from '@/components/CreateProjectForm';
 
-const CreateProject: React.FC = () => {
+const CreateProject = () => {
   const { t } = useTranslation();
 
   return (

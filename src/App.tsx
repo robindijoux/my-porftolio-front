@@ -13,7 +13,6 @@ import About from "./pages/About";
 import ProjectDetail from "./pages/ProjectDetail";
 import CreateProject from "./pages/CreateProject";
 import NotFound from "./pages/NotFound";
-import './i18n/config';
 
 const queryClient = new QueryClient();
 

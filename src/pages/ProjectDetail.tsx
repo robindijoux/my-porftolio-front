@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -27,7 +27,7 @@ const ProjectDetail = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
 
-  const loadProject = async () => {
+  const loadProject = useCallback(async () => {
     if (!id) {
       setError(t('project.notFound'));
       setLoading(false);
@@ -44,11 +44,11 @@ const ProjectDetail = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, t]);
 
   useEffect(() => {
     loadProject();
-  }, [id]);
+  }, [loadProject]);
 
   if (loading) {
     return <LoadingSpinner size="lg" />;

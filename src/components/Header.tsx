@@ -10,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import LanguageSelector from './LanguageSelector';
 import { useAuthentication } from '@/hooks/useAuthentication';
 import { signOutRedirect } from '@/config/auth';
