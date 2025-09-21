@@ -8,7 +8,7 @@
   "home": {
     "title": "Robin DIJOUX",
     "subtitle": "Full-stack development & architecture",
-    "description": "Passionate about creating innovative and high-performance digital experiences. I combine technical expertise and aesthetic sense to bring your projects to life.",
+    "description": "Passionate about product-centered approach and development best practices, I create robust and functional web applications that meet your needs.",
     "stats": {
       "projects": "Projects",
       "experience": "Years of experience",
@@ -110,7 +110,7 @@
   "media": {
     "image": "Image",
     "video": "Video",
-    "document": "Document", 
+    "document": "Document",
     "file": "File"
   },
   "language": {
@@ -157,12 +157,6 @@
     "authRequiredDescription": "You must be logged in to perform this action.",
     "unknown": "Unknown error",
     "httpError": "HTTP Error: {{status}} - {{statusText}}"
-  },
-  "success": {
-    "fileUploaded": "File uploaded",
-    "fileUploadedDesc": "File {{filename}} uploaded successfully",
-    "projectCreated": "Project created",
-    "projectCreatedDesc": "Project {{name}} created successfully"
   },
   "about": {
     "title": "My Journey",
@@ -219,5 +213,11 @@
       "innovation": "Innovation",
       "innovationDesc": "Ability to innovate and undertake, recognized by professional awards and recognition."
     }
+  },
+  "success": {
+    "fileUploaded": "File uploaded",
+    "fileUploadedDesc": "File {{filename}} uploaded successfully",
+    "projectCreated": "Project created",
+    "projectCreatedDesc": "Project {{name}} created successfully"
   }
 }
