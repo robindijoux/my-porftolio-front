@@ -6,12 +6,12 @@ import { Calendar, MapPin, Trash2, Plus, ArrowLeft, Image, Download, Upload, Rot
 import { useNavigate, Link } from 'react-router-dom';
 import { useTimelineEvents } from '@/hooks/useTimelineEvents';
 import { timelineService } from '@/services/timelineService';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 const AdminEvents = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { events, deleteEvent, exportEvents, importEvents } = useTimelineEvents();
+  const { events, deleteEvent, exportEvents, importEvents, loadAllEvents } = useTimelineEvents();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Trier les événements par date (plus récent en premier)
@@ -47,8 +47,11 @@ const AdminEvents = () => {
     if (window.confirm(t('timeline.deleteConfirm', { title }))) {
       try {
         await deleteEvent(id);
+        // Recharger tous les événements
+        loadAllEvents();
       } catch (error) {
-        alert(t('errors.eventDeleteError'));
+        const errorMessage = error instanceof Error ? error.message : t('errors.eventDeleteError');
+        alert(errorMessage);
       }
     }
   };
@@ -85,7 +88,17 @@ const AdminEvents = () => {
     if (window.confirm(t('timeline.deleteConfirm', { title: 'tous les événements' }))) {
       try {
         // Supprimer tous les événements un par un
-        await Promise.all(events.map(event => deleteEvent(event.id)));
+        const deletePromises = events.map(async (event) => {
+          try {
+            await deleteEvent(event.id);
+          } catch (error) {
+            console.warn(`Impossible de supprimer l'événement ${event.id}:`, error);
+          }
+        });
+        
+        await Promise.allSettled(deletePromises);
+        // Recharger tous les événements
+        loadAllEvents();
       } catch (error) {
         alert(t('errors.clearEventsError'));
       }

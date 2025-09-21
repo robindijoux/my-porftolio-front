@@ -9,7 +9,6 @@ export interface TimelineEvent {
   type: 'education' | 'achievement' | 'work';
   location?: string;
   image: string;
-  isStatic?: boolean; // Pour distinguer les événements statiques des dynamiques
 }
 
 export interface CreateTimelineEventData {
@@ -34,8 +33,7 @@ class TimelineService {
         description: i18n.t('about.timeline.certificationDevOps.description'),
         type: 'achievement',
         location: 'Online',
-        image: 'https://www.devopsinstitute.com/wp-content/uploads/2022/10/DevOps-Foundation-New-Badge-1200x1200px.png',
-        isStatic: true
+        image: 'https://www.devopsinstitute.com/wp-content/uploads/2022/10/DevOps-Foundation-New-Badge-1200x1200px.png'
       },
       {
         id: 'static_orange_engineer_2023',
@@ -44,8 +42,7 @@ class TimelineService {
         description: i18n.t('about.timeline.ingenieurOrange.description'),
         type: 'work',
         location: 'Sophia Antipolis, France',
-        image: 'https://ordinal.fr/images/2025/08/28/800x420_orange-business-logo.png',
-        isStatic: true
+        image: 'https://ordinal.fr/images/2025/08/28/800x420_orange-business-logo.png'
       },
       {
         id: 'static_aws_2023',
@@ -54,8 +51,7 @@ class TimelineService {
         description: i18n.t('about.timeline.certificationAWS.description'),
         type: 'achievement',
         location: 'Online',
-        image: 'https://event.lecloudfacile.com/hs-fs/hubfs/affiche-aws-cloud-practitioner.png?width=600&height=600&name=affiche-aws-cloud-practitioner.png',
-        isStatic: true
+        image: 'https://event.lecloudfacile.com/hs-fs/hubfs/affiche-aws-cloud-practitioner.png?width=600&height=600&name=affiche-aws-cloud-practitioner.png'
       },
       {
         id: 'static_diploma_2023',
@@ -64,8 +60,7 @@ class TimelineService {
         description: i18n.t('about.timeline.diplome.description'),
         type: 'education',
         location: 'Sophia Antipolis, France',
-        image: 'https://media.licdn.com/dms/image/v2/D4E22AQG6qtw_xE18Ig/feedshare-shrink_2048_1536/feedshare-shrink_2048_1536/0/1702454765834?e=1761177600&v=beta&t=lWxM-2SVcAnKLaYjUsXRhakmW5xIgMPz1gWIWef866k',
-        isStatic: true
+        image: 'https://media.licdn.com/dms/image/v2/D4E22AQG6qtw_xE18Ig/feedshare-shrink_2048_1536/feedshare-shrink_2048_1536/0/1702454765834?e=1761177600&v=beta&t=lWxM-2SVcAnKLaYjUsXRhakmW5xIgMPz1gWIWef866k'
       },
       {
         id: 'static_orange_internship_2023',
@@ -74,8 +69,7 @@ class TimelineService {
         description: i18n.t('about.timeline.stageOrange.description'),
         type: 'work',
         location: 'Sophia Antipolis, France',
-        image: 'https://ordinal.fr/images/2025/08/28/800x420_orange-business-logo.png',
-        isStatic: true
+        image: 'https://ordinal.fr/images/2025/08/28/800x420_orange-business-logo.png'
       },
       {
         id: 'static_accenture_2022',
@@ -84,8 +78,7 @@ class TimelineService {
         description: i18n.t('about.timeline.stageAccenture.description'),
         type: 'work',
         location: 'Sophia Antipolis, France',
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Accenture.svg/1200px-Accenture.svg.png',
-        isStatic: true
+        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Accenture.svg/1200px-Accenture.svg.png'
       },
       {
         id: 'static_challenge_2021',
@@ -94,8 +87,7 @@ class TimelineService {
         description: i18n.t('about.timeline.challengeJeunePousse.description'),
         type: 'achievement',
         location: 'Sophia Antipolis, France',
-        image: 'https://www.telecom-valley.fr/wp-content/uploads/2020/03/CJP-Actu.jpg',
-        isStatic: true
+        image: 'https://www.telecom-valley.fr/wp-content/uploads/2020/03/CJP-Actu.jpg'
       },
       {
         id: 'static_engineering_cycle_2020',
@@ -104,8 +96,7 @@ class TimelineService {
         description: i18n.t('about.timeline.cycleIngenieur.description'),
         type: 'education',
         location: 'Sophia Antipolis, France',
-        image: 'https://polytech.univ-cotedazur.fr/medias/photo/logo-porte-polytech-quadri_1728290630763-png?ID_FICHE=1013668&INLINE=FALSE',
-        isStatic: true
+        image: 'https://polytech.univ-cotedazur.fr/medias/photo/logo-porte-polytech-quadri_1728290630763-png?ID_FICHE=1013668&INLINE=FALSE'
       },
       {
         id: 'static_prep_2018',
@@ -114,8 +105,7 @@ class TimelineService {
         description: i18n.t('about.timeline.prepIntegree.description'),
         type: 'education',
         location: 'Sophia Antipolis, France',
-        image: 'https://polytech.univ-cotedazur.fr/medias/photo/logo-porte-polytech-quadri_1728290630763-png?ID_FICHE=1013668&INLINE=FALSE',
-        isStatic: true
+        image: 'https://polytech.univ-cotedazur.fr/medias/photo/logo-porte-polytech-quadri_1728290630763-png?ID_FICHE=1013668&INLINE=FALSE'
       }
     ];
   }
@@ -143,14 +133,22 @@ class TimelineService {
     }
   }
 
-  // Récupération de tous les événements (statiques + dynamiques)
+  // Récupération de tous les événements
   async getAllEvents(): Promise<TimelineEvent[]> {
     try {
+      // Pour le moment, on simule avec des événements de mock + localStorage
+      // Plus tard, ceci sera remplacé par un appel API
       const staticEvents = this.getStaticEvents();
       const dynamicEvents = this.getDynamicEvents();
       
+      console.log('🔍 Debug getAllEvents:');
+      console.log('📦 Mock events:', staticEvents.length, staticEvents);
+      console.log('💾 LocalStorage events:', dynamicEvents.length, dynamicEvents);
+      
       // Fusionner et trier par date (plus récent en premier)
       const allEvents = [...staticEvents, ...dynamicEvents];
+      console.log('🔗 All events combined:', allEvents.length, allEvents);
+      
       return allEvents.sort((a, b) => new Date(b.year).getTime() - new Date(a.year).getTime());
     } catch (error) {
       console.error('Erreur lors de la récupération des événements:', error);
@@ -174,8 +172,7 @@ class TimelineService {
     try {
       const newEvent: TimelineEvent = {
         ...eventData,
-        id: `event_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        isStatic: false
+        id: `event_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
       };
 
       const dynamicEvents = this.getDynamicEvents();
@@ -189,18 +186,23 @@ class TimelineService {
     }
   }
 
-  // Suppression d'un événement dynamique
+  // Suppression d'un événement
   async deleteEvent(id: string): Promise<void> {
     try {
+      // Pour les événements de mock (ID commence par 'static_'), 
+      // on ne peut pas les supprimer du code, mais on peut simuler
+      if (id.startsWith('static_')) {
+        console.log('⚠️ Tentative de suppression d\'un événement de mock:', id);
+        // En production, ceci sera un appel API qui supprimera l'événement du backend
+        throw new Error('Les événements de mock ne peuvent pas être supprimés (sera géré par l\'API)');
+      }
+
+      // Pour les événements du localStorage
       const dynamicEvents = this.getDynamicEvents();
       const eventToDelete = dynamicEvents.find(event => event.id === id);
       
       if (!eventToDelete) {
         throw new Error('Événement non trouvé');
-      }
-
-      if (eventToDelete.isStatic) {
-        throw new Error('Impossible de supprimer un événement statique');
       }
 
       const filteredEvents = dynamicEvents.filter(event => event.id !== id);
@@ -250,11 +252,10 @@ class TimelineService {
         try {
           const importedEvents = JSON.parse(e.target?.result as string);
           if (Array.isArray(importedEvents)) {
-            // Ajouter des IDs si manquants et marquer comme non-statiques
+            // Ajouter des IDs si manquants
             const eventsWithIds = importedEvents.map(event => ({
               ...event,
-              id: event.id || `event_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-              isStatic: false
+              id: event.id || `event_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
             }));
             
             const currentDynamicEvents = this.getDynamicEvents();
@@ -295,8 +296,6 @@ class TimelineService {
     education: number;
     work: number;
     achievement: number;
-    static: number;
-    dynamic: number;
   }> {
     try {
       const allEvents = await this.getAllEvents();
@@ -306,8 +305,6 @@ class TimelineService {
         education: allEvents.filter(e => e.type === 'education').length,
         work: allEvents.filter(e => e.type === 'work').length,
         achievement: allEvents.filter(e => e.type === 'achievement').length,
-        static: allEvents.filter(e => e.isStatic).length,
-        dynamic: allEvents.filter(e => !e.isStatic).length,
       };
     } catch (error) {
       console.error('Erreur lors du calcul des statistiques:', error);

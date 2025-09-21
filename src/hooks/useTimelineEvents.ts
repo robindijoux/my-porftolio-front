@@ -44,8 +44,8 @@ export const useTimelineEvents = () => {
       setError(null);
       const newEvent = await timelineService.createEvent(eventData);
       
-      // Recharger les événements pour mettre à jour l'état
-      await loadDynamicEvents();
+      // Recharger tous les événements pour mettre à jour l'état
+      await loadAllEvents();
       
       return newEvent;
     } catch (err) {
@@ -62,8 +62,8 @@ export const useTimelineEvents = () => {
       setError(null);
       await timelineService.deleteEvent(id);
       
-      // Recharger les événements pour mettre à jour l'état
-      await loadDynamicEvents();
+      // Recharger tous les événements pour mettre à jour l'état
+      await loadAllEvents();
     } catch (err) {
       console.error('Erreur lors de la suppression de l\'événement:', err);
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors de la suppression de l\'événement';
@@ -99,8 +99,8 @@ export const useTimelineEvents = () => {
     try {
       await timelineService.importEvents(file);
       
-      // Recharger les événements pour mettre à jour l'état
-      await loadDynamicEvents();
+      // Recharger tous les événements pour mettre à jour l'état
+      await loadAllEvents();
     } catch (err) {
       console.error('Erreur lors de l\'import:', err);
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors de l\'import';
@@ -111,7 +111,7 @@ export const useTimelineEvents = () => {
 
   // Charger les événements dynamiques au montage du composant (par défaut pour l'admin)
   useEffect(() => {
-    loadDynamicEvents();
+    loadAllEvents();
   }, []);
 
   return {
@@ -123,8 +123,8 @@ export const useTimelineEvents = () => {
     getEventById,
     exportEvents,
     importEvents,
-    refreshEvents: loadDynamicEvents,
-    loadAllEvents, // Pour charger tous les événements (utile pour About.tsx)
-    loadDynamicEvents // Pour charger uniquement les événements dynamiques (utile pour l'admin)
+    refreshEvents: loadAllEvents, // Pour recharger tous les événements
+    loadAllEvents, // Pour charger tous les événements (utile pour About.tsx et Admin)
+    loadDynamicEvents // Pour charger uniquement les événements dynamiques (si besoin spécifique)
   };
 };
