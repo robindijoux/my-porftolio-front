@@ -64,7 +64,7 @@ class TimelineService {
         description: i18n.t('about.timeline.diplome.description'),
         type: 'education',
         location: 'Sophia Antipolis, France',
-        image: 'https://polytech.univ-cotedazur.fr/medias/photo/logo-porte-polytech-quadri_1728290630763-png?ID_FICHE=1013668&INLINE=FALSE',
+        image: 'https://media.licdn.com/dms/image/v2/D4E22AQG6qtw_xE18Ig/feedshare-shrink_2048_1536/feedshare-shrink_2048_1536/0/1702454765834?e=1761177600&v=beta&t=lWxM-2SVcAnKLaYjUsXRhakmW5xIgMPz1gWIWef866k',
         isStatic: true
       },
       {

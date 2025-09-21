@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
     <footer id="contact" className="py-20 bg-muted/20 mt-auto">
       <div className="container mx-auto px-4 text-center">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-3xl font-bold mb-6 text-foreground">
+          <h2 className="text-3xl font-bold mb-3 text-foreground">
             {t('home.sections.contact')}
           </h2>
           <p className="text-lg text-muted-foreground mb-8">

@@ -115,3 +115,160 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Animation classes for scroll effects */
+@layer utilities {
+  /* Base animation states */
+  .animate-hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .animate-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Fade animations */
+  .fade-in {
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .fade-in.animate-visible {
+    opacity: 1;
+  }
+
+  /* Slide up animations */
+  .slide-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .slide-up.animate-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Slide from left */
+  .slide-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .slide-left.animate-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Slide from right */
+  .slide-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .slide-right.animate-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Scale animations */
+  .scale-in {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .scale-in.animate-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Timeline specific animations */
+  .timeline-item {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .timeline-item.animate-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Timeline point animation */
+  .timeline-point {
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .timeline-point.animate-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Skills card animation */
+  .skills-card {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .skills-card.animate-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  /* Staggered animation delays */
+  .animate-delay-100 {
+    transition-delay: 100ms;
+  }
+
+  .animate-delay-200 {
+    transition-delay: 200ms;
+  }
+
+  .animate-delay-300 {
+    transition-delay: 300ms;
+  }
+
+  .animate-delay-400 {
+    transition-delay: 400ms;
+  }
+
+  .animate-delay-500 {
+    transition-delay: 500ms;
+  }
+
+  .animate-delay-600 {
+    transition-delay: 600ms;
+  }
+
+  /* Header title animation */
+  .title-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .title-reveal.animate-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Description animation */
+  .description-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+  }
+
+  .description-reveal.animate-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
