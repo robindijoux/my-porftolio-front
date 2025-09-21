@@ -161,6 +161,7 @@
     "unknown": "Unknown error",
     "httpError": "HTTP Error: {{status}} - {{statusText}}",
     "eventCreateError": "Error creating event",
+    "eventUpdateError": "Error updating event",
     "eventImportError": "Import error: {{error}}",
     "eventSaveError": "Save error",
     "eventDeleteError": "Error deleting event",

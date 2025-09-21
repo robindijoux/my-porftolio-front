@@ -17,7 +17,7 @@ const CreateEvent = () => {
   const { createEvent } = useTimelineEvents();
 
   const [formData, setFormData] = useState<CreateTimelineEventData>({
-    year: '',
+    timestamp: '',
     title: '',
     description: '',
     type: 'work',
@@ -50,7 +50,7 @@ const CreateEvent = () => {
       
       // Réinitialiser le formulaire
       setFormData({
-        year: '',
+        timestamp: '',
         title: '',
         description: '',
         type: 'work',

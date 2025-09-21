@@ -65,8 +65,8 @@ const About: React.FC = () => {
     return t(`about.types.${type}`);
   };
 
-  const getEventYear = (dateString: string): string => {
-    return timelineService.getYearFromDate(dateString);
+  const getEventYear = (timestamp: number): string => {
+    return timelineService.getYearFromTimestamp(timestamp);
   };
 
   if (loading) {

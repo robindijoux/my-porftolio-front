@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { timelineService, TimelineEvent, CreateTimelineEventData } from '@/services/timelineService';
+import { timelineService, TimelineEvent, CreateTimelineEventData, UpdateTimelineEventData } from '@/services/timelineService';
+import { useAuthentication } from './useAuthentication';
 
 export const useTimelineEvents = () => {
   const [events, setEvents] = useState<TimelineEvent[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { accessToken } = useAuthentication();
 
   // Charger tous les événements (statiques + dynamiques)
   const loadAllEvents = async () => {
@@ -42,7 +44,7 @@ export const useTimelineEvents = () => {
   const createEvent = async (eventData: CreateTimelineEventData): Promise<TimelineEvent> => {
     try {
       setError(null);
-      const newEvent = await timelineService.createEvent(eventData);
+      const newEvent = await timelineService.createEvent(eventData, accessToken);
       
       // Recharger tous les événements pour mettre à jour l'état
       await loadAllEvents();
@@ -60,13 +62,31 @@ export const useTimelineEvents = () => {
   const deleteEvent = async (id: string): Promise<void> => {
     try {
       setError(null);
-      await timelineService.deleteEvent(id);
+      await timelineService.deleteEvent(id, accessToken);
       
       // Recharger tous les événements pour mettre à jour l'état
       await loadAllEvents();
     } catch (err) {
       console.error('Erreur lors de la suppression de l\'événement:', err);
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors de la suppression de l\'événement';
+      setError(errorMessage);
+      throw new Error(errorMessage);
+    }
+  };
+
+  // Mettre à jour un événement
+  const updateEvent = async (id: string, eventData: UpdateTimelineEventData): Promise<TimelineEvent> => {
+    try {
+      setError(null);
+      const updatedEvent = await timelineService.updateEvent(id, eventData, accessToken);
+      
+      // Recharger tous les événements pour mettre à jour l'état
+      await loadAllEvents();
+      
+      return updatedEvent;
+    } catch (err) {
+      console.error('Erreur lors de la mise à jour de l\'événement:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Erreur lors de la mise à jour de l\'événement';
       setError(errorMessage);
       throw new Error(errorMessage);
     }
@@ -83,9 +103,9 @@ export const useTimelineEvents = () => {
   };
 
   // Export des événements
-  const exportEvents = () => {
+  const exportEvents = async () => {
     try {
-      timelineService.exportEvents();
+      await timelineService.exportEvents();
     } catch (err) {
       console.error('Erreur lors de l\'export:', err);
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors de l\'export';
@@ -94,7 +114,7 @@ export const useTimelineEvents = () => {
     }
   };
 
-  // Import des événements
+  // Import des événements (obsolète avec la vraie API)
   const importEvents = async (file: File): Promise<void> => {
     try {
       await timelineService.importEvents(file);
@@ -119,6 +139,7 @@ export const useTimelineEvents = () => {
     loading,
     error,
     createEvent,
+    updateEvent,
     deleteEvent,
     getEventById,
     exportEvents,

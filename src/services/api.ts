@@ -28,6 +28,33 @@ export interface Media {
   alt?: string;
 }
 
+export interface TimelineEvent {
+  id: string;
+  timestamp: number; // Timestamp numérique (millisecondes depuis epoch)
+  title: string;
+  description: string;
+  type: 'education' | 'achievement' | 'work';
+  location?: string;
+  image: string;
+}
+
+export interface CreateTimelineEventData {
+  timestamp: number; // Timestamp numérique (millisecondes depuis epoch)
+  title: string;
+  description: string;
+  type: 'education' | 'achievement' | 'work';
+  location?: string;
+  image: string;
+}
+
+export interface UpdateTimelineEventData {
+  timestamp?: number; // Timestamp numérique (millisecondes depuis epoch)
+  title?: string;
+  description?: string;
+  type?: 'education' | 'achievement' | 'work';
+  location?: string;
+  image?: string;
+}
 
 export interface CreateProjectData {
   name: string;
@@ -175,6 +202,99 @@ class ApiService {
     } catch (error) {
       console.error(`Erreur lors de la suppression du projet ${id}:`, error);
       throw new Error(i18n.t('errors.projectDeleteError'));
+    }
+  }
+
+  // ========== TIMELINE EVENTS ==========
+
+  // Récupération de tous les événements de timeline
+  async getTimelineEvents(): Promise<TimelineEvent[]> {
+    try {
+      const response = await fetch(`${this.baseUrl}/timelineEvent`);
+      return this.handleResponse<TimelineEvent[]>(response);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des événements de timeline:', error);
+      throw new Error(i18n.t('errors.eventsLoadError') || 'Erreur lors du chargement des événements');
+    }
+  }
+
+  // Création d'un nouvel événement de timeline
+  async createTimelineEvent(eventData: CreateTimelineEventData, accessToken?: string): Promise<TimelineEvent> {
+    try {
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      
+      if (accessToken) {
+        headers['Authorization'] = `Bearer ${accessToken}`;
+      }
+
+      const response = await fetch(`${this.baseUrl}/timelineEvent`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(eventData),
+      });
+      return this.handleResponse<TimelineEvent>(response);
+    } catch (error) {
+      console.error('Erreur lors de la création de l\'événement de timeline:', error);
+      throw new Error(i18n.t('errors.eventCreateError') || 'Erreur lors de la création de l\'événement');
+    }
+  }
+
+  // Récupération d'un événement de timeline par ID
+  async getTimelineEventById(id: string): Promise<TimelineEvent> {
+    try {
+      const response = await fetch(`${this.baseUrl}/timelineEvent/${id}`);
+      return this.handleResponse<TimelineEvent>(response);
+    } catch (error) {
+      console.error(`Erreur lors de la récupération de l'événement ${id}:`, error);
+      throw new Error(i18n.t('errors.eventDetailError') || 'Erreur lors de la récupération de l\'événement');
+    }
+  }
+
+  // Mise à jour d'un événement de timeline
+  async updateTimelineEvent(id: string, eventData: UpdateTimelineEventData, accessToken?: string): Promise<TimelineEvent> {
+    try {
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      
+      if (accessToken) {
+        headers['Authorization'] = `Bearer ${accessToken}`;
+      }
+
+      const response = await fetch(`${this.baseUrl}/timelineEvent/${id}`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(eventData),
+      });
+      return this.handleResponse<TimelineEvent>(response);
+    } catch (error) {
+      console.error(`Erreur lors de la mise à jour de l'événement ${id}:`, error);
+      throw new Error(i18n.t('errors.eventUpdateError') || 'Erreur lors de la mise à jour de l\'événement');
+    }
+  }
+
+  // Suppression d'un événement de timeline
+  async deleteTimelineEvent(id: string, accessToken?: string): Promise<void> {
+    try {
+      const headers: HeadersInit = {};
+      
+      if (accessToken) {
+        headers['Authorization'] = `Bearer ${accessToken}`;
+      }
+
+      const response = await fetch(`${this.baseUrl}/timelineEvent/${id}`, {
+        method: 'DELETE',
+        headers,
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error(`Erreur lors de la suppression de l'événement ${id}:`, error);
+      throw new Error(i18n.t('errors.eventDeleteError') || 'Erreur lors de la suppression de l\'événement');
     }
   }
 }

@@ -11,7 +11,7 @@ interface TimelineEventProps {
   getIconForType: (type: string) => React.ReactNode;
   getTypeColor: (type: string) => string;
   getTypeLabel: (type: string) => string;
-  getEventYear: (dateString: string) => string;
+  getEventYear: (timestamp: number) => string;
 }
 
 const TimelineEvent: React.FC<TimelineEventProps> = ({
@@ -46,7 +46,7 @@ const TimelineEvent: React.FC<TimelineEventProps> = ({
             {getIconForType(event.type)}
           </span>
           <span className="text-xs md:text-sm font-bold leading-none">
-            {getEventYear(event.year)}
+            {getEventYear(event.timestamp)}
           </span>
         </div>
       </div>

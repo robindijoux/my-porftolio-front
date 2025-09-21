@@ -17,7 +17,7 @@ const CreateEvent = () => {
   const { createEvent } = useTimelineEvents();
 
   const [formData, setFormData] = useState<CreateTimelineEventData>({
-    year: '',
+    timestamp: 0,
     title: '',
     description: '',
     type: 'work',
@@ -27,7 +27,7 @@ const CreateEvent = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleInputChange = (field: keyof CreateTimelineEventData, value: string) => {
+  const handleInputChange = (field: keyof CreateTimelineEventData, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -50,7 +50,7 @@ const CreateEvent = () => {
       
       // Réinitialiser le formulaire
       setFormData({
-        year: '',
+        timestamp: 0,
         title: '',
         description: '',
         type: 'work',
@@ -98,14 +98,23 @@ const CreateEvent = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Date */}
               <div className="space-y-2">
-                <Label htmlFor="year" className="text-sm font-medium">
+                <Label htmlFor="timestamp" className="text-sm font-medium">
                   {t('timeline.eventDate')}
                 </Label>
                 <Input
-                  id="year"
-                  type="date"
-                  value={formData.year}
-                  onChange={(e) => handleInputChange('year', e.target.value)}
+                  id="timestamp"
+                  type="month"
+                  value={formData.timestamp ? new Date(formData.timestamp).toISOString().slice(0, 7) : ''}
+                  onChange={(e) => {
+                    // Convertir la valeur mois/année en timestamp numérique (jour fixé au 1er, heure à minuit)
+                    if (e.target.value) {
+                      const date = new Date(e.target.value + '-01T00:00:00.000Z');
+                      const timestamp = date.getTime();
+                      handleInputChange('timestamp', timestamp);
+                    } else {
+                      handleInputChange('timestamp', 0);
+                    }
+                  }}
                   required
                   className="w-full"
                 />

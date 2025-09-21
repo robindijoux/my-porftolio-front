@@ -15,7 +15,7 @@ const AdminEvents = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Trier les événements par date (plus récent en premier)
-  const sortedEvents = [...events].sort((a, b) => new Date(b.year).getTime() - new Date(a.year).getTime());
+  const sortedEvents = [...events].sort((a, b) => b.timestamp - a.timestamp);
 
   const getTypeColor = (type: string) => {
     switch (type) {
@@ -246,7 +246,7 @@ const AdminEvents = () => {
                             {getTypeLabel(event.type)}
                           </Badge>
                           <span className="text-lg font-bold text-primary">
-                            {timelineService.getYearFromDate(event.year)}
+                            {timelineService.getYearFromTimestamp(event.timestamp)}
                           </span>
                         </div>
                         
@@ -271,7 +271,7 @@ const AdminEvents = () => {
                       <div className="flex items-center gap-4 text-xs text-muted-foreground">
                         <div className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
-                          {new Date(event.year).toLocaleDateString('fr-FR')}
+                          {new Date(event.timestamp).toLocaleDateString('fr-FR')}
                         </div>
                         {event.location && (
                           <div className="flex items-center gap-1">
