@@ -11,7 +11,7 @@ const CreateProject: React.FC = () => {
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold mb-2">{t('project.createNew')}</h1>
           <p className="text-muted-foreground">
-            Ajoutez un nouveau projet à votre portfolio avec des médias et des technologies
+            {t('project.createProjectDescription')}
           </p>
         </div>
         

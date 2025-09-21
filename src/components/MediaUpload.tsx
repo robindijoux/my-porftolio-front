@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { useAuthentication } from '@/hooks/useAuthentication';
 import { apiService, MediaUploadResponse } from '@/services/api';
+import { isImage, isVideo, isDocument, getMediaTypeClass, getMediaTypeName } from '@/utils/media';
 
 interface MediaUploadProps {
   onMediaUploaded: (media: MediaUploadResponse) => void;
@@ -31,15 +32,13 @@ const MediaUpload: React.FC<MediaUploadProps> = ({
   const [altTexts, setAltTexts] = useState<Record<string, string>>({});
 
   const getFileIcon = (type: string) => {
-    if (type.startsWith('image/')) return <FileImage className="h-4 w-4" />;
-    if (type.startsWith('video/')) return <FileVideo className="h-4 w-4" />;
+    if (isImage(type)) return <FileImage className="h-4 w-4" />;
+    if (isVideo(type)) return <FileVideo className="h-4 w-4" />;
     return <FileText className="h-4 w-4" />;
   };
 
   const getFileTypeColor = (type: string) => {
-    if (type.startsWith('image/')) return 'bg-blue-100 text-blue-800';
-    if (type.startsWith('video/')) return 'bg-purple-100 text-purple-800';
-    return 'bg-gray-100 text-gray-800';
+    return getMediaTypeClass(type);
   };
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
@@ -156,7 +155,7 @@ const MediaUpload: React.FC<MediaUploadProps> = ({
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium truncate">{media.filename}</p>
                       <Badge variant="secondary" className={getFileTypeColor(media.type)}>
-                        {media.type.split('/')[0]}
+                        {getMediaTypeName(media.type)}
                       </Badge>
                     </div>
                   </div>

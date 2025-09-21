@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,7 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import { Project, apiService } from '@/services/api';
 import { formatDate } from '@/utils/date';
+import { isImage, isVideo } from '@/utils/media';
 import { 
   ArrowLeft, 
   ExternalLink, 
@@ -172,8 +173,7 @@ const ProjectDetail = () => {
               <Card className="mb-6 overflow-hidden border-border/50 bg-card-gradient">
                 <CardContent className="p-0">
                   <div className="aspect-video w-full overflow-hidden">
-                    {project.media[selectedMediaIndex].type.toLowerCase().includes('image') || 
-                     project.media[selectedMediaIndex].type === 'PHOTO' ? (
+                    {isImage(project.media[selectedMediaIndex].type) ? (
                       <img
                         src={project.media[selectedMediaIndex].url}
                         alt={project.media[selectedMediaIndex].alt || project.name}
@@ -182,6 +182,18 @@ const ProjectDetail = () => {
                           e.currentTarget.src = '/placeholder.svg';
                         }}
                       />
+                    ) : isVideo(project.media[selectedMediaIndex].type) ? (
+                      <video
+                        src={project.media[selectedMediaIndex].url}
+                        className="w-full h-full object-cover"
+                        controls
+                        preload="metadata"
+                        onError={(e) => {
+                          console.error('Erreur de chargement vidéo:', e);
+                        }}
+                      >
+                        {t('project.videoNotSupported')}
+                      </video>
                     ) : (
                       <div className="w-full h-full bg-muted/20 flex items-center justify-center">
                         <div className="text-center">
@@ -201,14 +213,13 @@ const ProjectDetail = () => {
                     <button
                       key={index}
                       onClick={() => setSelectedMediaIndex(index)}
-                      className={`aspect-video rounded-lg overflow-hidden border-2 transition-all ${
+                      className={`aspect-video rounded-lg overflow-hidden border-2 transition-all relative ${
                         selectedMediaIndex === index 
                           ? 'border-primary shadow-glow' 
                           : 'border-border/30 hover:border-border/60'
                       }`}
                     >
-                      {media.type.toLowerCase().includes('image') || 
-                       media.type === 'PHOTO' ? (
+                      {isImage(media.type) ? (
                         <img
                           src={media.url}
                           alt={media.alt || `${project.name} - Image ${index + 1}`}
@@ -217,6 +228,18 @@ const ProjectDetail = () => {
                             e.currentTarget.src = '/placeholder.svg';
                           }}
                         />
+                      ) : isVideo(media.type) ? (
+                        <div className="relative w-full h-full">
+                          <video
+                            src={media.url}
+                            className="w-full h-full object-cover"
+                            muted
+                            preload="metadata"
+                          />
+                          <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                            <Play className="h-6 w-6 text-white" />
+                          </div>
+                        </div>
                       ) : (
                         <div className="w-full h-full bg-muted/20 flex items-center justify-center">
                           <Play className="h-6 w-6 text-muted-foreground" />

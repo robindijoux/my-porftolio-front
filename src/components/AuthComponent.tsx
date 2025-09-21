@@ -93,7 +93,7 @@ export const UserInfo: React.FC = () => {
       >
         <LogOut className="mr-2 h-4 w-4" />
         <span className="hidden sm:inline">{t('auth.signOut')}</span>
-        <span className="sm:hidden">Logout</span>
+        <span className="sm:hidden">{t('auth.signOutShort')}</span>
       </Button>
     </div>
   );

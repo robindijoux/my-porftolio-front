@@ -51,8 +51,8 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
 
   const createProjectSchema = useMemo(() => z.object({
     name: z.string().min(1, t('validation.nameRequired')),
-    description: z.string().min(10, t('validation.descriptionMinLength')),
-    shortDescription: z.string().min(5, t('validation.shortDescriptionMinLength')),
+    description: z.string().min(1, t('validation.descriptionRequired')),
+    shortDescription: z.string().min(1, t('validation.shortDescriptionRequired')),
     repositoryLink: z.string().url(t('validation.invalidUrl')).optional().or(z.literal('')),
     projectLink: z.string().url(t('validation.invalidUrl')).optional().or(z.literal('')),
     isPublished: z.boolean(),
@@ -111,15 +111,6 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
         variant: "destructive",
         title: t('errors.authRequired'),
         description: t('errors.authRequiredDesc'),
-      });
-      return;
-    }
-
-    if (uploadedMedia.length === 0) {
-      toast({
-        variant: "destructive",
-        title: t('errors.noMedia'),
-        description: t('errors.noMediaDesc'),
       });
       return;
     }
@@ -270,7 +261,7 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
                 <Input
                   value={currentTechIcon}
                   onChange={(e) => setCurrentTechIcon(e.target.value)}
-                  placeholder="URL de l'icône (ex: https://cdn.jsdelivr.net/...)"
+                  placeholder={t('project.iconUrlPlaceholder')}
                 />
               </div>
               <Button 
@@ -301,7 +292,7 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
 
             {/* Options de publication */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Options de publication</h3>
+              <h3 className="text-lg font-semibold">{t('project.publishingOptions')}</h3>
               
               <FormField
                 control={form.control}
@@ -309,9 +300,9 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                     <div className="space-y-0.5">
-                      <FormLabel className="text-base">Publier le projet</FormLabel>
+                      <FormLabel className="text-base">{t('project.publishProject')}</FormLabel>
                       <FormDescription>
-                        Le projet sera visible publiquement sur votre portfolio
+                        {t('project.publishProjectDescription')}
                       </FormDescription>
                     </div>
                     <FormControl>
@@ -330,9 +321,9 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                     <div className="space-y-0.5">
-                      <FormLabel className="text-base">Projet mis en avant</FormLabel>
+                      <FormLabel className="text-base">{t('project.featuredProject')}</FormLabel>
                       <FormDescription>
-                        Ce projet apparaîtra dans la section des projets phares
+                        {t('project.featuredProjectDescription')}
                       </FormDescription>
                     </div>
                     <FormControl>

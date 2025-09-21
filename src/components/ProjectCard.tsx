@@ -4,9 +4,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { ExternalLink, Github, Calendar, Trash2 } from 'lucide-react';
+import { ExternalLink, Github, Calendar, Trash2, Play } from 'lucide-react';
 import { Project, apiService } from '@/services/api';
 import { formatShortDate } from '@/utils/date';
+import { isImage, isVideo } from '@/utils/media';
 import { useAuthentication } from '@/hooks/useAuthentication';
 import { useToast } from '@/hooks/use-toast';
 
@@ -56,15 +57,33 @@ const ProjectCard = ({ project, onDelete }: ProjectCardProps) => {
       <div className="relative overflow-hidden">
         {project.media.length > 0 && (
           <div className="aspect-video w-full overflow-hidden">
-            <img
-              src={project.media[0].url}
-              alt={project.media[0].alt || project.name}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-              loading="lazy"
-              onError={(e) => {
-                e.currentTarget.src = '/placeholder.svg';
-              }}
-            />
+            {isImage(project.media[0].type) ? (
+              <img
+                src={project.media[0].url}
+                alt={project.media[0].alt || project.name}
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                loading="lazy"
+                onError={(e) => {
+                  e.currentTarget.src = '/placeholder.svg';
+                }}
+              />
+            ) : isVideo(project.media[0].type) ? (
+              <div className="relative w-full h-full">
+                <video
+                  src={project.media[0].url}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  muted
+                  preload="metadata"
+                />
+                <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                  <Play className="h-8 w-8 text-white" />
+                </div>
+              </div>
+            ) : (
+              <div className="w-full h-full bg-muted/20 flex items-center justify-center">
+                <Play className="h-8 w-8 text-muted-foreground" />
+              </div>
+            )}
           </div>
         )}
         

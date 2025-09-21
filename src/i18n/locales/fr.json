@@ -7,7 +7,7 @@
   },
   "home": {
     "title": "Robin DIJOUX",
-    "subtitle": "Développeur Full-Stack & Designer UI/UX",
+    "subtitle": "Développement fullstack & architecture",
     "description": "Passionné par l'approche centrée sur le produit et l'expérience utilisateur, je crée des applications web robustes et fonctionnelles qui répondent à vos besoins.",
     "stats": {
       "projects": "Projets",
@@ -72,7 +72,28 @@
     "confirmDelete": "Confirmer la suppression",
     "confirmDeleteDescription": "Êtes-vous sûr de vouloir supprimer le projet \"{{name}}\" ? Cette action est irréversible.",
     "deleteSuccess": "Projet supprimé",
-    "deleteSuccessDescription": "Le projet a été supprimé avec succès."
+    "deleteSuccessDescription": "Le projet a été supprimé avec succès.",
+    "publishingOptions": "Options de publication",
+    "publishProject": "Publier le projet",
+    "publishProjectDescription": "Le projet sera visible publiquement sur votre portfolio",
+    "featuredProject": "Projet mis en avant",
+    "featuredProjectDescription": "Ce projet apparaîtra dans la section des projets phares",
+    "iconUrlPlaceholder": "URL de l'icône (ex: https://cdn.jsdelivr.net/...)",
+    "createProjectDescription": "Ajoutez un nouveau projet à votre portfolio avec des médias et des technologies",
+    "videoNotSupported": "Votre navigateur ne supporte pas la lecture de cette vidéo."
+  },
+  "auth": {
+    "loggedInAs": "Connecté en tant que {{email}}",
+    "signIn": "Se connecter",
+    "signOut": "Se déconnecter",
+    "signOutShort": "Déconnexion",
+    "loading": "Chargement...",
+    "loginRequired": "Connexion requise pour créer un projet",
+    "signingIn": "Connexion en cours...",
+    "authError": "Une erreur s'est produite lors de l'authentification :",
+    "returnHome": "Retour à l'accueil",
+    "connectionRequired": "Connexion requise",
+    "connectionRequiredDesc": "Vous devez être connecté pour accéder à cette fonctionnalité."
   },
   "common": {
     "loading": "Chargement...",
@@ -86,6 +107,12 @@
     "creating": "Création...",
     "delete": "Supprimer"
   },
+  "media": {
+    "image": "Image",
+    "video": "Vidéo", 
+    "document": "Document",
+    "file": "Fichier"
+  },
   "language": {
     "select": "Choisir la langue",
     "french": "Français",
@@ -93,6 +120,8 @@
   },
   "validation": {
     "nameRequired": "Le nom du projet est requis",
+    "descriptionRequired": "La description est requise",
+    "shortDescriptionRequired": "La description courte est requise",
     "descriptionMinLength": "La description doit contenir au moins 10 caractères",
     "shortDescriptionMinLength": "La description courte doit contenir au moins 5 caractères",
     "invalidUrl": "Veuillez entrer une URL valide"
@@ -134,17 +163,5 @@
     "fileUploadedDesc": "Le fichier {{filename}} a été uploadé avec succès",
     "projectCreated": "Projet créé",
     "projectCreatedDesc": "Le projet {{name}} a été créé avec succès"
-  },
-  "auth": {
-    "loggedInAs": "Connecté en tant que {{email}}",
-    "signIn": "Se connecter",
-    "signOut": "Déconnexion",
-    "loading": "Chargement...",
-    "loginRequired": "Connexion requise pour créer un projet",
-    "signingIn": "Connexion en cours...",
-    "authError": "Une erreur s'est produite lors de l'authentification :",
-    "returnHome": "Retour à l'accueil",
-    "connectionRequired": "Connexion requise",
-    "connectionRequiredDesc": "Vous devez être connecté pour accéder à cette fonctionnalité."
   }
 }
