@@ -53,12 +53,14 @@ const Header = () => {
           >
             {t('nav.projects')}
           </Link>
-          <a 
-            href="#about" 
-            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+          <Link 
+            to="/about" 
+            className={`text-sm font-medium transition-colors hover:text-primary ${
+              location.pathname === '/about' ? 'text-primary' : 'text-muted-foreground'
+            }`}
           >
             {t('nav.about')}
-          </a>
+          </Link>
           <a 
             href="#contact" 
             className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"

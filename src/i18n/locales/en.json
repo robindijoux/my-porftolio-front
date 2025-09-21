@@ -163,5 +163,61 @@
     "fileUploadedDesc": "File {{filename}} uploaded successfully",
     "projectCreated": "Project created",
     "projectCreatedDesc": "Project {{name}} created successfully"
+  },
+  "about": {
+    "title": "My Journey",
+    "description": "Discover my academic and professional journey, from my engineering studies to my current expertise in software development and architecture.",
+    "timeline": {
+      "prepIntegree": {
+        "title": "Integrated Preparatory School",
+        "description": "Beginning of my engineering studies at Polytech Nice with solid training in mathematics, physics and computer science."
+      },
+      "cycleIngenieur": {
+        "title": "Computer Engineering Cycle",
+        "description": "Specialization in computer science with learning programming languages, algorithms and software architecture."
+      },
+      "challengeJeunePousse": {
+        "title": "Challenge Jeunes Pousses Victory",
+        "description": "Recognition of innovation and entrepreneurship with a victory in the Challenge Jeunes Pousses. Ecological project for large-scale implementation of digital receipts."
+      },
+      "stageAccenture": {
+        "title": "Software Engineer Internship - Accenture",
+        "description": "First professional experience as a software engineer. Development of a booking platform for airlines."
+      },
+      "stageOrange": {
+        "title": "Software Engineer Internship - Orange Business",
+        "description": "Deepening technical skills. Development and design activities on an eco-design analysis platform for websites. Migration to AWS cloud."
+      },
+      "diplome": {
+        "title": "Engineering Degree - Software Architecture Specialization",
+        "description": "Obtaining an engineering degree with specialization in software architecture."
+      },
+      "ingenieurOrange": {
+        "title": "Software Engineer - Orange Business",
+        "description": "Software engineer position for a network-oriented cloud platform. Development activities, continuous integration/deployment, and architecture design."
+      },
+      "certificationAWS": {
+        "title": "AWS Cloud Practitioner Certification",
+        "description": "AWS certification demonstrating fundamental understanding of cloud services and best practices."
+      },
+      "certificationDevOps": {
+        "title": "DevOps Foundation Certification",
+        "description": "DevOps certification covering principles, practices and development and operations tools."
+      }
+    },
+    "types": {
+      "education": "Education",
+      "achievement": "Achievement",
+      "work": "Experience"
+    },
+    "skills": {
+      "title": "My Skills",
+      "education": "Solid Education",
+      "educationDesc": "Complete engineering education with specialization in software architecture.",
+      "experience": "Practical Experience",
+      "experienceDesc": "Diverse professional experience in renowned companies in the technology sector.",
+      "innovation": "Innovation",
+      "innovationDesc": "Ability to innovate and undertake, recognized by professional awards and recognition."
+    }
   }
 }

@@ -6,7 +6,7 @@ const CreateProject: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-background py-8">
+    <div className="bg-background py-8">
       <div className="container mx-auto px-4">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold mb-2">{t('project.createNew')}</h1>

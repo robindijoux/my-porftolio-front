@@ -7,7 +7,9 @@ import { useTranslation } from 'react-i18next';
 import { AuthComponent } from "./components/AuthComponent";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
+import About from "./pages/About";
 import ProjectDetail from "./pages/ProjectDetail";
 import CreateProject from "./pages/CreateProject";
 import NotFound from "./pages/NotFound";
@@ -25,25 +27,29 @@ const App = () => {
         <Sonner />
         <AuthComponent>
           <BrowserRouter>
-            <div className="min-h-screen bg-background">
+            <div className="min-h-screen bg-background flex flex-col">
               <Header />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route 
-                  path="/create-project" 
-                  element={
-                    <ProtectedRoute 
-                      title={t('errors.authRequired')}
-                      description={t('errors.authRequiredDescription')}
-                    >
-                      <CreateProject />
-                    </ProtectedRoute>
-                  } 
-                />
-                <Route path="/project/:id" element={<ProjectDetail />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+              <main className="flex-1">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/about" element={<About />} />
+                  <Route 
+                    path="/create-project" 
+                    element={
+                      <ProtectedRoute 
+                        title={t('errors.authRequired')}
+                        description={t('errors.authRequiredDescription')}
+                      >
+                        <CreateProject />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route path="/project/:id" element={<ProjectDetail />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+              <Footer />
             </div>
           </BrowserRouter>
         </AuthComponent>
