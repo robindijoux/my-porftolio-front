@@ -74,7 +74,7 @@ class TimelineService {
         description: i18n.t('about.timeline.stageOrange.description'),
         type: 'work',
         location: 'Sophia Antipolis, France',
-        image: 'https://event.lecloudfacile.com/hs-fs/hubfs/affiche-aws-cloud-practitioner.png?width=600&height=600&name=affiche-aws-cloud-practitioner.png',
+        image: 'https://ordinal.fr/images/2025/08/28/800x420_orange-business-logo.png',
         isStatic: true
       },
       {
