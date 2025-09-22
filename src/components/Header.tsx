@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Github, Linkedin, Mail, Lock, LogIn, LogOut, User, Plus, Settings, Menu, X, Calendar, Shield } from 'lucide-react';
+import { Github, Linkedin, Mail, Lock, LogIn, LogOut, User, Settings, Menu, X, Shield } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -86,39 +86,9 @@ const Header = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
-              {/* Section Création */}
+              {/* Section Administration */}
               <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
-                Création
-              </div>
-              <DropdownMenuItem asChild>
-                <Link 
-                  to="/create-project" 
-                  className="flex items-center gap-2 cursor-pointer"
-                  title={!isAuthenticated ? t('auth.loginRequired') : ""}
-                >
-                  <Plus className="h-4 w-4" />
-                  {t('nav.newProject')}
-                  {!isAuthenticated && <Lock className="h-3 w-3 ml-auto opacity-70" />}
-                </Link>
-              </DropdownMenuItem>
-              
-              <DropdownMenuItem asChild>
-                <Link 
-                  to="/create-event" 
-                  className="flex items-center gap-2 cursor-pointer"
-                  title={!isAuthenticated ? t('auth.loginRequired') : ""}
-                >
-                  <Calendar className="h-4 w-4" />
-                  {t('nav.newEvent')}
-                  {!isAuthenticated && <Lock className="h-3 w-3 ml-auto opacity-70" />}
-                </Link>
-              </DropdownMenuItem>
-              
-              <DropdownMenuSeparator />
-              
-              {/* Section Gestion */}
-              <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
-                Gestion
+                {t('nav.administration')}
               </div>
               <DropdownMenuItem asChild>
                 <Link 
@@ -127,7 +97,7 @@ const Header = () => {
                   title={!isAuthenticated ? t('auth.loginRequired') : ""}
                 >
                   <Shield className="h-4 w-4" />
-                  {t('nav.manageProjects')}
+                  {t('nav.projects')}
                   {!isAuthenticated && <Lock className="h-3 w-3 ml-auto opacity-70" />}
                 </Link>
               </DropdownMenuItem>
@@ -139,7 +109,7 @@ const Header = () => {
                   title={!isAuthenticated ? t('auth.loginRequired') : ""}
                 >
                   <Shield className="h-4 w-4" />
-                  {t('nav.manageEvents')}
+                  {t('nav.events')}
                   {!isAuthenticated && <Lock className="h-3 w-3 ml-auto opacity-70" />}
                 </Link>
               </DropdownMenuItem>
@@ -266,45 +236,10 @@ const Header = () => {
                 {t('nav.contact')}
               </a>
               
-              {/* Section Création */}
+              {/* Section Administration */}
               <div className="pt-4 border-t border-border/40">
                 <div className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
-                  Création
-                </div>
-                
-                {/* Nouveau projet */}
-                <Link 
-                  to="/create-project" 
-                  className={`flex items-center gap-2 text-base font-medium transition-colors hover:text-primary mb-3 ${
-                    !isAuthenticated ? 'text-muted-foreground/50' : 'text-muted-foreground'
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                  title={!isAuthenticated ? t('auth.loginRequired') : ""}
-                >
-                  <Plus className="h-4 w-4" />
-                  {t('nav.newProject')}
-                  {!isAuthenticated && <Lock className="h-3 w-3 ml-auto opacity-70" />}
-                </Link>
-                
-                {/* Nouvel événement */}
-                <Link 
-                  to="/create-event" 
-                  className={`flex items-center gap-2 text-base font-medium transition-colors hover:text-primary ${
-                    !isAuthenticated ? 'text-muted-foreground/50' : 'text-muted-foreground'
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                  title={!isAuthenticated ? t('auth.loginRequired') : ""}
-                >
-                  <Calendar className="h-4 w-4" />
-                  {t('nav.newEvent')}
-                  {!isAuthenticated && <Lock className="h-3 w-3 ml-auto opacity-70" />}
-                </Link>
-              </div>
-              
-              {/* Section Gestion */}
-              <div className="pt-4 border-t border-border/40">
-                <div className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
-                  Gestion
+                  {t('nav.administration')}
                 </div>
                 
                 {/* Gérer les projets */}
@@ -317,7 +252,7 @@ const Header = () => {
                   title={!isAuthenticated ? t('auth.loginRequired') : ""}
                 >
                   <Shield className="h-4 w-4" />
-                  {t('nav.manageProjects')}
+                  {t('nav.projects')}
                   {!isAuthenticated && <Lock className="h-3 w-3 ml-auto opacity-70" />}
                 </Link>
                 
@@ -331,7 +266,7 @@ const Header = () => {
                   title={!isAuthenticated ? t('auth.loginRequired') : ""}
                 >
                   <Shield className="h-4 w-4" />
-                  {t('nav.manageEvents')}
+                  {t('nav.events')}
                   {!isAuthenticated && <Lock className="h-3 w-3 ml-auto opacity-70" />}
                 </Link>
               </div>

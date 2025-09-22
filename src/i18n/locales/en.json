@@ -3,6 +3,8 @@
     "projects": "Projects",
     "about": "About",
     "contact": "Contact",
+    "administration": "Administration",
+    "events": "Events",
     "newProject": "New project",
     "newEvent": "New event",
     "manageEvents": "Manage events",
