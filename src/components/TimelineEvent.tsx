@@ -26,8 +26,8 @@ const TimelineEvent = ({
     >
       {/* Point sur la timeline */}
       <div className={`absolute z-10 top-1/2 transform -translate-y-1/2 ${
-        // Position différente selon la taille d'écran
-        'left-6 md:left-1/2 md:-translate-x-1/2'
+        // Position différente selon la taille d'écran - sur mobile, centrer sur la ligne verticale
+        'left-6 -translate-x-1/2 md:left-1/2 md:-translate-x-1/2'
       }`}>
         <div className={`flex flex-col items-center justify-center px-2 py-1 md:px-3 md:py-2 rounded-full border-2 border-background ${getTypeColor(event.type)} shadow-lg timeline-point ${
           eventAnimation.isVisible ? 'animate-visible' : ''
