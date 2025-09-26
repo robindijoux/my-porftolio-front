@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -260,10 +262,12 @@ const ProjectDetail = () => {
             
             <Card className="border-border/50 bg-card-gradient">
               <CardContent className="p-6">
-                <div className="prose prose-invert max-w-none">
-                  <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                <div className="prose prose-invert max-w-none prose-sm md:prose-base text-muted-foreground leading-relaxed prose-headings:text-foreground prose-strong:text-foreground">
+                  <ReactMarkdown 
+                    remarkPlugins={[remarkGfm]}
+                  >
                     {project.description}
-                  </p>
+                  </ReactMarkdown>
                 </div>
               </CardContent>
             </Card>
