@@ -17,9 +17,6 @@ jobs:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
-    env:
-      VITE_AWS_COGNITO_REGION: ${{ secrets.VITE_AWS_COGNITO_REGION }}
-
     permissions:
        id-token: write
        contents: read
@@ -50,6 +47,8 @@ jobs:
           api_location: "" # Api source code path - optional
           output_location: "dist" # Built app content directory - optional
           github_id_token: ${{ steps.idtoken.outputs.result }}
+          VITE_AWS_COGNITO_REGION: ${{ secrets.VITE_AWS_COGNITO_REGION }}
+          VITE_AWS_COGNITO_USER_POOL_ID: ${{ secrets.VITE_AWS_COGNITO_USER_POOL_ID }}
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
