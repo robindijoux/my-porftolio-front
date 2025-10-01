@@ -2,6 +2,8 @@ name: Azure Static Web Apps CI/CD
 
 on:
   workflow_dispatch:
+    branches:
+      - main
   push:
     branches:
       - main
@@ -15,6 +17,7 @@ jobs:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
+    environment: production
     permissions:
        id-token: write
        contents: read
