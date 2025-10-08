@@ -210,7 +210,7 @@ class ApiService {
   // Récupération de tous les événements de timeline
   async getTimelineEvents(): Promise<TimelineEvent[]> {
     try {
-      const response = await fetch(`${this.baseUrl}/timelineEvent`);
+      const response = await fetch(`${this.baseUrl}/timeline-events`);
       return this.handleResponse<TimelineEvent[]>(response);
     } catch (error) {
       console.error('Erreur lors de la récupération des événements de timeline:', error);
@@ -229,7 +229,7 @@ class ApiService {
         headers['Authorization'] = `Bearer ${accessToken}`;
       }
 
-      const response = await fetch(`${this.baseUrl}/timelineEvent`, {
+      const response = await fetch(`${this.baseUrl}/timeline-events`, {
         method: 'POST',
         headers,
         body: JSON.stringify(eventData),
@@ -244,7 +244,7 @@ class ApiService {
   // Récupération d'un événement de timeline par ID
   async getTimelineEventById(id: string): Promise<TimelineEvent> {
     try {
-      const response = await fetch(`${this.baseUrl}/timelineEvent/${id}`);
+      const response = await fetch(`${this.baseUrl}/timeline-events/${id}`);
       return this.handleResponse<TimelineEvent>(response);
     } catch (error) {
       console.error(`Erreur lors de la récupération de l'événement ${id}:`, error);
@@ -263,7 +263,7 @@ class ApiService {
         headers['Authorization'] = `Bearer ${accessToken}`;
       }
 
-      const response = await fetch(`${this.baseUrl}/timelineEvent/${id}`, {
+      const response = await fetch(`${this.baseUrl}/timeline-events/${id}`, {
         method: 'PUT',
         headers,
         body: JSON.stringify(eventData),
@@ -284,7 +284,7 @@ class ApiService {
         headers['Authorization'] = `Bearer ${accessToken}`;
       }
 
-      const response = await fetch(`${this.baseUrl}/timelineEvent/${id}`, {
+      const response = await fetch(`${this.baseUrl}/timeline-events/${id}`, {
         method: 'DELETE',
         headers,
       });
