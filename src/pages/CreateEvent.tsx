@@ -23,7 +23,7 @@ const CreateEvent = () => {
     timestamp: 0,
     title: '',
     description: '',
-    type: 'work',
+    type: 'WORK',
     location: '',
     image: ''
   });
@@ -75,7 +75,7 @@ const CreateEvent = () => {
       timestamp: 0,
       title: '',
       description: '',
-      type: 'work',
+      type: 'WORK',
       location: '',
       image: ''
     });
@@ -159,15 +159,15 @@ const CreateEvent = () => {
                 </Label>
                 <Select
                   value={formData.type}
-                  onValueChange={(value: 'education' | 'achievement' | 'work') => handleInputChange('type', value)}
+                  onValueChange={(value: 'EDUCATION' | 'ACHIEVEMENT' | 'WORK') => handleInputChange('type', value)}
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder={t('timeline.selectType')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="education">{t('timeline.typeLabels.education')}</SelectItem>
-                    <SelectItem value="work">{t('timeline.typeLabels.work')}</SelectItem>
-                    <SelectItem value="achievement">{t('timeline.typeLabels.achievement')}</SelectItem>
+                    <SelectItem value="EDUCATION">{t('timeline.typeLabels.education')}</SelectItem>
+                    <SelectItem value="WORK">{t('timeline.typeLabels.work')}</SelectItem>
+                    <SelectItem value="ACHIEVEMENT">{t('timeline.typeLabels.achievement')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

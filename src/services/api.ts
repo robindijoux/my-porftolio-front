@@ -33,7 +33,7 @@ export interface TimelineEvent {
   timestamp: number; // Timestamp numérique (millisecondes depuis epoch)
   title: string;
   description: string;
-  type: 'education' | 'achievement' | 'work';
+  type: 'EDUCATION' | 'ACHIEVEMENT' | 'WORK';
   location?: string;
   image: string;
 }
@@ -42,7 +42,7 @@ export interface CreateTimelineEventData {
   timestamp: number; // Timestamp numérique (millisecondes depuis epoch)
   title: string;
   description: string;
-  type: 'education' | 'achievement' | 'work';
+  type: 'EDUCATION' | 'ACHIEVEMENT' | 'WORK';
   location?: string;
   image: string;
 }
@@ -51,7 +51,7 @@ export interface UpdateTimelineEventData {
   timestamp?: number; // Timestamp numérique (millisecondes depuis epoch)
   title?: string;
   description?: string;
-  type?: 'education' | 'achievement' | 'work';
+  type?: 'EDUCATION' | 'ACHIEVEMENT' | 'WORK';
   location?: string;
   image?: string;
 }

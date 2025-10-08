@@ -22,11 +22,11 @@ const AdminEvents = () => {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'education':
+      case 'EDUCATION':
         return 'bg-blue-500/10 text-blue-600 border-blue-500/20 dark:text-blue-400';
-      case 'achievement':
+      case 'ACHIEVEMENT':
         return 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20 dark:text-yellow-400';
-      case 'work':
+      case 'WORK':
         return 'bg-green-500/10 text-green-600 border-green-500/20 dark:text-green-400';
       default:
         return 'bg-gray-500/10 text-gray-600 border-gray-500/20 dark:text-gray-400';
@@ -35,11 +35,11 @@ const AdminEvents = () => {
 
   const getTypeLabel = (type: string) => {
     switch (type) {
-      case 'education':
+      case 'EDUCATION':
         return t('timeline.education');
-      case 'achievement':
+      case 'ACHIEVEMENT':
         return t('timeline.achievement');
-      case 'work':
+      case 'WORK':
         return t('timeline.work');
       default:
         return type;
@@ -230,7 +230,7 @@ const AdminEvents = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">{t('timeline.education')}</p>
-                  <p className="text-2xl font-bold">{events.filter(e => e.type === 'education').length}</p>
+                  <p className="text-2xl font-bold">{events.filter(e => e.type === 'EDUCATION').length}</p>
                 </div>
                 <div className="h-8 w-8 rounded-full bg-blue-500/10 flex items-center justify-center">
                   <span className="text-blue-600 text-sm font-bold">E</span>
@@ -244,7 +244,7 @@ const AdminEvents = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">{t('timeline.work')}</p>
-                  <p className="text-2xl font-bold">{events.filter(e => e.type === 'work').length}</p>
+                  <p className="text-2xl font-bold">{events.filter(e => e.type === 'WORK').length}</p>
                 </div>
                 <div className="h-8 w-8 rounded-full bg-green-500/10 flex items-center justify-center">
                   <span className="text-green-600 text-sm font-bold">T</span>

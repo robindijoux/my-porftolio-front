@@ -143,9 +143,9 @@ class TimelineService {
       
       return {
         total: allEvents.length,
-        education: allEvents.filter(e => e.type === 'education').length,
-        work: allEvents.filter(e => e.type === 'work').length,
-        achievement: allEvents.filter(e => e.type === 'achievement').length,
+        education: allEvents.filter(e => e.type === 'EDUCATION').length,
+        work: allEvents.filter(e => e.type === 'WORK').length,
+        achievement: allEvents.filter(e => e.type === 'ACHIEVEMENT').length,
       };
     } catch (error) {
       console.error('Erreur lors du calcul des statistiques:', error);

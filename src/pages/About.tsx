@@ -36,11 +36,11 @@ const About = () => {
 
   const getIconForType = (type: string) => {
     switch (type) {
-      case 'education':
+      case 'EDUCATION':
         return <GraduationCap className="h-5 w-5" />;
-      case 'achievement':
+      case 'ACHIEVEMENT':
         return <Award className="h-5 w-5" />;
-      case 'work':
+      case 'WORK':
         return <Briefcase className="h-5 w-5" />;
       default:
         return <Calendar className="h-5 w-5" />;
@@ -49,11 +49,11 @@ const About = () => {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'education':
+      case 'EDUCATION':
         return 'bg-blue-50 text-blue-600 border-blue-500 dark:bg-blue-950 dark:text-blue-400';
-      case 'achievement':
+      case 'ACHIEVEMENT':
         return 'bg-yellow-50 text-yellow-600 border-yellow-500 dark:bg-yellow-950 dark:text-yellow-400';
-      case 'work':
+      case 'WORK':
         return 'bg-green-50 text-green-600 border-green-500 dark:bg-green-950 dark:text-green-400';
       default:
         return 'bg-gray-50 text-gray-600 border-gray-500 dark:bg-gray-950 dark:text-gray-400';
