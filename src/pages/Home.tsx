@@ -61,7 +61,7 @@ const Home = () => {
                 <div className="flex items-center justify-center w-14 h-14 bg-foreground/10 rounded-xl mx-auto mb-4">
                   <Code className="h-7 w-7 text-foreground" />
                 </div>
-                <div className="text-3xl font-bold text-foreground font-playfair">{projects.length}+</div>
+                <div className="text-3xl font-bold text-foreground font-playfair">{projects.length}</div>
                 <div className="text-sm text-muted-foreground font-medium">{t('home.stats.projects')}</div>
               </div>
               
@@ -69,7 +69,7 @@ const Home = () => {
                 <div className="flex items-center justify-center w-14 h-14 bg-foreground/10 rounded-xl mx-auto mb-4">
                   <Palette className="h-7 w-7 text-foreground" />
                 </div>
-                <div className="text-3xl font-bold text-foreground font-playfair">3+</div>
+                <div className="text-3xl font-bold text-foreground font-playfair">3</div>
                 <div className="text-sm text-muted-foreground font-medium">{t('home.stats.experience')}</div>
               </div>
               
@@ -77,8 +77,8 @@ const Home = () => {
                 <div className="flex items-center justify-center w-14 h-14 bg-foreground/10 rounded-xl mx-auto mb-4">
                   <Zap className="h-7 w-7 text-foreground" />
                 </div>
-                <div className="text-3xl font-bold text-foreground font-playfair">15+</div>
-                <div className="text-sm text-muted-foreground font-medium">{t('home.stats.technologies')}</div>
+                <div className="text-3xl font-bold text-foreground font-playfair">2</div>
+                <div className="text-sm text-muted-foreground font-medium">{t('home.stats.certifications')}</div>
               </div>
             </div>
 
