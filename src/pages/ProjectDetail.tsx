@@ -174,12 +174,12 @@ const ProjectDetail = () => {
               {/* Média principal */}
               <Card className="mb-6 overflow-hidden border-border/50 bg-card-gradient">
                 <CardContent className="p-0">
-                  <div className="aspect-video w-full overflow-hidden">
+                  <div className="aspect-video w-full overflow-hidden bg-muted/10">
                     {isImage(project.media[selectedMediaIndex].type) ? (
                       <img
                         src={project.media[selectedMediaIndex].url}
                         alt={project.media[selectedMediaIndex].alt || project.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                         onError={(e) => {
                           e.currentTarget.src = '/placeholder.svg';
                         }}
@@ -187,7 +187,7 @@ const ProjectDetail = () => {
                     ) : isVideo(project.media[selectedMediaIndex].type) ? (
                       <video
                         src={project.media[selectedMediaIndex].url}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                         controls
                         preload="metadata"
                         onError={(e) => {
