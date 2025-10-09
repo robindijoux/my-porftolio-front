@@ -61,7 +61,7 @@ const About = () => {
   };
 
   const getTypeLabel = (type: string) => {
-    return t(`about.types.${type}`);
+    return t(`about.types.${type.toLowerCase()}`);
   };
 
   const getEventYear = (timestamp: number): string => {
