@@ -61,6 +61,7 @@ const About = () => {
   };
 
   const getTypeLabel = (type: string) => {
+    if (!type || typeof type !== 'string') return t('about.types.default');
     return t(`about.types.${type.toLowerCase()}`);
   };
 

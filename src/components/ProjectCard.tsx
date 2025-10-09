@@ -7,7 +7,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { ExternalLink, Github, Calendar, Trash2, Play } from 'lucide-react';
 import { Project, apiService } from '@/services/api';
 import { formatShortDate } from '@/utils/date';
-import { isImage, isVideo } from '@/utils/media';
+import { isImage, isVideo, isValidMedia } from '@/utils/media';
 import { useAuthentication } from '@/hooks/useAuthentication';
 import { useToast } from '@/hooks/use-toast';
 
@@ -56,7 +56,7 @@ const ProjectCard = ({ project, onDelete }: ProjectCardProps) => {
       <Card className="overflow-hidden border-border/50 bg-card-gradient hover:shadow-glow transition-all duration-300 hover:-translate-y-1 cursor-pointer">
         {/* Image du projet */}
         <div className="relative overflow-hidden">
-          {project.media.length > 0 && (
+          {project.media && project.media.length > 0 && isValidMedia(project.media[0]) && (
             <div className="aspect-video w-full overflow-hidden">
               {isImage(project.media[0].type) ? (
                 <img
@@ -155,7 +155,7 @@ const ProjectCard = ({ project, onDelete }: ProjectCardProps) => {
       <CardContent className="pt-0">
         {/* Stack technologique */}
         <div className="flex flex-wrap gap-1 mb-4">
-          {project.techStack.slice(0, 4).map((tech) => (
+          {project.techStack && project.techStack.slice(0, 4).map((tech) => (
             <Badge
               key={tech.technology}
               variant="outline"
@@ -165,7 +165,7 @@ const ProjectCard = ({ project, onDelete }: ProjectCardProps) => {
               {tech.technology}
             </Badge>
           ))}
-          {project.techStack.length > 4 && (
+          {project.techStack && project.techStack.length > 4 && (
             <Badge variant="outline" className="text-xs border-border/60">
               +{project.techStack.length - 4}
             </Badge>

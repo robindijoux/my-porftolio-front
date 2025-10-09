@@ -2,9 +2,22 @@
 import i18n from '@/i18n/config';
 
 /**
+ * Valide qu'un objet média a les propriétés requises
+ */
+export const isValidMedia = (media: any): boolean => {
+  return media && 
+         typeof media === 'object' && 
+         typeof media.type === 'string' && 
+         typeof media.url === 'string' &&
+         media.type.length > 0 &&
+         media.url.length > 0;
+};
+
+/**
  * Détermine si un média est une image basé sur son type MIME
  */
 export const isImage = (type: string): boolean => {
+  if (!type || typeof type !== 'string') return false;
   return type.toLowerCase().includes('image') || type === 'PHOTO';
 };
 
@@ -12,6 +25,7 @@ export const isImage = (type: string): boolean => {
  * Détermine si un média est une vidéo basé sur son type MIME
  */
 export const isVideo = (type: string): boolean => {
+  if (!type || typeof type !== 'string') return false;
   return type.toLowerCase().includes('video') || type === 'VIDEO';
 };
 
@@ -19,6 +33,7 @@ export const isVideo = (type: string): boolean => {
  * Détermine si un média est un document basé sur son type MIME
  */
 export const isDocument = (type: string): boolean => {
+  if (!type || typeof type !== 'string') return false;
   const documentTypes = ['pdf', 'doc', 'docx', 'txt', 'application', 'text'];
   return documentTypes.some(docType => type.toLowerCase().includes(docType));
 };
@@ -37,6 +52,7 @@ export const getMediaTypeClass = (type: string): string => {
  * Obtient le nom d'affichage du type de média
  */
 export const getMediaTypeName = (type: string): string => {
+  if (!type || typeof type !== 'string') return i18n.t('media.file');
   if (isImage(type)) return i18n.t('media.image');
   if (isVideo(type)) return i18n.t('media.video');
   if (isDocument(type)) return i18n.t('media.document');

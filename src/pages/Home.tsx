@@ -19,7 +19,16 @@ const Home = () => {
       setLoading(true);
       setError(null);
       const data = await apiService.getProjects();
-      setProjects(data);
+      // Vérifier et nettoyer les données pour éviter les erreurs
+      const cleanedData = data.map(project => ({
+        ...project,
+        media: project.media || [],
+        techStack: project.techStack || [],
+        name: project.name || '',
+        description: project.description || '',
+        shortDescription: project.shortDescription || ''
+      }));
+      setProjects(cleanedData);
     } catch (err) {
       setError(err instanceof Error ? err.message : t('common.error'));
     } finally {
