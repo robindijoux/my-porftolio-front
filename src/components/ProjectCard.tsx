@@ -52,84 +52,86 @@ const ProjectCard = ({ project, onDelete }: ProjectCardProps) => {
   };
 
   return (
-    <Card className="group overflow-hidden border-border/50 bg-card-gradient hover:shadow-glow transition-all duration-300 hover:-translate-y-1">
-      {/* Image du projet */}
-      <div className="relative overflow-hidden">
-        {project.media.length > 0 && (
-          <div className="aspect-video w-full overflow-hidden">
-            {isImage(project.media[0].type) ? (
-              <img
-                src={project.media[0].url}
-                alt={project.media[0].alt || project.name}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                loading="lazy"
-                onError={(e) => {
-                  e.currentTarget.src = '/placeholder.svg';
-                }}
-              />
-            ) : isVideo(project.media[0].type) ? (
-              <div className="relative w-full h-full">
-                <video
+    <Link to={`/project/${project.id}`} className="block group">
+      <Card className="overflow-hidden border-border/50 bg-card-gradient hover:shadow-glow transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+        {/* Image du projet */}
+        <div className="relative overflow-hidden">
+          {project.media.length > 0 && (
+            <div className="aspect-video w-full overflow-hidden">
+              {isImage(project.media[0].type) ? (
+                <img
                   src={project.media[0].url}
+                  alt={project.media[0].alt || project.name}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  muted
-                  preload="metadata"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.src = '/placeholder.svg';
+                  }}
                 />
-                <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                  <Play className="h-8 w-8 text-white" />
+              ) : isVideo(project.media[0].type) ? (
+                <div className="relative w-full h-full">
+                  <video
+                    src={project.media[0].url}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    muted
+                    preload="metadata"
+                  />
+                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                    <Play className="h-8 w-8 text-white" />
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="w-full h-full bg-muted/20 flex items-center justify-center">
-                <Play className="h-8 w-8 text-muted-foreground" />
-              </div>
-            )}
-          </div>
-        )}
-        
-        {/* Badge "En vedette" */}
-        {project.featured && (
-          <div className="absolute top-4 left-4">
-            <Badge className="bg-secondary text-secondary-foreground shadow-secondary-glow">
-              ⭐ {t('project.featured')}
-            </Badge>
-          </div>
-        )}
+              ) : (
+                <div className="w-full h-full bg-muted/20 flex items-center justify-center">
+                  <Play className="h-8 w-8 text-muted-foreground" />
+                </div>
+              )}
+            </div>
+          )}
+          
+          {/* Badge "En vedette" */}
+          {project.featured && (
+            <div className="absolute top-4 left-4">
+              <Badge className="bg-secondary text-secondary-foreground shadow-secondary-glow">
+                ⭐ {t('project.featured')}
+              </Badge>
+            </div>
+          )}
 
-        {/* Bouton de suppression pour les utilisateurs connectés */}
-        {isAuthenticated && (
-          <div className="absolute top-4 right-4">
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="bg-background/80 hover:bg-destructive hover:text-destructive-foreground backdrop-blur-sm"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>{t('project.confirmDelete')}</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    {t('project.confirmDeleteDescription', { name: project.name })}
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={handleDelete}
-                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+          {/* Bouton de suppression pour les utilisateurs connectés */}
+          {isAuthenticated && (
+            <div className="absolute top-4 right-4">
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="bg-background/80 hover:bg-destructive hover:text-destructive-foreground backdrop-blur-sm z-10"
+                    onClick={(e) => e.preventDefault()} // Empêche la navigation vers le projet
                   >
-                    {t('common.delete')}
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>
-        )}
-      </div>
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>{t('project.confirmDelete')}</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      {t('project.confirmDeleteDescription', { name: project.name })}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleDelete}
+                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    >
+                      {t('common.delete')}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          )}
+        </div>
 
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
@@ -171,37 +173,39 @@ const ProjectCard = ({ project, onDelete }: ProjectCardProps) => {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center justify-between">
-          <Link to={`/project/${project.id}`}>
-            <Button 
-              variant="outline" 
-              size="sm"
-              className="hover:bg-primary hover:text-primary-foreground transition-colors"
-            >
-              {t('project.details')}
-            </Button>
-          </Link>
-
+        <div className="flex items-center justify-end">
           <div className="flex items-center space-x-2">
             {project.projectLink && (
-              <Button variant="ghost" size="icon" asChild>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                asChild
+                onClick={(e) => e.preventDefault()} // Empêche la navigation vers le projet
+              >
                 <a
                   href={project.projectLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={t('project.viewLive')}
+                  onClick={(e) => e.stopPropagation()} // Empêche la propagation du clic
                 >
                   <ExternalLink className="h-4 w-4" />
                 </a>
               </Button>
             )}
             {project.repositoryLink && (
-              <Button variant="ghost" size="icon" asChild>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                asChild
+                onClick={(e) => e.preventDefault()} // Empêche la navigation vers le projet
+              >
                 <a
                   href={project.repositoryLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={t('project.viewCode')}
+                  onClick={(e) => e.stopPropagation()} // Empêche la propagation du clic
                 >
                   <Github className="h-4 w-4" />
                 </a>
@@ -211,6 +215,7 @@ const ProjectCard = ({ project, onDelete }: ProjectCardProps) => {
         </div>
       </CardContent>
     </Card>
+    </Link>
   );
 };
 

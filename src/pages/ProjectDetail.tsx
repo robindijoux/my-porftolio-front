@@ -6,6 +6,7 @@ import remarkGfm from 'remark-gfm';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import { Project, apiService } from '@/services/api';
@@ -18,7 +19,11 @@ import {
   Calendar, 
   Star,
   Play,
-  Image as ImageIcon
+  Image as ImageIcon,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  ZoomIn
 } from 'lucide-react';
 
 const ProjectDetail = () => {
@@ -28,6 +33,8 @@ const ProjectDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [modalImageIndex, setModalImageIndex] = useState(0);
 
   const loadProject = useCallback(async () => {
     if (!id) {
@@ -51,6 +58,46 @@ const ProjectDetail = () => {
   useEffect(() => {
     loadProject();
   }, [loadProject]);
+
+  // Fonctions pour la navigation dans le modal
+  const openImageModal = (index: number) => {
+    setModalImageIndex(index);
+    setIsImageModalOpen(true);
+  };
+
+  const nextImage = () => {
+    if (!project) return;
+    const images = project.media.filter(media => isImage(media.type));
+    const currentImageIndex = images.findIndex((_, idx) => idx === modalImageIndex);
+    const nextIndex = (currentImageIndex + 1) % images.length;
+    setModalImageIndex(nextIndex);
+  };
+
+  const prevImage = () => {
+    if (!project) return;
+    const images = project.media.filter(media => isImage(media.type));
+    const currentImageIndex = images.findIndex((_, idx) => idx === modalImageIndex);
+    const prevIndex = currentImageIndex === 0 ? images.length - 1 : currentImageIndex - 1;
+    setModalImageIndex(prevIndex);
+  };
+
+  // Navigation au clavier
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (!isImageModalOpen) return;
+      
+      if (e.key === 'ArrowLeft') {
+        prevImage();
+      } else if (e.key === 'ArrowRight') {
+        nextImage();
+      } else if (e.key === 'Escape') {
+        setIsImageModalOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [isImageModalOpen, modalImageIndex, project]);
 
   if (loading) {
     return <LoadingSpinner size="lg" />;
@@ -174,16 +221,24 @@ const ProjectDetail = () => {
               {/* Média principal */}
               <Card className="mb-6 overflow-hidden border-border/50 bg-card-gradient">
                 <CardContent className="p-0">
-                  <div className="aspect-video w-full overflow-hidden bg-muted/10">
+                  <div className="aspect-video w-full overflow-hidden bg-muted/10 relative group cursor-pointer" 
+                       onClick={() => isImage(project.media[selectedMediaIndex].type) && openImageModal(selectedMediaIndex)}>
                     {isImage(project.media[selectedMediaIndex].type) ? (
-                      <img
-                        src={project.media[selectedMediaIndex].url}
-                        alt={project.media[selectedMediaIndex].alt || project.name}
-                        className="w-full h-full object-contain"
-                        onError={(e) => {
-                          e.currentTarget.src = '/placeholder.svg';
-                        }}
-                      />
+                      <div className="relative w-full h-full">
+                        <img
+                          src={project.media[selectedMediaIndex].url}
+                          alt={project.media[selectedMediaIndex].alt || project.name}
+                          className="w-full h-full object-contain"
+                          onError={(e) => {
+                            e.currentTarget.src = '/placeholder.svg';
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
+                          <div className="bg-white/90 rounded-full p-3 transform scale-0 group-hover:scale-100 transition-transform duration-300">
+                            <ZoomIn className="h-6 w-6 text-gray-800" />
+                          </div>
+                        </div>
+                      </div>
                     ) : isVideo(project.media[selectedMediaIndex].type) ? (
                       <video
                         src={project.media[selectedMediaIndex].url}
@@ -214,7 +269,20 @@ const ProjectDetail = () => {
                   {project.media.map((media, index) => (
                     <button
                       key={index}
-                      onClick={() => setSelectedMediaIndex(index)}
+                      onClick={() => {
+                        if (isImage(media.type)) {
+                          // Si c'est la même image sélectionnée, ouvrir le modal
+                          if (selectedMediaIndex === index) {
+                            openImageModal(index);
+                          } else {
+                            // Sinon, juste changer la sélection
+                            setSelectedMediaIndex(index);
+                          }
+                        } else {
+                          // Pour les vidéos, juste changer la sélection
+                          setSelectedMediaIndex(index);
+                        }
+                      }}
                       className={`aspect-video rounded-lg overflow-hidden border-2 transition-all relative ${
                         selectedMediaIndex === index 
                           ? 'border-primary shadow-glow' 
@@ -222,14 +290,19 @@ const ProjectDetail = () => {
                       }`}
                     >
                       {isImage(media.type) ? (
-                        <img
-                          src={media.url}
-                          alt={media.alt || `${project.name} - Image ${index + 1}`}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.src = '/placeholder.svg';
-                          }}
-                        />
+                        <div className="relative w-full h-full group">
+                          <img
+                            src={media.url}
+                            alt={media.alt || `${project.name} - Image ${index + 1}`}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.src = '/placeholder.svg';
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <ZoomIn className="h-4 w-4 text-white" />
+                          </div>
+                        </div>
                       ) : isVideo(media.type) ? (
                         <div className="relative w-full h-full">
                           <video
@@ -253,6 +326,60 @@ const ProjectDetail = () => {
               )}
             </div>
           )}
+
+          {/* Modal pour agrandir les images */}
+          <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
+            <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-black/95 border-none">
+              <div className="relative w-full h-full flex items-center justify-center">
+                {project && isImage(project.media[modalImageIndex]?.type) && (
+                  <>
+                    {/* Image agrandie */}
+                    <img
+                      src={project.media[modalImageIndex]?.url}
+                      alt={project.media[modalImageIndex]?.alt || project.name}
+                      className="max-w-full max-h-[90vh] object-contain"
+                      onError={(e) => {
+                        e.currentTarget.src = '/placeholder.svg';
+                      }}
+                    />
+                    
+                    {/* Bouton fermer */}
+                    <button
+                      onClick={() => setIsImageModalOpen(false)}
+                      className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors z-10"
+                    >
+                      <X className="h-6 w-6" />
+                    </button>
+
+                    {/* Navigation précédent/suivant si plusieurs images */}
+                    {project.media.filter(media => isImage(media.type)).length > 1 && (
+                      <>
+                        <button
+                          onClick={prevImage}
+                          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors z-10"
+                        >
+                          <ChevronLeft className="h-6 w-6" />
+                        </button>
+                        <button
+                          onClick={nextImage}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors z-10"
+                        >
+                          <ChevronRight className="h-6 w-6" />
+                        </button>
+                      </>
+                    )}
+
+                    {/* Indicateur de position */}
+                    {project.media.filter(media => isImage(media.type)).length > 1 && (
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                        {modalImageIndex + 1} / {project.media.filter(media => isImage(media.type)).length}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            </DialogContent>
+          </Dialog>
 
           {/* Description détaillée */}
           <div className={project.media.length > 0 ? 'lg:col-span-1' : 'lg:col-span-3'}>
