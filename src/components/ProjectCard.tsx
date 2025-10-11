@@ -159,14 +159,14 @@ const ProjectCard = ({ project, onDelete }: ProjectCardProps) => {
             <Badge
               key={tech.technology}
               variant="outline"
-              className="text-xs border-border/60"
+              className="text-xs border-border/60 bg-card-gradient"
             >
               <img src={tech.iconUrl} alt={tech.technology} className="h-3 w-3 mr-1" />
               {tech.technology}
             </Badge>
           ))}
           {project.techStack && project.techStack.length > 4 && (
-            <Badge variant="outline" className="text-xs border-border/60">
+            <Badge variant="outline" className="text-xs border-border/60 bg-card-gradient">
               +{project.techStack.length - 4}
             </Badge>
           )}

@@ -99,10 +99,10 @@ const MediaGallery = ({
       </h2>
       
       {/* Média principal */}
-      <Card className="mb-6 overflow-hidden border-border/50 bg-card-gradient">
+      <Card className="mb-6 overflow-hidden border-none bg-transparent shadow-none">
         <CardContent className="p-0">
           <div 
-            className="aspect-[4/3] w-full max-h-[400px] overflow-hidden bg-muted/10 relative group cursor-pointer" 
+            className="aspect-[4/3] w-full max-h-[400px] overflow-hidden relative group cursor-pointer" 
             onClick={() => isImage(project.media[selectedMediaIndex].type) && onImageClick(selectedMediaIndex)}
             onMouseEnter={handleMediaHover}
             onMouseMove={handleMediaMove}
@@ -141,7 +141,7 @@ const MediaGallery = ({
                 {t('project.videoNotSupported')}
               </video>
             ) : (
-              <div className="w-full h-full bg-muted/20 flex items-center justify-center">
+              <div className="w-full h-full flex items-center justify-center">
                 <div className="text-center">
                   <Play className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
                   <p className="text-muted-foreground">{t('project.mediaLabel')} : {project.media[selectedMediaIndex].type}</p>
@@ -200,10 +200,10 @@ const MediaGallery = ({
                           onMediaIndexChange(index);
                         }
                       }}
-                      className={`flex-shrink-0 w-12 h-8 rounded overflow-hidden border transition-all ${
+                      className={`flex-shrink-0 w-12 h-8 rounded overflow-hidden transition-all ${
                         selectedMediaIndex === index 
                           ? 'border-primary border-2 shadow-glow' 
-                          : 'border-white/30 hover:border-white/60'
+                          : 'hover:opacity-80'
                       }`}
                     >
                       {isImage(media.type) ? (
@@ -216,7 +216,7 @@ const MediaGallery = ({
                           }}
                         />
                       ) : isVideo(media.type) ? (
-                        <div className="relative w-full h-full bg-black/20">
+                        <div className="relative w-full h-full">
                           <video
                             src={media.url}
                             className="w-full h-full object-cover"
@@ -228,7 +228,7 @@ const MediaGallery = ({
                           </div>
                         </div>
                       ) : (
-                        <div className="w-full h-full bg-muted/40 flex items-center justify-center">
+                        <div className="w-full h-full flex items-center justify-center">
                           <Play className="h-3 w-3 text-white" />
                         </div>
                       )}

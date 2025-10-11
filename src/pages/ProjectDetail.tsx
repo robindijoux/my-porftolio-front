@@ -236,16 +236,16 @@ const ProjectDetail = () => {
           {/* Section Technologies et Galerie sur la même ligne */}
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Stack technologique - largeur fixe réduite */}
-            <div className="lg:w-36 lg:flex-shrink-0">
+            <div className="lg:w-44 lg:flex-shrink-0 flex flex-col">
               <h3 className="text-xl font-semibold mb-6 text-foreground">
                 {t('project.technologies')}
               </h3>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3 lg:justify-center lg:flex-1 lg:max-h-[400px]">
                 {project.techStack.map((tech) => (
                   <Badge
                     key={tech.technology}
                     variant="outline"
-                    className="border-border/60 hover:border-primary/50 transition-colors py-2 px-3 text-sm justify-center"
+                    className="border-border/60 hover:border-primary/50 transition-colors py-2 px-3 text-sm justify-center bg-card-gradient"
                   >
                     <img src={tech.iconUrl} alt={tech.technology} className="h-5 w-5 mr-2" />
                     {tech.technology}
@@ -371,7 +371,7 @@ const ProjectDetail = () => {
 
             {/* Métadonnées supplémentaires */}
             <div className="mt-8 space-y-4">
-              <Card className="border-border/50 bg-card/50">
+              <Card className="border-border/50 bg-card-gradient">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">{t('project.projectType')}</span>
@@ -383,7 +383,7 @@ const ProjectDetail = () => {
                 </CardContent>
               </Card>
 
-              <Card className="border-border/50 bg-card/50">
+              <Card className="border-border/50 bg-card-gradient">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">{t('project.techCount')}</span>
@@ -392,7 +392,7 @@ const ProjectDetail = () => {
                 </CardContent>
               </Card>
 
-              <Card className="border-border/50 bg-card/50">
+              <Card className="border-border/50 bg-card-gradient">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">{t('project.mediaCount')}</span>

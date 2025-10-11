@@ -276,12 +276,12 @@ const AdminProjects = () => {
                       {project.techStack && project.techStack.length > 0 && (
                         <div className="flex flex-wrap gap-1 mb-3">
                           {project.techStack.slice(0, 4).map((tech, index) => (
-                            <Badge key={index} variant="secondary" className="text-xs">
+                            <Badge key={index} variant="secondary" className="text-xs bg-card-gradient">
                               {tech.technology}
                             </Badge>
                           ))}
                           {project.techStack.length > 4 && (
-                            <Badge variant="secondary" className="text-xs">
+                            <Badge variant="secondary" className="text-xs bg-card-gradient">
                               +{project.techStack.length - 4}
                             </Badge>
                           )}
