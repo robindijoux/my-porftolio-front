@@ -35,6 +35,9 @@ const ProjectDetail = () => {
   const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [modalImageIndex, setModalImageIndex] = useState(0);
+  const [isMediaSectionVisible, setIsMediaSectionVisible] = useState(true);
+  const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
+  const mediaSectionRef = useRef<HTMLDivElement>(null);
 
   const loadProject = useCallback(async () => {
     if (!id) {
@@ -59,10 +62,36 @@ const ProjectDetail = () => {
     loadProject();
   }, [loadProject]);
 
+  // Observer pour détecter la visibilité de la section des médias
+  useEffect(() => {
+    if (!mediaSectionRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsMediaSectionVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1, // Déclenche quand 10% de la section est visible
+        rootMargin: '-20px 0px -20px 0px' // Marge pour déclencher un peu avant/après
+      }
+    );
+
+    observer.observe(mediaSectionRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [project]);
+
   // Fonctions pour la navigation dans le modal
   const openImageModal = (index: number) => {
     setModalImageIndex(index);
     setIsImageModalOpen(true);
+  };
+
+  const openGalleryModal = () => {
+    setIsGalleryModalOpen(true);
+    setModalImageIndex(selectedMediaIndex);
   };
 
   const nextImage = () => {
@@ -84,7 +113,7 @@ const ProjectDetail = () => {
   // Navigation au clavier
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (!isImageModalOpen) return;
+      if (!isImageModalOpen && !isGalleryModalOpen) return;
       
       if (e.key === 'ArrowLeft') {
         prevImage();
@@ -92,12 +121,13 @@ const ProjectDetail = () => {
         nextImage();
       } else if (e.key === 'Escape') {
         setIsImageModalOpen(false);
+        setIsGalleryModalOpen(false);
       }
     };
 
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
-  }, [isImageModalOpen, modalImageIndex, project]);
+  }, [isImageModalOpen, isGalleryModalOpen, modalImageIndex, project]);
 
   if (loading) {
     return <LoadingSpinner size="lg" />;
@@ -210,10 +240,10 @@ const ProjectDetail = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div className="space-y-12">
           {/* Galerie de médias */}
           {project.media.length > 0 && (
-            <div className="lg:col-span-2">
+            <div ref={mediaSectionRef} className="w-full">
               <h2 className="text-xl font-semibold mb-6 text-foreground">
                 {t('project.mediaGallery')}
               </h2>
@@ -381,8 +411,130 @@ const ProjectDetail = () => {
             </DialogContent>
           </Dialog>
 
+          {/* Modal de galerie complète */}
+          <Dialog open={isGalleryModalOpen} onOpenChange={setIsGalleryModalOpen}>
+            <DialogContent className="max-w-[95vw] max-h-[95vh] p-4 bg-background border border-border">
+              <div className="relative w-full h-full">
+                {/* En-tête du modal */}
+                <div className="flex items-center justify-between mb-4 pb-4 border-b border-border">
+                  <h3 className="text-lg font-semibold text-foreground">
+                    {t('project.mediaGallery')}
+                  </h3>
+                </div>
+
+                {/* Contenu de la galerie */}
+                <div className="space-y-6 max-h-[calc(90vh-100px)] overflow-y-auto">
+                  {/* Média principal */}
+                  <Card className="overflow-hidden border-border/50 bg-card-gradient">
+                    <CardContent className="p-0">
+                      <div className="aspect-video w-full overflow-hidden bg-muted/10 relative group cursor-pointer" 
+                           onClick={() => isImage(project.media[selectedMediaIndex].type) && openImageModal(selectedMediaIndex)}>
+                        {isImage(project.media[selectedMediaIndex].type) ? (
+                          <div className="relative w-full h-full">
+                            <img
+                              src={project.media[selectedMediaIndex].url}
+                              alt={project.media[selectedMediaIndex].alt || project.name}
+                              className="w-full h-full object-contain"
+                              onError={(e) => {
+                                e.currentTarget.src = '/placeholder.svg';
+                              }}
+                            />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
+                              <div className="bg-white/90 rounded-full p-3 transform scale-0 group-hover:scale-100 transition-transform duration-300">
+                                <ZoomIn className="h-6 w-6 text-gray-800" />
+                              </div>
+                            </div>
+                          </div>
+                        ) : isVideo(project.media[selectedMediaIndex].type) ? (
+                          <video
+                            src={project.media[selectedMediaIndex].url}
+                            className="w-full h-full object-contain"
+                            controls
+                            preload="metadata"
+                            onError={(e) => {
+                              console.error('Erreur de chargement vidéo:', e);
+                            }}
+                          >
+                            {t('project.videoNotSupported')}
+                          </video>
+                        ) : (
+                          <div className="w-full h-full bg-muted/20 flex items-center justify-center">
+                            <div className="text-center">
+                              <Play className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+                              <p className="text-muted-foreground">{t('project.mediaLabel')} : {project.media[selectedMediaIndex].type}</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Miniatures */}
+                  {project.media.length > 1 && (
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                      {project.media.map((media, index) => (
+                        <button
+                          key={index}
+                          onClick={() => {
+                            if (isImage(media.type)) {
+                              if (selectedMediaIndex === index) {
+                                setIsGalleryModalOpen(false);
+                                openImageModal(index);
+                              } else {
+                                setSelectedMediaIndex(index);
+                              }
+                            } else {
+                              setSelectedMediaIndex(index);
+                            }
+                          }}
+                          className={`aspect-video rounded-lg overflow-hidden border-2 transition-all relative ${
+                            selectedMediaIndex === index 
+                              ? 'border-primary shadow-glow' 
+                              : 'border-border/30 hover:border-border/60'
+                          }`}
+                        >
+                          {isImage(media.type) ? (
+                            <div className="relative w-full h-full group">
+                              <img
+                                src={media.url}
+                                alt={media.alt || `${project.name} - Image ${index + 1}`}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.src = '/placeholder.svg';
+                                }}
+                              />
+                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                <ZoomIn className="h-4 w-4 text-white" />
+                              </div>
+                            </div>
+                          ) : isVideo(media.type) ? (
+                            <div className="relative w-full h-full">
+                              <video
+                                src={media.url}
+                                className="w-full h-full object-cover"
+                                muted
+                                preload="metadata"
+                              />
+                              <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                                <Play className="h-6 w-6 text-white" />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="w-full h-full bg-muted/20 flex items-center justify-center">
+                              <Play className="h-6 w-6 text-muted-foreground" />
+                            </div>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+
           {/* Description détaillée */}
-          <div className={project.media.length > 0 ? 'lg:col-span-1' : 'lg:col-span-3'}>
+          <div className="w-full">
             <h2 className="text-xl font-semibold mb-6 text-foreground">
               {t('project.details')}
             </h2>
@@ -450,6 +602,59 @@ const ProjectDetail = () => {
             </Link>
           </div>
         </div>
+
+        {/* Bouton flottant pour afficher la galerie quand les médias ne sont plus visibles */}
+        {project && project.media.length > 0 && !isMediaSectionVisible && (
+          <button
+            onClick={openGalleryModal}
+            className="fixed bottom-6 right-6 w-20 h-20 rounded-full overflow-hidden shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 z-40 border-2 border-primary/20 hover:border-primary/40 group"
+            aria-label={t('project.viewGallery')}
+          >
+            {/* Miniature de l'image actuelle */}
+            <div className="relative w-full h-full">
+              {isImage(project.media[selectedMediaIndex].type) ? (
+                <img
+                  src={project.media[selectedMediaIndex].url}
+                  alt={project.media[selectedMediaIndex].alt || project.name}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  onError={(e) => {
+                    e.currentTarget.src = '/placeholder.svg';
+                  }}
+                />
+              ) : isVideo(project.media[selectedMediaIndex].type) ? (
+                <div className="relative w-full h-full">
+                  <video
+                    src={project.media[selectedMediaIndex].url}
+                    className="w-full h-full object-cover"
+                    muted
+                    preload="metadata"
+                  />
+                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <Play className="h-5 w-5 text-white" />
+                  </div>
+                </div>
+              ) : (
+                <div className="w-full h-full bg-primary flex items-center justify-center">
+                  <ZoomIn className="h-7 w-7 text-primary-foreground" />
+                </div>
+              )}
+              
+              {/* Overlay avec indicateur de zoom */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-end justify-end p-1.5">
+                <div className="bg-primary/80 group-hover:bg-primary rounded-full p-1.5 transition-colors">
+                  <ZoomIn className="h-3.5 w-3.5 text-primary-foreground" />
+                </div>
+              </div>
+              
+              {/* Indicateur du nombre de médias */}
+              {project.media.length > 1 && (
+                <div className="absolute top-1.5 left-1.5 bg-black/70 text-white text-xs px-2 py-1 rounded-full font-medium">
+                  {project.media.length}
+                </div>
+              )}
+            </div>
+          </button>
+        )}
       </div>
     </div>
   );
