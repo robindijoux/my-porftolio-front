@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import MediaGallery from '@/components/MediaGallery';
+import ImageZoomViewer from '@/components/ImageZoomViewer';
 import { Project, apiService } from '@/services/api';
 import { formatDate } from '@/utils/date';
 import { isImage, isVideo } from '@/utils/media';
@@ -268,68 +269,19 @@ const ProjectDetail = () => {
             )}
           </div>
 
-          {/* Modal pour agrandir les images */}
-          <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
-            <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-black/95 border-none [&>button]:hidden">
-              <div className="relative w-full h-full">
-                {project && isImage(project.media[modalImageIndex]?.type) && (
-                  <>
-                    {/* Container scrollable pour l'image zoomée */}
-                    <div className="w-full h-[95vh] overflow-auto">
-                      <div className="w-fit h-fit p-8 mx-auto">
-                        <img
-                          src={project.media[modalImageIndex]?.url}
-                          alt={project.media[modalImageIndex]?.alt || project.name}
-                          className="block"
-                          style={{ 
-                            width: '180%',
-                            height: 'auto',
-                            maxWidth: 'none'
-                          }}
-                          onError={(e) => {
-                            e.currentTarget.src = '/placeholder.svg';
-                          }}
-                        />
-                      </div>
-                    </div>
-                    
-                    {/* Bouton fermer */}
-                    <button
-                      onClick={() => setIsImageModalOpen(false)}
-                      className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors z-10"
-                    >
-                      <X className="h-6 w-6" />
-                    </button>
-
-                    {/* Navigation précédent/suivant si plusieurs images */}
-                    {project.media.filter(media => isImage(media.type)).length > 1 && (
-                      <>
-                        <button
-                          onClick={prevImage}
-                          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors z-10"
-                        >
-                          <ChevronLeft className="h-6 w-6" />
-                        </button>
-                        <button
-                          onClick={nextImage}
-                          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors z-10"
-                        >
-                          <ChevronRight className="h-6 w-6" />
-                        </button>
-                      </>
-                    )}
-
-                    {/* Indicateur de position */}
-                    {project.media.filter(media => isImage(media.type)).length > 1 && (
-                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 text-white px-3 py-1 rounded-full text-sm z-10">
-                        {modalImageIndex + 1} / {project.media.filter(media => isImage(media.type)).length}
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-            </DialogContent>
-          </Dialog>
+          {/* Modal pour agrandir les images avec zoom avancé */}
+          {isImageModalOpen && project && isImage(project.media[modalImageIndex]?.type) && (
+            <ImageZoomViewer
+              src={project.media[modalImageIndex]?.url}
+              alt={project.media[modalImageIndex]?.alt || project.name}
+              onClose={() => setIsImageModalOpen(false)}
+              onPrevious={project.media.filter(media => isImage(media.type)).length > 1 ? prevImage : undefined}
+              onNext={project.media.filter(media => isImage(media.type)).length > 1 ? nextImage : undefined}
+              hasMultiple={project.media.filter(media => isImage(media.type)).length > 1}
+              currentIndex={modalImageIndex + 1}
+              totalImages={project.media.filter(media => isImage(media.type)).length}
+            />
+          )}
 
           {/* Modal de galerie complète */}
           <Dialog open={isGalleryModalOpen} onOpenChange={setIsGalleryModalOpen}>
