@@ -37,7 +37,9 @@ const ProjectDetail = () => {
   const [modalImageIndex, setModalImageIndex] = useState(0);
   const [isMediaSectionVisible, setIsMediaSectionVisible] = useState(true);
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
+  const [showHoverOverlay, setShowHoverOverlay] = useState(false);
   const mediaSectionRef = useRef<HTMLDivElement>(null);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const loadProject = useCallback(async () => {
     if (!id) {
@@ -61,6 +63,15 @@ const ProjectDetail = () => {
   useEffect(() => {
     loadProject();
   }, [loadProject]);
+
+  // Nettoyage du timeout au démontage
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Observer pour détecter la visibilité de la section des médias
   useEffect(() => {
@@ -94,6 +105,58 @@ const ProjectDetail = () => {
     setModalImageIndex(selectedMediaIndex);
   };
 
+  const nextMedia = () => {
+    if (!project) return;
+    const nextIndex = (selectedMediaIndex + 1) % project.media.length;
+    setSelectedMediaIndex(nextIndex);
+  };
+
+  const prevMedia = () => {
+    if (!project) return;
+    const prevIndex = selectedMediaIndex === 0 ? project.media.length - 1 : selectedMediaIndex - 1;
+    setSelectedMediaIndex(prevIndex);
+  };
+
+  const handleMediaHover = () => {
+    setShowHoverOverlay(true);
+    
+    // Nettoyer le timeout précédent s'il existe
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    
+    // Programmer la disparition de l'overlay après 1 seconde
+    hoverTimeoutRef.current = setTimeout(() => {
+      setShowHoverOverlay(false);
+    }, 1000);
+  };
+
+  const handleMediaMove = () => {
+    // Réactiver l'effet hover si la souris bouge sur l'image
+    if (!showHoverOverlay) {
+      handleMediaHover();
+    } else {
+      // Si l'overlay est déjà visible, relancer le timer
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+      
+      hoverTimeoutRef.current = setTimeout(() => {
+        setShowHoverOverlay(false);
+      }, 1000);
+    }
+  };
+
+  const handleMediaLeave = () => {
+    setShowHoverOverlay(false);
+    
+    // Nettoyer le timeout
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+  };
+
   const nextImage = () => {
     if (!project) return;
     const images = project.media.filter(media => isImage(media.type));
@@ -113,21 +176,30 @@ const ProjectDetail = () => {
   // Navigation au clavier
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (!isImageModalOpen && !isGalleryModalOpen) return;
-      
-      if (e.key === 'ArrowLeft') {
-        prevImage();
-      } else if (e.key === 'ArrowRight') {
-        nextImage();
-      } else if (e.key === 'Escape') {
-        setIsImageModalOpen(false);
-        setIsGalleryModalOpen(false);
+      // Navigation dans les modals
+      if (isImageModalOpen || isGalleryModalOpen) {
+        if (e.key === 'ArrowLeft') {
+          prevImage();
+        } else if (e.key === 'ArrowRight') {
+          nextImage();
+        } else if (e.key === 'Escape') {
+          setIsImageModalOpen(false);
+          setIsGalleryModalOpen(false);
+        }
+      } 
+      // Navigation dans la galerie principale (si aucun modal n'est ouvert)
+      else if (project && project.media.length > 1) {
+        if (e.key === 'ArrowLeft') {
+          prevMedia();
+        } else if (e.key === 'ArrowRight') {
+          nextMedia();
+        }
       }
     };
 
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
-  }, [isImageModalOpen, isGalleryModalOpen, modalImageIndex, project]);
+  }, [isImageModalOpen, isGalleryModalOpen, modalImageIndex, selectedMediaIndex, project]);
 
   if (loading) {
     return <LoadingSpinner size="lg" />;
@@ -251,8 +323,13 @@ const ProjectDetail = () => {
               {/* Média principal */}
               <Card className="mb-6 overflow-hidden border-border/50 bg-card-gradient">
                 <CardContent className="p-0">
-                  <div className="aspect-video w-full overflow-hidden bg-muted/10 relative group cursor-pointer" 
-                       onClick={() => isImage(project.media[selectedMediaIndex].type) && openImageModal(selectedMediaIndex)}>
+                  <div 
+                    className="aspect-video w-full overflow-hidden bg-muted/10 relative group cursor-pointer" 
+                    onClick={() => isImage(project.media[selectedMediaIndex].type) && openImageModal(selectedMediaIndex)}
+                    onMouseEnter={handleMediaHover}
+                    onMouseMove={handleMediaMove}
+                    onMouseLeave={handleMediaLeave}
+                  >
                     {isImage(project.media[selectedMediaIndex].type) ? (
                       <div className="relative w-full h-full">
                         <img
@@ -263,8 +340,12 @@ const ProjectDetail = () => {
                             e.currentTarget.src = '/placeholder.svg';
                           }}
                         />
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
-                          <div className="bg-white/90 rounded-full p-3 transform scale-0 group-hover:scale-100 transition-transform duration-300">
+                        <div className={`absolute inset-0 bg-black/20 transition-all duration-300 flex items-center justify-center pointer-events-none ${
+                          showHoverOverlay ? 'opacity-100' : 'opacity-0'
+                        }`}>
+                          <div className={`bg-white/90 rounded-full p-3 transition-transform duration-300 ${
+                            showHoverOverlay ? 'scale-100' : 'scale-0'
+                          }`}>
                             <ZoomIn className="h-6 w-6 text-gray-800" />
                           </div>
                         </div>
@@ -289,71 +370,98 @@ const ProjectDetail = () => {
                         </div>
                       </div>
                     )}
+
+                    {/* Flèches de navigation */}
+                    {project.media.length > 1 && (
+                      <>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            prevMedia();
+                          }}
+                          className={`absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all duration-200 z-10 ${
+                            showHoverOverlay ? 'opacity-100' : 'opacity-0'
+                          }`}
+                          aria-label="Média précédent"
+                        >
+                          <ChevronLeft className="h-6 w-6" />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            nextMedia();
+                          }}
+                          className={`absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all duration-200 z-10 ${
+                            showHoverOverlay ? 'opacity-100' : 'opacity-0'
+                          }`}
+                          aria-label="Média suivant"
+                        >
+                          <ChevronRight className="h-6 w-6" />
+                        </button>
+                      </>
+                    )}
+
+                    {/* Barre de miniatures intégrée */}
+                    {project.media.length > 1 && (
+                      <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-md rounded-lg p-2 transition-all duration-300 z-10 ${
+                        showHoverOverlay ? 'opacity-100' : 'opacity-0'
+                      }`}>
+                        <div className="flex gap-2 max-w-xs overflow-x-auto scrollbar-hide">
+                          {project.media.map((media, index) => (
+                            <button
+                              key={index}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (isImage(media.type)) {
+                                  if (selectedMediaIndex === index) {
+                                    openImageModal(index);
+                                  } else {
+                                    setSelectedMediaIndex(index);
+                                  }
+                                } else {
+                                  setSelectedMediaIndex(index);
+                                }
+                              }}
+                              className={`flex-shrink-0 w-12 h-8 rounded overflow-hidden border transition-all ${
+                                selectedMediaIndex === index 
+                                  ? 'border-primary border-2 shadow-glow' 
+                                  : 'border-white/30 hover:border-white/60'
+                              }`}
+                            >
+                              {isImage(media.type) ? (
+                                <img
+                                  src={media.url}
+                                  alt={media.alt || `Miniature ${index + 1}`}
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    e.currentTarget.src = '/placeholder.svg';
+                                  }}
+                                />
+                              ) : isVideo(media.type) ? (
+                                <div className="relative w-full h-full bg-black/20">
+                                  <video
+                                    src={media.url}
+                                    className="w-full h-full object-cover"
+                                    muted
+                                    preload="metadata"
+                                  />
+                                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                    <Play className="h-3 w-3 text-white" />
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="w-full h-full bg-muted/40 flex items-center justify-center">
+                                  <Play className="h-3 w-3 text-white" />
+                                </div>
+                              )}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
-
-              {/* Miniatures */}
-              {project.media.length > 1 && (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {project.media.map((media, index) => (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        if (isImage(media.type)) {
-                          // Si c'est la même image sélectionnée, ouvrir le modal
-                          if (selectedMediaIndex === index) {
-                            openImageModal(index);
-                          } else {
-                            // Sinon, juste changer la sélection
-                            setSelectedMediaIndex(index);
-                          }
-                        } else {
-                          // Pour les vidéos, juste changer la sélection
-                          setSelectedMediaIndex(index);
-                        }
-                      }}
-                      className={`aspect-video rounded-lg overflow-hidden border-2 transition-all relative ${
-                        selectedMediaIndex === index 
-                          ? 'border-primary shadow-glow' 
-                          : 'border-border/30 hover:border-border/60'
-                      }`}
-                    >
-                      {isImage(media.type) ? (
-                        <div className="relative w-full h-full group">
-                          <img
-                            src={media.url}
-                            alt={media.alt || `${project.name} - Image ${index + 1}`}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              e.currentTarget.src = '/placeholder.svg';
-                            }}
-                          />
-                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                            <ZoomIn className="h-4 w-4 text-white" />
-                          </div>
-                        </div>
-                      ) : isVideo(media.type) ? (
-                        <div className="relative w-full h-full">
-                          <video
-                            src={media.url}
-                            className="w-full h-full object-cover"
-                            muted
-                            preload="metadata"
-                          />
-                          <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                            <Play className="h-6 w-6 text-white" />
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="w-full h-full bg-muted/20 flex items-center justify-center">
-                          <Play className="h-6 w-6 text-muted-foreground" />
-                        </div>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              )}
             </div>
           )}
 
