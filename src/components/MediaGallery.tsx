@@ -102,7 +102,7 @@ const MediaGallery = ({
       <Card className="mb-6 overflow-hidden border-border/50 bg-card-gradient">
         <CardContent className="p-0">
           <div 
-            className="aspect-video w-full overflow-hidden bg-muted/10 relative group cursor-pointer" 
+            className="aspect-[4/3] w-full max-h-[400px] overflow-hidden bg-muted/10 relative group cursor-pointer" 
             onClick={() => isImage(project.media[selectedMediaIndex].type) && onImageClick(selectedMediaIndex)}
             onMouseEnter={handleMediaHover}
             onMouseMove={handleMediaMove}

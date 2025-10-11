@@ -230,39 +230,43 @@ const ProjectDetail = () => {
             </div>
           </div>
 
-          {/* Stack technologique */}
-          <div>
-            <h3 className="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wide">
-              {t('project.technologies')}
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {project.techStack.map((tech) => (
-                <Badge
-                  key={tech.technology}
-                  variant="outline"
-                  className="border-border/60 hover:border-primary/50 transition-colors"
-                >
-                  <img src={tech.iconUrl} alt={tech.technology} className="h-4 w-4 mr-2" />
-                  {tech.technology}
-                </Badge>
-              ))}
-            </div>
-          </div>
         </div>
 
-        <div className="space-y-12">
-          {/* Galerie de médias */}
-          {project.media.length > 0 && (
-            <div ref={mediaSectionRef}>
-              <MediaGallery
-                project={project}
-                selectedMediaIndex={selectedMediaIndex}
-                onMediaIndexChange={setSelectedMediaIndex}
-                onImageClick={openImageModal}
-                className="w-full"
-              />
+        <div className="space-y-6">
+          {/* Section Technologies et Galerie sur la même ligne */}
+          <div className="flex flex-col lg:flex-row gap-4">
+            {/* Stack technologique - largeur fixe réduite */}
+            <div className="lg:w-36 lg:flex-shrink-0">
+              <h3 className="text-xl font-semibold mb-6 text-foreground">
+                {t('project.technologies')}
+              </h3>
+              <div className="flex flex-col gap-3">
+                {project.techStack.map((tech) => (
+                  <Badge
+                    key={tech.technology}
+                    variant="outline"
+                    className="border-border/60 hover:border-primary/50 transition-colors py-2 px-3 text-sm justify-center"
+                  >
+                    <img src={tech.iconUrl} alt={tech.technology} className="h-5 w-5 mr-2" />
+                    {tech.technology}
+                  </Badge>
+                ))}
+              </div>
             </div>
-          )}
+
+            {/* Galerie de médias - prend tout l'espace restant */}
+            {project.media.length > 0 && (
+              <div ref={mediaSectionRef} className="lg:flex-1">
+                <MediaGallery
+                  project={project}
+                  selectedMediaIndex={selectedMediaIndex}
+                  onMediaIndexChange={setSelectedMediaIndex}
+                  onImageClick={openImageModal}
+                  className="w-full"
+                />
+              </div>
+            )}
+          </div>
 
           {/* Modal pour agrandir les images */}
           <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
@@ -450,20 +454,6 @@ const ProjectDetail = () => {
               ) : (
                 <div className="w-full h-full bg-primary flex items-center justify-center">
                   <ZoomIn className="h-7 w-7 text-primary-foreground" />
-                </div>
-              )}
-              
-              {/* Overlay avec indicateur de zoom */}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-end justify-end p-1.5">
-                <div className="bg-primary/80 group-hover:bg-primary rounded-full p-1.5 transition-colors">
-                  <ZoomIn className="h-3.5 w-3.5 text-primary-foreground" />
-                </div>
-              </div>
-              
-              {/* Indicateur du nombre de médias */}
-              {project.media.length > 1 && (
-                <div className="absolute top-1.5 left-1.5 bg-black/70 text-white text-xs px-2 py-1 rounded-full font-medium">
-                  {project.media.length}
                 </div>
               )}
             </div>
