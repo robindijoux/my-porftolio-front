@@ -1,6 +1,7 @@
 {
   "nav": {
-    "projects": "Projets",
+    "home": "Accueil",
+    "projects": "Mes Projets",
     "about": "À propos",
     "contact": "Contact",
     "administration": "Administration",
@@ -21,6 +22,7 @@
     },
     "cta": {
       "viewProjects": "Voir mes projets",
+      "viewJourney": "Voir mon parcours",
       "contact": "Me contacter"
     },
     "sections": {
@@ -33,6 +35,10 @@
       "collaborate": "Collaborons"
     },
     "noProjects": "Aucun projet trouvé."
+  },
+  "projects": {
+    "title": "Mes Projets",
+    "description": "Découvrez l'ensemble de mes réalisations et expérimentations techniques, des projets phares aux dernières innovations."
   },
   "project": {
     "featured": "Phare",

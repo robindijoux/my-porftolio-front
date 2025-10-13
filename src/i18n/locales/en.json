@@ -1,6 +1,7 @@
 {
   "nav": {
-    "projects": "Projects",
+    "home": "Home",
+    "projects": "My Projects",
     "about": "About",
     "contact": "Contact",
     "administration": "Administration",
@@ -21,6 +22,7 @@
     },
     "cta": {
       "viewProjects": "View my projects",
+      "viewJourney": "View my journey",
       "contact": "Contact me"
     },
     "sections": {
@@ -33,6 +35,10 @@
       "collaborate": "Let's collaborate"
     },
     "noProjects": "No projects found."
+  },
+  "projects": {
+    "title": "My Projects",
+    "description": "Discover all my technical achievements and experiments, from flagship projects to the latest innovations."
   },
   "project": {
     "featured": "Featured",

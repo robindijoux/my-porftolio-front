@@ -58,16 +58,16 @@ const Header = () => {
             }`}
             onClick={scrollToTop}
           >
-            {t('nav.projects')}
+            {t('nav.home')}
           </Link>
           <Link 
-            to="/about" 
+            to="/projects" 
             className={`text-sm font-medium transition-colors hover:text-primary ${
-              location.pathname === '/about' ? 'text-primary' : 'text-muted-foreground'
+              location.pathname === '/projects' ? 'text-primary' : 'text-muted-foreground'
             }`}
             onClick={scrollToTop}
           >
-            {t('nav.about')}
+            {t('nav.projects')}
           </Link>
           <a 
             href="#contact" 
@@ -214,19 +214,19 @@ const Header = () => {
                   scrollToTop();
                 }}
               >
-                {t('nav.projects')}
+                {t('nav.home')}
               </Link>
               <Link 
-                to="/about" 
+                to="/projects" 
                 className={`block text-base font-medium transition-colors hover:text-primary ${
-                  location.pathname === '/about' ? 'text-primary' : 'text-muted-foreground'
+                  location.pathname === '/projects' ? 'text-primary' : 'text-muted-foreground'
                 }`}
                 onClick={() => {
                   setMobileMenuOpen(false);
                   scrollToTop();
                 }}
               >
-                {t('nav.about')}
+                {t('nav.projects')}
               </Link>
               <a 
                 href="#contact" 
