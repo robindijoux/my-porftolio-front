@@ -168,7 +168,7 @@ const ProjectDetail = () => {
         {/* Breadcrumb */}
         <div className="mb-8">
           <Link 
-            to="/" 
+            to="/projects" 
             className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors group"
           >
             <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
@@ -365,7 +365,7 @@ const ProjectDetail = () => {
             <h3 className="text-lg font-medium mb-4 text-foreground">
               {t('project.discoverOtherProjects')}
             </h3>
-            <Link to="/">
+            <Link to="/projects">
               <Button variant="outline">
                 {t('project.backToProjects')}
               </Button>
