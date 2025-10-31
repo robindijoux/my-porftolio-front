@@ -34,6 +34,7 @@ const ImageZoomViewer = ({
   const [isDragging, setIsDragging] = useState(false);
   const [lastPanPoint, setLastPanPoint] = useState<{ x: number; y: number } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [initialScale, setInitialScale] = useState(1); // Stocker le scale initial
   
   // État pour les gestes tactiles
   const [lastTouchDistance, setLastTouchDistance] = useState<number | null>(null);
@@ -41,26 +42,61 @@ const ImageZoomViewer = ({
   const [lastTapTime, setLastTapTime] = useState(0);
 
   // Constantes
-  const MIN_SCALE = 0.5;
+  const MIN_SCALE = Math.min(0.5, initialScale); // Min est le plus petit entre 0.5 et le fit-to-screen
   const MAX_SCALE = 5;
   const ZOOM_STEP = 0.3;
 
-  // Réinitialiser lors du changement d'image (zoom à 100%, pas 150%)
+  // Réinitialiser lors du changement d'image et adapter le zoom initial
   useEffect(() => {
     setTransform({ scale: 1, translateX: 0, translateY: 0 });
     setIsLoading(true);
   }, [src]);
+
+  // Adapter le zoom initial pour que l'image tienne sur l'écran
+  const handleImageLoad = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
+    setIsLoading(false);
+    
+    if (!containerRef.current || !imageRef.current) return;
+    
+    // Attendre un peu pour s'assurer que le layout est à jour
+    setTimeout(() => {
+      const containerRect = containerRef.current?.getBoundingClientRect();
+      const imgElement = imageRef.current;
+      
+      if (!containerRect || !imgElement) return;
+      
+      const containerWidth = containerRect.width - 80; // Padding supplémentaire
+      const containerHeight = containerRect.height - 100; // Padding supplémentaire
+      
+      const imageWidth = imgElement.naturalWidth;
+      const imageHeight = imgElement.naturalHeight;
+      
+      // Calculer le scale nécessaire pour que l'image tienne sur l'écran
+      const scaleX = containerWidth / imageWidth;
+      const scaleY = containerHeight / imageHeight;
+      const calculatedScale = Math.min(scaleX, scaleY);
+      
+      console.log('Calculated initial scale:', calculatedScale);
+      
+      // Stocker le scale initial
+      setInitialScale(calculatedScale);
+      setTransform({ scale: calculatedScale, translateX: 0, translateY: 0 });
+    }, 100);
+  }, []);
 
   // Fonction pour obtenir les limites de déplacement
   const getBounds = useCallback((scale: number) => {
     if (!containerRef.current || !imageRef.current) return { maxX: 0, maxY: 0 };
     
     const containerRect = containerRef.current.getBoundingClientRect();
-    const imageRect = imageRef.current.getBoundingClientRect();
+    const imageNaturalWidth = imageRef.current.naturalWidth;
+    const imageNaturalHeight = imageRef.current.naturalHeight;
     
-    const scaledWidth = imageRect.width * scale;
-    const scaledHeight = imageRect.height * scale;
+    // Calculer la taille rendue de l'image au scale actuel
+    const scaledWidth = imageNaturalWidth * scale;
+    const scaledHeight = imageNaturalHeight * scale;
     
+    // Calculer les limites: on peut déplacer l'image tant qu'elle dépasse du conteneur
     const maxX = Math.max(0, (scaledWidth - containerRect.width) / 2 / scale);
     const maxY = Math.max(0, (scaledHeight - containerRect.height) / 2 / scale);
     
@@ -101,11 +137,12 @@ const ImageZoomViewer = ({
     setTransform(newTransform);
   }, [transform, constrainTransform]);
 
-  // Gestion de la molette de la souris
+  // Gestion de la molette de la souris - MOINS sensible et plus progressif
   const handleWheel = useCallback((e: WheelEvent) => {
     e.preventDefault();
     
-    const delta = e.deltaY > 0 ? -ZOOM_STEP : ZOOM_STEP;
+    // Augmenter la sensibilité: diviser par 3 au lieu de 5
+    const delta = (e.deltaY / 300) * -0.3; // Plus sensible
     const newScale = transform.scale + delta;
     
     zoomToPoint(newScale, e.clientX, e.clientY);
@@ -164,8 +201,6 @@ const ImageZoomViewer = ({
 
   // Gestion des événements tactiles
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    e.preventDefault();
-    
     if (e.touches.length === 1) {
       // Simple touch - démarrer le pan ou détecter le double tap
       const touch = e.touches[0];
@@ -192,8 +227,6 @@ const ImageZoomViewer = ({
   }, [lastTapTime, transform.scale, zoomToPoint]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    e.preventDefault();
-    
     if (e.touches.length === 1 && isDragging && lastPanPoint) {
       // Pan avec un doigt
       const touch = e.touches[0];
@@ -250,7 +283,7 @@ const ImageZoomViewer = ({
   };
 
   const handleReset = () => {
-    setTransform({ scale: 1, translateX: 0, translateY: 0 });
+    setTransform({ scale: initialScale, translateX: 0, translateY: 0 });
   };
 
   // Event listeners et gestion du body
@@ -379,7 +412,6 @@ const ImageZoomViewer = ({
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        style={{ touchAction: 'none' }}
       >
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-black">
@@ -398,7 +430,7 @@ const ImageZoomViewer = ({
             maxWidth: 'none',
             maxHeight: 'none'
           }}
-          onLoad={() => setIsLoading(false)}
+          onLoad={handleImageLoad}
           onError={() => setIsLoading(false)}
           draggable={false}
         />

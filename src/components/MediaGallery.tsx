@@ -137,17 +137,26 @@ const MediaGallery = ({
                 </div>
               </div>
             ) : isVideo(project.media[selectedMediaIndex].type) ? (
-              <video
-                src={project.media[selectedMediaIndex].url}
-                className="w-full h-full object-contain"
-                controls
-                preload="metadata"
-                onError={(e) => {
-                  console.error('Erreur de chargement vidéo:', e);
-                }}
-              >
-                {t('project.videoNotSupported')}
-              </video>
+              <>
+                <video
+                  src={project.media[selectedMediaIndex].url}
+                  className="w-full h-full object-contain"
+                  controls
+                  preload="metadata"
+                  onError={(e) => {
+                    console.error('Erreur de chargement vidéo:', e);
+                  }}
+                >
+                  {t('project.videoNotSupported')}
+                </video>
+                {/* Overlay transparent pour capturer les événements souris même sur la vidéo */}
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  onMouseEnter={() => handleMediaHover()}
+                  onMouseMove={() => handleMediaMove()}
+                  onMouseLeave={() => handleMediaLeave()}
+                />
+              </>
             ) : (
               <div className="w-full h-full flex items-center justify-center">
                 <div className="text-center">

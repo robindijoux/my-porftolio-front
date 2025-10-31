@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import MediaGallery from '@/components/MediaGallery';
-import MixedMediaViewer from '@/components/MixedMediaViewer';
+import ImageZoomViewer from '@/components/ImageZoomViewer';
 import { Project, apiService } from '@/services/api';
 import { formatDate } from '@/utils/date';
 import { isImage, isVideo } from '@/utils/media';
@@ -35,8 +35,8 @@ const ProjectDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
-  const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
-  const [modalMediaIndex, setModalMediaIndex] = useState(0);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [modalImageIndex, setModalImageIndex] = useState(0);
   const [isMediaSectionVisible, setIsMediaSectionVisible] = useState(true);
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
   const mediaSectionRef = useRef<HTMLDivElement>(null);
@@ -93,81 +93,52 @@ const ProjectDetail = () => {
   }, [project]);
 
   // Fonctions pour la navigation dans le modal
-  const openMediaModal = (index: number) => {
-    setModalMediaIndex(index);
-    setIsMediaModalOpen(true);
+  const openImageModal = (index: number) => {
+    setModalImageIndex(index);
+    setIsImageModalOpen(true);
   };
 
   const openGalleryModal = () => {
     setIsGalleryModalOpen(true);
-    setModalMediaIndex(selectedMediaIndex);
+    setModalImageIndex(selectedMediaIndex);
   };
 
   const nextImage = () => {
     if (!project) return;
-    // Move to next image among mixed media
-    let next = modalMediaIndex;
-    for (let i = 1; i <= project.media.length; i++) {
-      const candidate = (modalMediaIndex + i) % project.media.length;
-      if (isImage(project.media[candidate].type)) {
-        next = candidate;
-        break;
-      }
-    }
-    setModalMediaIndex(next);
+    const images = project.media.filter(media => isImage(media.type));
+    const currentImageIndex = images.findIndex((_, idx) => idx === modalImageIndex);
+    const nextIndex = (currentImageIndex + 1) % images.length;
+    setModalImageIndex(nextIndex);
   };
 
   const prevImage = () => {
     if (!project) return;
-    let prev = modalMediaIndex;
-    for (let i = 1; i <= project.media.length; i++) {
-      const candidate = (modalMediaIndex - i + project.media.length) % project.media.length;
-      if (isImage(project.media[candidate].type)) {
-        prev = candidate;
-        break;
-      }
-    }
-    setModalMediaIndex(prev);
-  };
-
-  const nextVideo = () => {
-    if (!project) return;
-    let next = modalMediaIndex;
-    for (let i = 1; i <= project.media.length; i++) {
-      const candidate = (modalMediaIndex + i) % project.media.length;
-      if (isVideo(project.media[candidate].type)) {
-        next = candidate;
-        break;
-      }
-    }
-    setModalMediaIndex(next);
-  };
-
-  const prevVideo = () => {
-    if (!project) return;
-    let prev = modalMediaIndex;
-    for (let i = 1; i <= project.media.length; i++) {
-      const candidate = (modalMediaIndex - i + project.media.length) % project.media.length;
-      if (isVideo(project.media[candidate].type)) {
-        prev = candidate;
-        break;
-      }
-    }
-    setModalMediaIndex(prev);
+    const images = project.media.filter(media => isImage(media.type));
+    const currentImageIndex = images.findIndex((_, idx) => idx === modalImageIndex);
+    const prevIndex = currentImageIndex === 0 ? images.length - 1 : currentImageIndex - 1;
+    setModalImageIndex(prevIndex);
   };
 
   // Navigation au clavier
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      // leave keyboard handling to MixedMediaViewer; keep this as fallback to close gallery
-      if (e.key === 'Escape') {
-        setIsMediaModalOpen(false);
-        setIsGalleryModalOpen(false);
-      }
+      // Navigation dans les modals
+      if (isImageModalOpen || isGalleryModalOpen) {
+        if (e.key === 'ArrowLeft') {
+          prevImage();
+        } else if (e.key === 'ArrowRight') {
+          nextImage();
+        } else if (e.key === 'Escape') {
+          setIsImageModalOpen(false);
+          setIsGalleryModalOpen(false);
+        }
+      } 
+      // Navigation dans la galerie principale gérée dans MediaGallery
     };
+
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
-  }, []);
+  }, [isImageModalOpen, isGalleryModalOpen, modalImageIndex, selectedMediaIndex, project]);
 
   if (loading) {
     return <LoadingSpinner size="lg" />;
@@ -210,7 +181,7 @@ const ProjectDetail = () => {
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-6">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-4">
-                <h1 className="text-3xl md:text-4xl font-playfair font-bold text-foreground">
+                <h1 className="text-3xl md:text-4xl font-bold text-foreground">
                   {project.name}
                 </h1>
                 {project.featured && (
@@ -267,7 +238,7 @@ const ProjectDetail = () => {
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Stack technologique - largeur fixe réduite */}
             <div className="lg:w-44 lg:flex-shrink-0 flex flex-col">
-              <h3 className="text-xl font-playfair font-semibold mb-6 text-foreground">
+              <h3 className="text-xl font-semibold mb-6 text-foreground">
                 {t('project.technologies')}
               </h3>
               <div className="flex flex-col gap-3 lg:justify-center lg:flex-1 lg:max-h-[400px]">
@@ -291,8 +262,7 @@ const ProjectDetail = () => {
                   project={project}
                   selectedMediaIndex={selectedMediaIndex}
                   onMediaIndexChange={setSelectedMediaIndex}
-                  onImageClick={openMediaModal}
-                  onVideoClick={openMediaModal}
+                  onImageClick={openImageModal}
                   className="w-full"
                 />
               </div>
@@ -300,13 +270,16 @@ const ProjectDetail = () => {
           </div>
 
           {/* Modal pour agrandir les images avec zoom avancé */}
-          {isMediaModalOpen && project && (
-            <MixedMediaViewer
-              media={project.media}
-              currentIndex={modalMediaIndex}
-              onClose={() => setIsMediaModalOpen(false)}
-              onIndexChange={(i) => setModalMediaIndex(i)}
-              autoplayFirst={true}
+          {isImageModalOpen && project && isImage(project.media[modalImageIndex]?.type) && (
+            <ImageZoomViewer
+              src={project.media[modalImageIndex]?.url}
+              alt={project.media[modalImageIndex]?.alt || project.name}
+              onClose={() => setIsImageModalOpen(false)}
+              onPrevious={project.media.filter(media => isImage(media.type)).length > 1 ? prevImage : undefined}
+              onNext={project.media.filter(media => isImage(media.type)).length > 1 ? nextImage : undefined}
+              hasMultiple={project.media.filter(media => isImage(media.type)).length > 1}
+              currentIndex={modalImageIndex + 1}
+              totalImages={project.media.filter(media => isImage(media.type)).length}
             />
           )}
 
@@ -322,7 +295,7 @@ const ProjectDetail = () => {
                     onMediaIndexChange={setSelectedMediaIndex}
                     onImageClick={(index) => {
                       setIsGalleryModalOpen(false);
-                      openMediaModal(index);
+                      openImageModal(index);
                     }}
                   />
                 )}
@@ -332,7 +305,7 @@ const ProjectDetail = () => {
 
           {/* Description détaillée */}
           <div className="w-full">
-            <h2 className="text-xl font-playfair font-semibold mb-6 text-foreground">
+            <h2 className="text-xl font-semibold mb-6 text-foreground">
               {t('project.details')}
             </h2>
             

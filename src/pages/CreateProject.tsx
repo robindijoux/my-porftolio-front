@@ -8,7 +8,7 @@ const CreateProject = () => {
     <div className="bg-background py-8">
       <div className="container mx-auto px-4">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-playfair font-bold mb-2">{t('project.createNew')}</h1>
+          <h1 className="text-3xl font-bold mb-2">{t('project.createNew')}</h1>
           <p className="text-muted-foreground">
             {t('project.createProjectDescription')}
           </p>
