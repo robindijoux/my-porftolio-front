@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -13,7 +13,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { useAuthentication } from '@/hooks/useAuthentication';
-import { apiService, CreateProjectData, MediaUploadResponse, Technology } from '@/services/api';
+import { apiService, CreateProjectData, MediaUploadResponse, Technology, Project } from '@/services/api';
 import MediaUpload from './MediaUpload';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
@@ -33,11 +33,13 @@ type CreateProjectFormData = {
 interface CreateProjectFormProps {
   onSuccess?: () => void;
   onCancel?: () => void;
+  projectToEdit?: Project;
 }
 
 const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
   onSuccess,
-  onCancel
+  onCancel,
+  projectToEdit
 }) => {
   const { t } = useTranslation();
   const { toast } = useToast();
@@ -63,16 +65,42 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
   const form = useForm<CreateProjectFormData>({
     resolver: zodResolver(createProjectSchema),
     defaultValues: {
-      name: '',
-      description: '',
-      shortDescription: '',
-      repositoryLink: '',
-      projectLink: '',
-      isPublished: true,
-      featured: false,
+      name: projectToEdit?.name || '',
+      description: projectToEdit?.description || '',
+      shortDescription: projectToEdit?.shortDescription || '',
+      repositoryLink: projectToEdit?.repositoryLink || '',
+      projectLink: projectToEdit?.projectLink || '',
+      isPublished: projectToEdit?.isPublished ?? true,
+      featured: projectToEdit?.featured ?? false,
       techStack: '',
     },
   });
+
+  // Synchronize form values when projectToEdit changes
+  useEffect(() => {
+    if (projectToEdit) {
+      form.reset({
+        name: projectToEdit.name,
+        description: projectToEdit.description,
+        shortDescription: projectToEdit.shortDescription,
+        repositoryLink: projectToEdit.repositoryLink || '',
+        projectLink: projectToEdit.projectLink || '',
+        isPublished: projectToEdit.isPublished,
+        featured: projectToEdit.featured,
+        techStack: '',
+      });
+      setUploadedMedia(projectToEdit.media?.map(m => ({
+        id: m.id,
+        type: m.type,
+        url: m.url,
+        alt: m.alt,
+        filename: m.id
+      })) || []);
+      setTechnologies(projectToEdit.techStack || []);
+      setCurrentTech('');
+      setCurrentTechIcon('');
+    }
+  }, [projectToEdit, form]);
 
   const handleMediaUploaded = (media: MediaUploadResponse) => {
     setUploadedMedia(prev => [...prev, media]);
@@ -130,12 +158,23 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
         techStack: technologies,
       };
 
-      const newProject = await apiService.createProject(projectData, accessToken);
-      
-      toast({
-        title: t('success.projectCreated'),
-        description: t('success.projectCreatedDesc', { name: newProject.name }),
-      });
+      if (projectToEdit) {
+        // Update mode
+        await apiService.updateProject(projectToEdit.id, projectData, accessToken);
+        
+        toast({
+          title: t('success.projectUpdated'),
+          description: t('success.projectUpdatedDesc', { name: data.name }),
+        });
+      } else {
+        // Create mode
+        const newProject = await apiService.createProject(projectData, accessToken);
+        
+        toast({
+          title: t('success.projectCreated'),
+          description: t('success.projectCreatedDesc', { name: newProject.name }),
+        });
+      }
 
       if (onSuccess) {
         onSuccess();
@@ -143,10 +182,10 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
         navigate('/');
       }
     } catch (error) {
-      console.error('Project creation error:', error);
+      console.error('Project submission error:', error);
       toast({
         variant: "destructive",
-        title: t('errors.projectCreationFailed'),
+        title: projectToEdit ? t('errors.projectUpdateError') : t('errors.projectCreationFailed'),
         description: error instanceof Error ? error.message : t('errors.genericError'),
       });
     } finally {
@@ -154,10 +193,14 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
     }
   };
 
+  const isEditing = !!projectToEdit;
+
   return (
     <Card className="w-full max-w-4xl mx-auto">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold">{t('project.createNew')}</CardTitle>
+        <CardTitle className="text-2xl font-playfair font-bold">
+          {isEditing ? t('project.editProject') : t('project.createNew')}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -360,7 +403,7 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
                 {t('common.cancel')}
               </Button>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? t('common.creating') : t('common.create')}
+                {isSubmitting ? (isEditing ? t('common.updating') : t('common.creating')) : (isEditing ? t('common.update') : t('common.create'))}
               </Button>
             </div>
           </form>

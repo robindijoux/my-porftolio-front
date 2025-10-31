@@ -68,6 +68,8 @@ export interface CreateProjectData {
   techStack: Technology[];
 }
 
+export interface UpdateProjectData extends CreateProjectData {}
+
 export interface MediaUploadResponse {
   id: string;
   type: string;
@@ -135,6 +137,39 @@ class ApiService {
     } catch (error) {
       console.error('Erreur lors de la création du projet:', error);
       throw new Error(i18n.t('errors.projectCreateError'));
+    }
+  }
+
+  // Mise à jour d'un projet existant
+  async updateProject(projectId: string, projectData: UpdateProjectData, accessToken?: string): Promise<Project> {
+    try {
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      
+      if (accessToken) {
+        headers['Authorization'] = `Bearer ${accessToken}`;
+      }
+
+      const response = await fetch(`${this.baseUrl}/projects/${projectId}`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify({
+          name: projectData.name,
+          description: projectData.description,
+          shortDescription: projectData.shortDescription,
+          repositoryLink: projectData.repositoryLink,
+          projectLink: projectData.projectLink,
+          isPublished: projectData.isPublished,
+          featured: projectData.featured,
+          media: projectData.media,
+          techStack: projectData.techStack,
+        }),
+      });
+      return this.handleResponse<Project>(response);
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du projet:', error);
+      throw new Error(i18n.t('errors.projectUpdateError'));
     }
   }
 

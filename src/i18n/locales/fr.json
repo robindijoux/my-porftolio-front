@@ -89,6 +89,8 @@
     "featuredProjectDescription": "Ce projet apparaîtra dans la section des projets phares",
     "iconUrlPlaceholder": "URL de l'icône (ex: https://cdn.jsdelivr.net/...)",
     "createProjectDescription": "Ajoutez un nouveau projet à votre portfolio avec des médias et des technologies",
+    "editProject": "Modifier le projet",
+    "editProjectDescription": "Modifiez les détails du projet {{name}}",
     "videoNotSupported": "Votre navigateur ne supporte pas la lecture de cette vidéo."
   },
   "auth": {
@@ -114,6 +116,8 @@
     "cancel": "Annuler",
     "create": "Créer",
     "creating": "Création...",
+    "update": "Modifier",
+    "updating": "Modification...",
     "delete": "Supprimer"
   },
   "media": {
@@ -159,6 +163,7 @@
     "authRequiredDesc": "Vous devez être connecté pour effectuer cette action",
     "mediaUploadError": "Impossible d'uploader le fichier. Veuillez réessayer.",
     "projectCreateError": "Impossible de créer le projet. Veuillez réessayer.",
+    "projectUpdateError": "Impossible de mettre à jour le projet. Veuillez réessayer.",
     "projectsLoadError": "Impossible de charger les projets. Veuillez réessayer.",
     "projectDetailError": "Impossible de charger les détails du projet. Veuillez réessayer.",
     "featuredProjectsError": "Impossible de charger les projets mis en avant.",
@@ -199,6 +204,8 @@
     "fileUploadedDesc": "Le fichier {{filename}} a été uploadé avec succès",
     "projectCreated": "Projet créé",
     "projectCreatedDesc": "Le projet {{name}} a été créé avec succès",
+    "projectUpdated": "Projet modifié",
+    "projectUpdatedDesc": "Le projet {{name}} a été modifié avec succès",
     "eventCreated": "Événement créé avec succès !",
     "eventCreatedConfirm": "Événement créé ! Voulez-vous voir tous vos événements ?",
     "eventsImported": "Événements importés avec succès !"

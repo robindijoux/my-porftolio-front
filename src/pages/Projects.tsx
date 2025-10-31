@@ -94,7 +94,7 @@ const Projects = () => {
             {otherProjects.length > 0 && (
               <div>
                 <div className="text-center mb-12">
-                  <h2 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">
+                  <h2 className="text-2xl md:text-3xl font-playfair font-bold mb-4 text-foreground">
                     {t('home.sections.otherProjects')}
                   </h2>
                 </div>

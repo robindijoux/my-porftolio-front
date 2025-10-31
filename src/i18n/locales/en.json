@@ -89,6 +89,8 @@
     "featuredProjectDescription": "This project will appear in the featured projects section",
     "iconUrlPlaceholder": "Icon URL (e.g. https://cdn.jsdelivr.net/...)",
     "createProjectDescription": "Add a new project to your portfolio with media and technologies",
+    "editProject": "Edit project",
+    "editProjectDescription": "Edit the details of the {{name}} project",
     "videoNotSupported": "Your browser does not support playing this video."
   },
   "auth": {
@@ -114,6 +116,8 @@
     "cancel": "Cancel",
     "create": "Create",
     "creating": "Creating...",
+    "update": "Update",
+    "updating": "Updating...",
     "delete": "Delete"
   },
   "media": {
@@ -159,6 +163,7 @@
     "authRequiredDesc": "You must be logged in to perform this action",
     "mediaUploadError": "Unable to upload file. Please try again.",
     "projectCreateError": "Unable to create project. Please try again.",
+    "projectUpdateError": "Unable to update project. Please try again.",
     "projectsLoadError": "Unable to load projects. Please try again.",
     "projectDetailError": "Unable to load project details. Please try again.",
     "featuredProjectsError": "Unable to load featured projects.",
@@ -199,6 +204,8 @@
     "fileUploadedDesc": "File {{filename}} uploaded successfully",
     "projectCreated": "Project created",
     "projectCreatedDesc": "Project {{name}} created successfully",
+    "projectUpdated": "Project updated",
+    "projectUpdatedDesc": "Project {{name}} updated successfully",
     "eventCreated": "Event created successfully!",
     "eventCreatedConfirm": "Event created! Would you like to see all your events?",
     "eventsImported": "Events imported successfully!"

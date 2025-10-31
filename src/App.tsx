@@ -12,6 +12,7 @@ import Home from "./pages/Home";
 import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import CreateProject from "./pages/CreateProject";
+import EditProject from "./pages/EditProject";
 import CreateEvent from "./pages/CreateEvent";
 import AdminEvents from "./pages/AdminEvents";
 import AdminProjects from "./pages/AdminProjects";
@@ -43,6 +44,17 @@ const App = () => {
                         description={t('errors.authRequiredDescription')}
                       >
                         <CreateProject />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route 
+                    path="/edit-project/:id" 
+                    element={
+                      <ProtectedRoute 
+                        title={t('errors.authRequired')}
+                        description={t('errors.authRequiredDescription')}
+                      >
+                        <EditProject />
                       </ProtectedRoute>
                     } 
                   />

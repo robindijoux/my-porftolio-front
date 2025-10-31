@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Folder, Eye, Trash2, Plus, ArrowLeft, ExternalLink, Github, Star, Globe } from 'lucide-react';
+import { Folder, Eye, Trash2, Plus, ArrowLeft, ExternalLink, Github, Star, Globe, Edit } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiService, Project } from '@/services/api';
@@ -244,19 +244,31 @@ const AdminProjects = () => {
                           </div>
                         </div>
                         
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleDeleteProject(project.id, project.name)}
-                          disabled={deletingId === project.id}
-                          className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                        >
-                          {deletingId === project.id ? (
-                            <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                          ) : (
-                            <Trash2 className="h-4 w-4" />
-                          )}
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            asChild
+                            className="text-primary hover:text-primary hover:bg-primary/10"
+                          >
+                            <Link to={`/edit-project/${project.id}`}>
+                              <Edit className="h-4 w-4" />
+                            </Link>
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDeleteProject(project.id, project.name)}
+                            disabled={deletingId === project.id}
+                            className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                          >
+                            {deletingId === project.id ? (
+                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                            ) : (
+                              <Trash2 className="h-4 w-4" />
+                            )}
+                          </Button>
+                        </div>
                       </div>
 
                       <h3 className="text-lg font-semibold mb-2 text-foreground">

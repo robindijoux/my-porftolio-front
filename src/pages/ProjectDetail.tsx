@@ -181,7 +181,7 @@ const ProjectDetail = () => {
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-6">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-4">
-                <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+                <h1 className="text-3xl md:text-4xl font-playfair font-bold text-foreground">
                   {project.name}
                 </h1>
                 {project.featured && (
@@ -238,7 +238,7 @@ const ProjectDetail = () => {
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Stack technologique - largeur fixe réduite */}
             <div className="lg:w-44 lg:flex-shrink-0 flex flex-col">
-              <h3 className="text-xl font-semibold mb-6 text-foreground">
+              <h3 className="text-xl font-playfair font-semibold mb-6 text-foreground">
                 {t('project.technologies')}
               </h3>
               <div className="flex flex-col gap-3 lg:justify-center lg:flex-1 lg:max-h-[400px]">
@@ -305,7 +305,7 @@ const ProjectDetail = () => {
 
           {/* Description détaillée */}
           <div className="w-full">
-            <h2 className="text-xl font-semibold mb-6 text-foreground">
+            <h2 className="text-xl font-playfair font-semibold mb-6 text-foreground">
               {t('project.details')}
             </h2>
             
