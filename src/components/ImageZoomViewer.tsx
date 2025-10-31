@@ -45,7 +45,7 @@ const ImageZoomViewer = ({
   const MAX_SCALE = 5;
   const ZOOM_STEP = 0.3;
 
-  // Réinitialiser lors du changement d'image
+  // Réinitialiser lors du changement d'image (zoom à 100%, pas 150%)
   useEffect(() => {
     setTransform({ scale: 1, translateX: 0, translateY: 0 });
     setIsLoading(true);

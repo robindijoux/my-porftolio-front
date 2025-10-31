@@ -15,6 +15,7 @@ interface MediaGalleryProps {
   selectedMediaIndex: number;
   onMediaIndexChange: (index: number) => void;
   onImageClick: (index: number) => void;
+  onVideoClick?: (index: number) => void;
   className?: string;
 }
 
@@ -23,6 +24,7 @@ const MediaGallery = ({
   selectedMediaIndex, 
   onMediaIndexChange, 
   onImageClick,
+  onVideoClick,
   className = ""
 }: MediaGalleryProps) => {
   const { t } = useTranslation();
@@ -103,7 +105,13 @@ const MediaGallery = ({
         <CardContent className="p-0">
           <div 
             className="aspect-[4/3] w-full max-h-[400px] overflow-hidden relative group cursor-pointer" 
-            onClick={() => isImage(project.media[selectedMediaIndex].type) && onImageClick(selectedMediaIndex)}
+            onClick={() => {
+              if (isImage(project.media[selectedMediaIndex].type)) {
+                onImageClick(selectedMediaIndex);
+              } else if (isVideo(project.media[selectedMediaIndex].type) && onVideoClick) {
+                onVideoClick(selectedMediaIndex);
+              }
+            }}
             onMouseEnter={handleMediaHover}
             onMouseMove={handleMediaMove}
             onMouseLeave={handleMediaLeave}

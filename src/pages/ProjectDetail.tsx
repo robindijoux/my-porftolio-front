@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import MediaGallery from '@/components/MediaGallery';
-import ImageZoomViewer from '@/components/ImageZoomViewer';
+import MixedMediaViewer from '@/components/MixedMediaViewer';
 import { Project, apiService } from '@/services/api';
 import { formatDate } from '@/utils/date';
 import { isImage, isVideo } from '@/utils/media';
@@ -35,8 +35,8 @@ const ProjectDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
-  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-  const [modalImageIndex, setModalImageIndex] = useState(0);
+  const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
+  const [modalMediaIndex, setModalMediaIndex] = useState(0);
   const [isMediaSectionVisible, setIsMediaSectionVisible] = useState(true);
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
   const mediaSectionRef = useRef<HTMLDivElement>(null);
@@ -93,52 +93,81 @@ const ProjectDetail = () => {
   }, [project]);
 
   // Fonctions pour la navigation dans le modal
-  const openImageModal = (index: number) => {
-    setModalImageIndex(index);
-    setIsImageModalOpen(true);
+  const openMediaModal = (index: number) => {
+    setModalMediaIndex(index);
+    setIsMediaModalOpen(true);
   };
 
   const openGalleryModal = () => {
     setIsGalleryModalOpen(true);
-    setModalImageIndex(selectedMediaIndex);
+    setModalMediaIndex(selectedMediaIndex);
   };
 
   const nextImage = () => {
     if (!project) return;
-    const images = project.media.filter(media => isImage(media.type));
-    const currentImageIndex = images.findIndex((_, idx) => idx === modalImageIndex);
-    const nextIndex = (currentImageIndex + 1) % images.length;
-    setModalImageIndex(nextIndex);
+    // Move to next image among mixed media
+    let next = modalMediaIndex;
+    for (let i = 1; i <= project.media.length; i++) {
+      const candidate = (modalMediaIndex + i) % project.media.length;
+      if (isImage(project.media[candidate].type)) {
+        next = candidate;
+        break;
+      }
+    }
+    setModalMediaIndex(next);
   };
 
   const prevImage = () => {
     if (!project) return;
-    const images = project.media.filter(media => isImage(media.type));
-    const currentImageIndex = images.findIndex((_, idx) => idx === modalImageIndex);
-    const prevIndex = currentImageIndex === 0 ? images.length - 1 : currentImageIndex - 1;
-    setModalImageIndex(prevIndex);
+    let prev = modalMediaIndex;
+    for (let i = 1; i <= project.media.length; i++) {
+      const candidate = (modalMediaIndex - i + project.media.length) % project.media.length;
+      if (isImage(project.media[candidate].type)) {
+        prev = candidate;
+        break;
+      }
+    }
+    setModalMediaIndex(prev);
+  };
+
+  const nextVideo = () => {
+    if (!project) return;
+    let next = modalMediaIndex;
+    for (let i = 1; i <= project.media.length; i++) {
+      const candidate = (modalMediaIndex + i) % project.media.length;
+      if (isVideo(project.media[candidate].type)) {
+        next = candidate;
+        break;
+      }
+    }
+    setModalMediaIndex(next);
+  };
+
+  const prevVideo = () => {
+    if (!project) return;
+    let prev = modalMediaIndex;
+    for (let i = 1; i <= project.media.length; i++) {
+      const candidate = (modalMediaIndex - i + project.media.length) % project.media.length;
+      if (isVideo(project.media[candidate].type)) {
+        prev = candidate;
+        break;
+      }
+    }
+    setModalMediaIndex(prev);
   };
 
   // Navigation au clavier
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      // Navigation dans les modals
-      if (isImageModalOpen || isGalleryModalOpen) {
-        if (e.key === 'ArrowLeft') {
-          prevImage();
-        } else if (e.key === 'ArrowRight') {
-          nextImage();
-        } else if (e.key === 'Escape') {
-          setIsImageModalOpen(false);
-          setIsGalleryModalOpen(false);
-        }
-      } 
-      // Navigation dans la galerie principale gérée dans MediaGallery
+      // leave keyboard handling to MixedMediaViewer; keep this as fallback to close gallery
+      if (e.key === 'Escape') {
+        setIsMediaModalOpen(false);
+        setIsGalleryModalOpen(false);
+      }
     };
-
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
-  }, [isImageModalOpen, isGalleryModalOpen, modalImageIndex, selectedMediaIndex, project]);
+  }, []);
 
   if (loading) {
     return <LoadingSpinner size="lg" />;
@@ -262,7 +291,8 @@ const ProjectDetail = () => {
                   project={project}
                   selectedMediaIndex={selectedMediaIndex}
                   onMediaIndexChange={setSelectedMediaIndex}
-                  onImageClick={openImageModal}
+                  onImageClick={openMediaModal}
+                  onVideoClick={openMediaModal}
                   className="w-full"
                 />
               </div>
@@ -270,16 +300,13 @@ const ProjectDetail = () => {
           </div>
 
           {/* Modal pour agrandir les images avec zoom avancé */}
-          {isImageModalOpen && project && isImage(project.media[modalImageIndex]?.type) && (
-            <ImageZoomViewer
-              src={project.media[modalImageIndex]?.url}
-              alt={project.media[modalImageIndex]?.alt || project.name}
-              onClose={() => setIsImageModalOpen(false)}
-              onPrevious={project.media.filter(media => isImage(media.type)).length > 1 ? prevImage : undefined}
-              onNext={project.media.filter(media => isImage(media.type)).length > 1 ? nextImage : undefined}
-              hasMultiple={project.media.filter(media => isImage(media.type)).length > 1}
-              currentIndex={modalImageIndex + 1}
-              totalImages={project.media.filter(media => isImage(media.type)).length}
+          {isMediaModalOpen && project && (
+            <MixedMediaViewer
+              media={project.media}
+              currentIndex={modalMediaIndex}
+              onClose={() => setIsMediaModalOpen(false)}
+              onIndexChange={(i) => setModalMediaIndex(i)}
+              autoplayFirst={true}
             />
           )}
 
@@ -295,7 +322,7 @@ const ProjectDetail = () => {
                     onMediaIndexChange={setSelectedMediaIndex}
                     onImageClick={(index) => {
                       setIsGalleryModalOpen(false);
-                      openImageModal(index);
+                      openMediaModal(index);
                     }}
                   />
                 )}

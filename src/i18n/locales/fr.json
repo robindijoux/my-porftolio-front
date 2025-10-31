@@ -69,6 +69,7 @@
     "maxFiles": "Maximum {{max}} fichiers",
     "selectFiles": "Sélectionner des fichiers",
     "uploadedFiles": "Fichiers uploadés",
+    "mediaDetails": "Détails des médias",
     "altText": "Texte alternatif",
     "projectType": "Type de projet",
     "mobile": "Mobile",

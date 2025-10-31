@@ -146,21 +146,73 @@ const MediaUpload: React.FC<MediaUploadProps> = ({
       {uploadedMedia.length > 0 && (
         <div className="space-y-3">
           <Label className="text-sm font-medium">{t('project.uploadedFiles')}</Label>
-          <div className="grid gap-3">
+          
+          {/* Galerie de miniatures */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             {uploadedMedia.map((media) => (
-              <Card key={media.id} className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3 flex-1">
-                    {getFileIcon(media.type)}
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">{media.filename}</p>
-                      <Badge variant="secondary" className={getFileTypeColor(media.type)}>
-                        {getMediaTypeName(media.type)}
-                      </Badge>
+              <div key={media.id} className="relative group">
+                <div className="aspect-square rounded-lg overflow-hidden bg-muted border border-border hover:border-primary/50 transition-colors">
+                  {isImage(media.type) ? (
+                    <img
+                      src={media.url}
+                      alt={media.alt || media.filename}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src = '/placeholder.svg';
+                      }}
+                    />
+                  ) : isVideo(media.type) ? (
+                    <div className="relative w-full h-full bg-black/10">
+                      <video
+                        src={media.url}
+                        className="w-full h-full object-cover"
+                        muted
+                        preload="metadata"
+                        onError={() => {
+                          console.error('Erreur chargement vidéo');
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                        <FileVideo className="h-6 w-6 text-white" />
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-32">
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
+                      <FileText className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                  )}
+                </div>
+                {/* Bouton de suppression au survol */}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => onRemoveMedia(media.id)}
+                  className="absolute -top-2 -right-2 rounded-full w-6 h-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive hover:bg-destructive/10"
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              </div>
+            ))}
+          </div>
+
+          {/* Détails des fichiers */}
+          <div className="space-y-2 mt-4">
+            <Label className="text-sm font-medium">{t('project.mediaDetails')}</Label>
+            <div className="grid gap-2">
+              {uploadedMedia.map((media) => (
+                <Card key={media.id} className="p-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                    <div className="flex items-center space-x-2 flex-1 min-w-0">
+                      {getFileIcon(media.type)}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium truncate">{media.filename}</p>
+                        <Badge variant="secondary" className={`${getFileTypeColor(media.type)} text-xs`}>
+                          {getMediaTypeName(media.type)}
+                        </Badge>
+                      </div>
+                    </div>
+                    <div className="flex-1 sm:flex-none">
                       <Input
                         placeholder={t('project.altText')}
                         value={altTexts[media.id] || media.alt || ''}
@@ -171,19 +223,10 @@ const MediaUpload: React.FC<MediaUploadProps> = ({
                         className="text-xs"
                       />
                     </div>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onRemoveMedia(media.id)}
-                      className="text-destructive hover:text-destructive"
-                    >
-                      <X className="h-3 w-3" />
-                    </Button>
                   </div>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
       )}
